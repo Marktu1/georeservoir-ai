@@ -31,3 +31,19 @@ def test_validation_case(case: dict[str, Any]) -> None:
         pytest.skip(f"{case['id']}: fonte por verificar — not counted as validated")
     result = evaluate(case)
     assert result["passed"], f"{case['id']}: {result}"
+
+
+def test_m3_claims_are_backed_by_literature() -> None:
+    """A function may only report M3 if a confirmed literature case for it passes."""
+    backed = {
+        c["function"]
+        for c in CASES
+        if c["kind"] == "literature" and is_runnable(c) and evaluate(c)["passed"]
+    }
+    for c in CASES:
+        if not is_runnable(c):
+            continue
+        maturity = evaluate(c)["maturity"]
+        if maturity == "M3":
+            assert c["function"] in backed, f"{c['function']} claims M3 without literature"
+    assert backed == {"well_path.minimum_curvature", "petrophysics.archie_water_saturation"}

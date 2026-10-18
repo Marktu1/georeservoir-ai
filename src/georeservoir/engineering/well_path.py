@@ -10,7 +10,7 @@ Conventions
 * Lengths are converted to metres internally and all length outputs are in metres
   (A-001). Use :func:`georeservoir.common.units.length_from_si` to convert back.
 
-Maturity: M2
+Maturity: ``minimum_curvature`` M3; helper functions M2.
 """
 
 from __future__ import annotations
@@ -183,7 +183,8 @@ def minimum_curvature(
 
     Notes
     -----
-    Maturity: M2
+    Maturity: M3 — reproduces a published build example (Bourgoyne et al. 1991, as
+    tabulated by Amorin & Broni-Bediako 2010) within its 0.01 ft rounding (VAL-WP-L01).
 
     Assumptions: A-001, A-002, A-003, A-004, A-005, A-008.
 
@@ -265,7 +266,7 @@ def minimum_curvature(
     return make_record(
         method=METHOD_ID,
         method_reference=METHOD_REF,
-        maturity="M2",
+        maturity="M3",
         values={
             "md_m": md_m,
             "north_m": north,

@@ -44,8 +44,11 @@ def evaluate(case: dict[str, Any]) -> dict[str, Any]:
     max_err = 0.0
     passed = True
     worst_ratio = 0.0
+    index = case.get("expected_index")
     for key, expected in case["expected"].items():
         got = np.asarray(record[key], dtype=np.float64)
+        if index is not None:
+            got = got[[index]]
         exp = np.asarray(expected, dtype=np.float64)
         if got.shape != exp.shape:
             return {"max_abs_error": float("inf"), "passed": False, "maturity": record.maturity}

@@ -1,4 +1,4 @@
-# GeoReservoir AI — Núcleo Científico v0.1
+# GeoReservoir AI — Núcleo Científico v0.1.1
 
 Biblioteca Python de engenharia de subsuperfície em que cada resultado é um `CalculationRecord`: valores, unidades, método, referência bibliográfica, hash SHA-256 das entradas, versão, nível de maturidade, hipóteses e avisos tipados.
 
@@ -9,10 +9,12 @@ Biblioteca Python de engenharia de subsuperfície em que cada resultado é um `C
 | Módulo | Funções | Maturidade |
 |---|---|---|
 | `common` | exceções, `units`, `validation`, `CalculationRecord` | M2 |
-| `engineering.well_path` | `minimum_curvature`, `dogleg_angle`, `ratio_factor`, `normalize_azimuth` | M2 |
-| `engineering.petrophysics` | `gamma_ray_index`, `vsh_larionov_tertiary`, `vsh_larionov_older`, `vsh_steiber`, `vsh_clavier`, `density_porosity`, `sonic_porosity_wyllie`, `archie_water_saturation`, `archie_true_resistivity` | M2 |
+| `engineering.well_path` | `minimum_curvature` | **M3** |
+| | `dogleg_angle`, `ratio_factor`, `normalize_azimuth` | M2 |
+| `engineering.petrophysics` | `archie_water_saturation` | **M3** |
+| | `gamma_ray_index`, `vsh_larionov_tertiary`, `vsh_larionov_older`, `vsh_steiber`, `vsh_clavier`, `density_porosity`, `sonic_porosity_wyllie`, `archie_true_resistivity` | M2 |
 
-Níveis: M0 planeado · M1 protótipo · M2 verificado (propriedades + oráculos exatos: geometria analítica na trajetória; conformidade com as equações publicadas na petrofísica) · M3 validado com literatura · M4 validado em campo. Nenhum módulo está em M3: os casos publicados estão marcados `fonte por verificar` (ver `docs/validation/REPORT.md`). Módulos futuros: `docs/roadmap.md`.
+Níveis: M0 planeado · M1 protótipo · M2 verificado (propriedades + oráculos exatos: geometria analítica na trajetória; conformidade com as equações publicadas na petrofísica) · M3 validado com literatura · M4 validado em campo. M3 significa que a função reproduz um caso publicado dentro da tolerância de arredondamento da fonte: `minimum_curvature` (Bourgoyne et al. 1991, via Amorin & Broni-Bediako 2010) e `archie_water_saturation` (Kansas Geological Survey, PfEFFER). M3 não é validação em campo (M4). Detalhe em `docs/validation/REPORT.md`. Módulos futuros: `docs/roadmap.md`.
 
 ## Instalação
 
@@ -64,7 +66,7 @@ python scripts/build_validation_report.py    # gera docs/validation/REPORT.md
 ## Limitações científicas
 - Trajetória: sem correção de declinação/convergência; sem modelo de incerteza de posição (ISCWSA error model).
 - Vsh: correlações empíricas. Archie: só formações limpas. Sem correções de gás, argila ou compactação.
-- Validação apenas analítica e de conformidade com as equações publicadas.
+- Vsh, porosidades e IGR têm apenas validação analítica/de conformidade; os casos de literatura cobrem uma geometria de build e um exemplo didático de Archie, não dados de campo.
 
 ## Licença
 Todos os direitos reservados até à decisão do ADR-0002.

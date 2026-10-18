@@ -12,7 +12,7 @@ Indonesia, Dual-Water) are not implemented in v0.1 (see docs/roadmap.md).
 Ratios (porosity, IGR, Sw) are dimensionless, so they are evaluated directly in the
 declared input units (A-009).
 
-Maturity: M2
+Maturity: ``archie_water_saturation`` M3; all other functions M2.
 """
 
 from __future__ import annotations
@@ -438,8 +438,9 @@ def archie_water_saturation(
 
     Notes
     -----
-    Maturity: M2. Valid for clean formations only; clay conductivity is ignored and
-    Sw is overestimated in shaly sands. Assumptions: A-008, A-009.
+    Maturity: M3 — reproduces the Kansas Geological Survey PfEFFER 10-zone example
+    within its 0.01 rounding (VAL-PP-L01). Valid for clean formations only; clay
+    conductivity is ignored and Sw is overestimated in shaly sands. Assumptions: A-008, A-009.
     """
     phi = _check_porosity(porosity)
     rt = as_1d_array("rt_ohm_m", rt_ohm_m)
@@ -451,7 +452,7 @@ def archie_water_saturation(
     return make_record(
         method="petrophysics.archie_water_saturation",
         method_reference=REF_ARCHIE,
-        maturity="M2",
+        maturity="M3",
         values={"sw": out, "sw_raw": raw, "n_clipped": n_clipped},
         units={"sw": "fraction", "sw_raw": "fraction", "n_clipped": "count"},
         scalar_inputs={"rw_ohm_m": rw, "a": a_, "m": m_, "n": n_, "clip": clip},

@@ -3,12 +3,56 @@
   "module": "petrophysics",
   "function": "petrophysics.archie_water_saturation",
   "kind": "literature",
-  "description": "Published worked example of an Archie Sw computation.",
-  "source": "Candidate: Asquith & Krygowski (2004), Basic Well Log Analysis, AAPG \u2014 exercise values not verified in this execution.",
-  "source_status": "fonte por verificar",
-  "kwargs": null,
-  "expected": null,
-  "tol_abs": null,
-  "tol_rel": null,
-  "tolerance_justification": "To be set from the rounding of the published example."
+  "description": "Archie Sw for 10 zones (A\u2013J) of the hypothetical 'Rottweiler Sandstone': a = 1, m = 1.8, n = 2, Rw = 0.10 ohm\u00b7m. Compared with sw_raw (no clipping): zone I is published as 1.07 (> 1).",
+  "source": "Kansas Geological Survey, PfEFFER Concepts \u2014 'Archie Computational Equations' (kgs.ku.edu/software/PfEFFER-java/HELP/PfEFFER/Pfeffer-theory2.html), page updated July 2010",
+  "source_status": "confirmed",
+  "source_check": "Table values read from the KGS page on 2026-10-18.",
+  "kwargs": {
+    "porosity": [
+      0.24,
+      0.1,
+      0.2,
+      0.2,
+      0.22,
+      0.18,
+      0.19,
+      0.23,
+      0.12,
+      0.1
+    ],
+    "rt_ohm_m": [
+      39.0,
+      31.0,
+      36.0,
+      30.0,
+      19.0,
+      9.0,
+      2.0,
+      1.5,
+      4.0,
+      7.0
+    ],
+    "rw_ohm_m": 0.1,
+    "a": 1.0,
+    "m": 1.8,
+    "n": 2.0,
+    "clip": false
+  },
+  "expected": {
+    "sw_raw": [
+      0.18,
+      0.45,
+      0.22,
+      0.25,
+      0.28,
+      0.49,
+      1.0,
+      0.97,
+      1.07,
+      0.95
+    ]
+  },
+  "tol_abs": 0.005,
+  "tol_rel": 0.0,
+  "tolerance_justification": "Published Sw is rounded to 0.01, so the reference is only known to \u00b10.005."
 }

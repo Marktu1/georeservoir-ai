@@ -7,10 +7,10 @@ Estado por nível de maturidade (M0 = planeado, não implementado). Portões con
 | Item | Estado |
 |---|---|
 | Camada comum + `CalculationRecord` | M2 |
-| Minimum Curvature | M2 — falta caso de literatura (ISCWSA) para M3 |
-| Petrofísica (IGR, Vsh ×4, φD, φS Wyllie, Archie) | M2 — falta caso de literatura para M3 |
+| Minimum Curvature | **M3** (caso Bourgoyne/Amorin); ISCWSA 3D pendente |
+| Petrofísica | Archie **M3** (caso KGS); IGR, Vsh ×4, φD, φS em M2 |
 
-**Portão da Fase 0 ainda não cumprido:** P0 em M3 exige reproduzir pelo menos um caso publicado por módulo (ver `docs/validation/`). CI está criado mas não foi executado remotamente.
+**Portão da Fase 0:** cada módulo P0 tem agora pelo menos uma função central em M3 com caso publicado reproduzido; relatório gerado no repositório. Falta "CI verde": o workflow existe mas não foi executado remotamente (requer push para GitHub). Recomendado antes da Fase 1: casos publicados para Vsh e porosidades, e o caso ISCWSA 3D.
 
 ## Planeado (M0 — não existe código)
 

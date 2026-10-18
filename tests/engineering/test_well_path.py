@@ -77,7 +77,7 @@ def test_start_offset_shifts_coordinates() -> None:
 def test_record_metadata() -> None:
     r = mc([0, 100], [0, 5], [0, 0])
     assert r.method == "well_path.minimum_curvature"
-    assert r.maturity == "M2"
+    assert r.maturity == "M3"
     assert "SPE-84246-PA" in r.method_reference
     assert r.inputs["azimuth_reference"] == "true"
     assert r["dogleg_deg"].shape == (1,)

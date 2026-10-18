@@ -74,7 +74,7 @@ def main() -> int:
             "| Case | Kind | Source | Max abs error | Error / tolerance | Result | Maturity |",
             "|---|---|---|---|---|---|---|",
         ]
-        mod_lit_ok = False
+        lit_ok: set[str] = set()
         for c in (c for c in cases if c["module"] == mod):
             if not is_runnable(c):
                 pending.append(c)
@@ -82,22 +82,20 @@ def main() -> int:
             r = evaluate(c)
             total += 1
             passed += r["passed"]
-            mod_lit_ok |= c["kind"] == "literature" and r["passed"]
+            if c["kind"] == "literature" and r["passed"]:
+                lit_ok.add(c["function"])
             lines.append(
                 f"| {c['id']} | {c['kind']} | {c['source']} | {r['max_abs_error']:.3e} | "
                 f"{r['error_to_tolerance']:.3f} | {'PASS' if r['passed'] else 'FAIL'} | "
                 f"{r['maturity']} |"
             )
+        funcs = sorted({c["function"] for c in cases if c["module"] == mod and is_runnable(c)})
+        lines += ["", "| Function | Resulting maturity |", "|---|---|"]
         lines += [
-            "",
-            f"Resulting maturity for `{mod}`: "
-            + (
-                "eligible for M3 (literature case reproduced)."
-                if mod_lit_ok
-                else "**M2** — no confirmed literature case reproduced yet."
-            ),
-            "",
+            f"| `{f}` | {'**M3** (literature case reproduced)' if f in lit_ok else 'M2'} |"
+            for f in funcs
         ]
+        lines.append("")
     lines += [
         "## Fonte por verificar (not counted)",
         "",

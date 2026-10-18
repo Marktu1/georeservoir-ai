@@ -1,6 +1,6 @@
 # Validação — Petrofísica
 
-Maturidade atual: **M2**. Resultados numéricos em `REPORT.md` (gerado).
+Maturidade atual: `archie_water_saturation` **M3**; restantes funções M2. Resultados numéricos em `REPORT.md` (gerado).
 
 ## Casos (tests/validation/cases/)
 | ID | Tipo | O que prova |
@@ -10,7 +10,8 @@ Maturidade atual: **M2**. Resultados numéricos em `REPORT.md` (gerado).
 | VAL-PP-006 | spec_conformance | Porosidade de densidade (quartzo/água doce). |
 | VAL-PP-007 | spec_conformance | Porosidade sónica de Wyllie. |
 | VAL-PP-008 | spec_conformance | Archie com Sw = 0,25 exato. |
-| VAL-PP-L01 | literatura | Exercício publicado de Archie — **fonte por verificar**; não conta para M3. |
+| VAL-PP-L01 | literatura | Kansas Geological Survey, PfEFFER Concepts (atualizado em julho de 2010): 10 zonas, a = 1, m = 1,8, n = 2, Rw = 0,10 ohm·m. Todas reproduzidas dentro de ±0,005 (arredondamento publicado), incluindo a zona I com Sw = 1,07 (comparado com `sw_raw`, sem clipping). |
+| VAL-PP-L02 | literatura | Exercício de Asquith & Krygowski (2004) — **fonte por verificar**. |
 
 `spec_conformance` prova que a equação publicada foi transcrita corretamente; **não** prova a adequação física das correlações a uma formação.
 
@@ -21,8 +22,8 @@ Maturidade atual: **M2**. Resultados numéricos em `REPORT.md` (gerado).
 
 Nota: os testes de ida-e-volta (Archie direto/inverso) e Sw = 1 em R0 são **propriedades de consistência**, não validação: um erro igual nas duas direções passaria.
 
-## Para atingir M3
-Reproduzir um caso publicado (por exemplo, um exercício de livro de análise de perfis com entradas e Sw publicados), com referência completa (edição, página) verificada por pessoa.
+## Para levar as outras funções a M3
+Vsh (Larionov, Steiber, Clavier), porosidade de densidade e Wyllie precisam cada uma de um caso publicado com entradas e resultado (por exemplo, exemplos de cartas de interpretação ou livros de análise de perfis). O exemplo KGS é didático (zona hipotética), não dados de campo.
 
 ## Limitações
 Correlações de Vsh são empíricas. Archie só é válido em formações limpas (sobrestima Sw em areias argilosas). Sem correções de gás, argila ou compactação (M0).
