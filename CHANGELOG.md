@@ -12,7 +12,18 @@ Formato: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versionamento
 - `engineering.uncertainty`: Monte Carlo com seed obrigatória para Sw de Archie e EUR de Arps; P90/P50/P10 na convenção PRMS (M2).
 - Casos de validação por linha (`per_row`) no runner; hipóteses A-010 a A-020.
 
+### Fixed (revisão adversarial da Fase 1)
+- `arps_rate` desce de M3 para M2: a tabela SPEE já é a evidência da conversão e não pode contar duas vezes; o antigo VAL-DCA-L02 passa a VAL-DCA-005 (conformidade).
+- Caso Vogel sem as duas linhas triviais; ressalva sobre a fonte (notas de aula) levada às docstrings e ao README.
+- Havlena–Odeh caso (c): a verificação de condicionamento usava dados centrados e nunca disparava; passa a usar colunas normalizadas.
+- Casos (a)/(b): N ≤ 0 lança `PhysicalConsistencyError`; termos de expansão negativos geram aviso.
+- Solver nodal: tangência detetada mesmo com outras raízes; aviso para interseção a q = 0; mensagem de `NO_INTERSECTION` distingue tabela TPR truncada.
+- Avisos `TERMINAL_DECLINE_EXCEEDS_INITIAL` (DCA) e `B_GREATER_THAN_ONE` no Monte Carlo (este último não chegava ao resultado — encontrado pelos novos testes).
+- `IPR.pwf(q)` recusa taxas fora de [0, q_max]; booleanos recusados como números.
+- Tolerâncias dos testes de Bourdet apertadas para os erros observados.
+
 ### Changed
+- README define o que M3 significa e lista a força de cada fonte.
 - A equação de Archie passou para uma função interna partilhada (`_archie_sw`), usada pelo cálculo determinístico e pelo Monte Carlo.
 
 ## [0.1.1] — 2026-10-18

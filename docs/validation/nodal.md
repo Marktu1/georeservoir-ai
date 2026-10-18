@@ -6,7 +6,7 @@ Maturidade: `ipr_vogel` e `ipr_composite` **M3**; `ipr_linear`, `vogel_qmax_from
 | ID | Tipo | O que prova |
 |---|---|---|
 | VAL-ND-001 | analítico | IPR linear × TPR reta: interseção única e estável igual à solução algébrica. |
-| VAL-ND-L01 | literatura | Problema 1-3: tabela IPR de Vogel (p̄r = 2500 psig), ±0,05 STB/d. |
+| VAL-ND-L01 | literatura | Problema 1-3: tabela IPR de Vogel (p̄r = 2500 psig) nas 4 linhas não triviais (as de pwf = p̄r e pwf = 0 foram retiradas por serem verdadeiras por construção), ±0,05 STB/d. |
 | VAL-ND-L01b | literatura | Mesmo problema: qmax a partir do teste arredonda para 1067,1 (o "1076,1" do texto é uma gralha de transposição, assinalada e não usada). |
 | VAL-ND-L02 | literatura | Problema 1-4: tabela IPR composta (pb = 2130, p̄r = 3000, J = 0,5) e qb = 435, ±0,5 STB/d. |
 | VAL-ND-L03 | literatura | Problema 1-5: J a partir de um reteste abaixo de pb = 0,5 STB/d/psi. |

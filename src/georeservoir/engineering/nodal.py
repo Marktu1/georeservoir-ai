@@ -11,8 +11,9 @@ Conventions
 * TPR: only a user-supplied table, interpolated with a monotone piecewise-cubic Hermite
   interpolant (PCHIP). Multiphase correlations are M0 (planned) and raise errors.
 
-Maturity: ``ipr_vogel`` and ``ipr_composite`` M3; other functions M2; multiphase
-correlations M0.
+Maturity: ``ipr_vogel`` and ``ipr_composite`` M3 — they reproduce published worked IPR
+tables from university lecture notes (a weaker source than a textbook or paper; see
+docs/validation/nodal.md); other functions M2; multiphase correlations M0.
 """
 
 from __future__ import annotations
@@ -133,6 +134,7 @@ class LinearIPR:
         return out
 
     def pwf(self, q: NDArray[np.float64]) -> NDArray[np.float64]:
+        _check_q(q, self.q_max)
         out: NDArray[np.float64] = self.p_res - q / self.j
         return out
 
@@ -164,6 +166,7 @@ class VogelIPR:
         return out
 
     def pwf(self, q: NDArray[np.float64]) -> NDArray[np.float64]:
+        _check_q(q, self.q_max)
         out: NDArray[np.float64] = self.p_res * _vogel_ratio_inverse(q / self.aof)
         return out
 
@@ -210,6 +213,7 @@ class CompositeIPR:
         return out
 
     def pwf(self, q: NDArray[np.float64]) -> NDArray[np.float64]:
+        _check_q(q, self.q_max)
         above = self.p_res - q / self.j
         y = np.clip((q - self.q_b) / self._qv, 0.0, 1.0)  # only used where q > qb
         below = self.p_bubble * _vogel_ratio_inverse(y)
@@ -294,8 +298,9 @@ def ipr_vogel(
 
     Notes
     -----
-    Maturity: M3 — reproduces a published Vogel IPR table (VAL-ND-L01). Empirical; Vogel
-    reports typical errors of ~10 % for solution-gas drive. Assumptions: A-008, A-014.
+    Maturity: M3 — reproduces a published worked Vogel IPR table from lecture notes
+    (VAL-ND-L01; weaker source, see docs/validation/nodal.md). Empirical correlation for
+    solution-gas drive; accuracy degrades late in depletion. Assumptions: A-008, A-014.
     """
     u = _unit(pressure_unit)
     model = VogelIPR(p_res, q_max)
@@ -375,8 +380,8 @@ def ipr_composite(
 
     Notes
     -----
-    Maturity: M3 — reproduces a published composite IPR table (VAL-ND-L02).
-    Assumptions: A-008, A-014.
+    Maturity: M3 — reproduces a published worked composite IPR table from lecture notes
+    (VAL-ND-L02; weaker source, see docs/validation/nodal.md). Assumptions: A-008, A-014.
     """
     u = _unit(pressure_unit)
     model = CompositeIPR(p_res, p_bubble, j)
@@ -643,23 +648,49 @@ def nodal_solve(
     warnings: list[CalcWarning] = []
     scale = float(np.max(np.abs(fv))) or 1.0
     if not roots:
-        warnings.append(
-            CalcWarning(
-                "NO_INTERSECTION",
-                "IPR and TPR do not intersect on the common rate range: "
-                "the well cannot flow at these conditions",
+        if tpr.q_max < ipr.q_max:
+            msg = (
+                f"no intersection within the TPR table range [{lo:.6g}, {hi:.6g}]; the "
+                f"table ends before the IPR AOF ({ipr.q_max:.6g}), so an intersection at "
+                "higher rate cannot be excluded — extend the table"
             )
+        else:
+            msg = (
+                "IPR and TPR do not intersect on the common rate range: the well cannot "
+                "flow at these conditions"
+            )
+        warnings.append(CalcWarning("NO_INTERSECTION", msg))
+    # near-touches: interior local minima of |f| below 1e-3·max|f| without a sign change
+    af = np.abs(fv)
+    root_arr = np.array(roots)
+    step = (hi - lo) / (n_grid - 1)
+    for k in range(n_grid):
+        left_ok = k == 0 or af[k] <= af[k - 1]
+        right_ok = k == n_grid - 1 or af[k] <= af[k + 1]
+        if not (left_ok and right_ok) or af[k] >= 1e-3 * scale:
+            continue
+        nb = [fv[i] for i in (k - 1, k + 1) if 0 <= i < n_grid]
+        crosses = any(v * fv[k] < 0.0 for v in nb) or (
+            fv[k] == 0.0 and len(nb) == 2 and nb[0] * nb[1] < 0.0
         )
-        kmin = int(np.argmin(np.abs(fv)))
-        if abs(fv[kmin]) < 1e-3 * scale:
+        near_root = root_arr.size and np.min(np.abs(root_arr - grid[k])) < step
+        if not crosses and not (near_root and fv[k] != 0.0):
             warnings.append(
                 CalcWarning(
                     "POSSIBLE_TANGENCY",
-                    f"|IPR − TPR| reaches {abs(fv[kmin]):.3g} near "
-                    f"q = {grid[kmin]:.6g}; curves may be tangent",
-                    (kmin,),
+                    f"|IPR − TPR| reaches {af[k]:.3g} near q = "
+                    f"{grid[k]:.6g} without crossing; curves may be "
+                    "tangent (refine n_grid)",
+                    (k,),
                 )
             )
+    if roots and min(roots) <= 0.0:
+        warnings.append(
+            CalcWarning(
+                "ZERO_RATE_INTERSECTION",
+                "an intersection at q = 0: the well is at the no-flow limit there, not producing",
+            )
+        )
     if len(roots) > 1:
         warnings.append(
             CalcWarning(

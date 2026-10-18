@@ -260,6 +260,21 @@ def _through_origin(
             "expansion terms are all ~0: N is not identifiable (no depletion yet?)"
         )
     nn = float(x @ y) / sxx
+    if nn <= 0.0:
+        raise PhysicalConsistencyError(
+            f"fitted N = {nn!r} STB is not positive: data inconsistent with the model "
+            "(check signs of F − We and the expansion terms)"
+        )
+    neg = np.flatnonzero(x < 0.0)
+    if neg.size:
+        warnings = [
+            *warnings,
+            CalcWarning(
+                "NEGATIVE_EXPANSION",
+                f"{neg.size} expansion value(s) < 0: physically unexpected for depletion",
+                tuple(int(i) for i in neg),
+            ),
+        ]
     res = y - nn * x
     s2 = float(res @ res) / (n - 1)
     se = float(np.sqrt(s2 / sxx))
@@ -406,17 +421,14 @@ def fit_gas_cap_unknown_m(
         )
     y = (f - w) / e1
     x = e2 / e1
-    xs = (x - x.mean()) / (x.std() or 1.0)
-    design = np.column_stack((np.ones(n), xs))
-    cond = float(np.linalg.cond(design))
-    if (
-        not np.isfinite(cond)
-        or cond > MAX_CONDITION
-        or float(np.ptp(x)) <= 1e-12 * (1.0 + float(np.max(np.abs(x))))
-    ):
+    # column-normalised (not centred) design: collinearity of [1, Eg/Eo] shows up here
+    design = np.column_stack((np.ones(n), x))
+    norms = np.linalg.norm(design, axis=0)
+    cond = float(np.linalg.cond(design / np.where(norms > 0, norms, 1.0)))
+    if not np.isfinite(cond) or cond > MAX_CONDITION:
         raise IdentifiabilityError(
-            f"Eg/Eo is (nearly) constant across the data (condition number {cond:.3e}): "
-            "N and m cannot be separated"
+            f"Eg/Eo is (nearly) constant across the data (condition number {cond:.3e} > "
+            f"{MAX_CONDITION:.0e}): N and m cannot be separated"
         )
     a = np.column_stack((np.ones(n), x))
     coef, *_ = np.linalg.lstsq(a, y, rcond=None)

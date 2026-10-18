@@ -146,3 +146,19 @@ def test_invalid_we_and_m() -> None:
             rs_scf_stb=[0.0],
             bw_rb_stb=[1.0],
         )
+
+
+def test_gas_cap_near_constant_ratio_is_not_identifiable() -> None:
+    eo = np.array([0.02, 0.04, 0.06, 0.08])
+    eg = eo * (2.0 + np.array([0.0, 1e-9, 2e-9, 3e-9]))  # Eg/Eo varies by ~1e-9
+    with pytest.raises(IdentifiabilityError, match="condition number"):
+        mb.fit_gas_cap_unknown_m(1e7 * (eo + 0.5 * eg), eo, eg, we_rb=None)
+
+
+def test_through_origin_rejects_non_positive_n_and_warns_negative_terms() -> None:
+    e = terms(0.0)
+    with pytest.raises(PhysicalConsistencyError, match="not positive"):
+        mb.fit_no_cap_no_aquifer(-1e7 * (e["eo"] + e["efw"]), e["eo"], e["efw"], we_rb=None)
+    eo = np.array([-0.001, 0.02, 0.04])
+    r = mb.fit_no_cap_no_aquifer(1e7 * eo, eo, np.zeros(3), we_rb=None)
+    assert {w.code for w in r.warnings} == {"NEGATIVE_EXPANSION"}

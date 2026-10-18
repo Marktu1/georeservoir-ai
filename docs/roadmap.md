@@ -16,13 +16,13 @@ Estado por nível de maturidade (M0 = planeado, não implementado). Portões con
 
 | Módulo | Estado |
 |---|---|
-| DCA (Arps) | taxa e conversões **M3** (SPEE REP #6); restantes M2 |
+| DCA (Arps) | conversão nominal↔efetivo **M3** (SPEE REP #6); restantes M2 |
 | Nodal | Vogel e IPR composta **M3** (notas de aula publicadas); restantes M2; correlações multifásicas M0 |
 | Bourdet | M2 (drawdown); superposição M0 |
 | Balanço material | M2 |
 | Monte Carlo P10/P50/P90 | M2 (Archie Sw e Arps EUR) |
 
-Portão da Fase 1 (todos os módulos ≥ M2, metade ≥ M3): ver a secção de estado no fim desta entrega.
+**Portão da Fase 1 (todos os módulos ≥ M2, metade ≥ M3):** 8 módulos (common, well_path, petrophysics, dca, nodal, bourdet, material_balance, uncertainty), todos ≥ M2; 4 com pelo menos uma função em M3 (well_path, petrophysics, dca, nodal). A evidência M3 do nodal é a mais fraca (notas de aula). Revisão adversarial independente feita e corrigida (ver CHANGELOG 0.2.0).
 
 ## Planeado (M0 — não existe código)
 

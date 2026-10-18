@@ -64,7 +64,8 @@ def test_sigma_propagation_matches_monte_carlo() -> None:
     p = 30.0 * np.log(t) + 100.0
     rec = bourdet_derivative(t, p, window_ln=0.2, sigma_p=0.5, pressure_unit="psi")
     sims = np.array([deriv(t, p + rng.normal(0, 0.5, t.size)) for _ in range(4000)])
-    assert np.allclose(sims.std(axis=0), rec["sigma_derivative"], rtol=0.08)
+    # s.e. of a std from 4000 draws ≈ 1/√8000 ≈ 1.1 %; the max over 40 points stays < ~4 %
+    assert np.allclose(sims.std(axis=0), rec["sigma_derivative"], rtol=0.04)
 
 
 def test_line_source_derivative_matches_exponential() -> None:
@@ -74,8 +75,9 @@ def test_line_source_derivative_matches_exponential() -> None:
     d = deriv(td, pd, window_ln=0.1)
     ref = 0.5 * np.exp(-1.0 / (4.0 * td))
     inner = slice(5, -5)
-    # Bourdet smoothing bias is O(L²); with L = 0.1 the error stays below 1 % here
-    assert np.allclose(d[inner], ref[inner], rtol=0.01)
+    # smoothing bias O(L²) (≈ L²/6 = 0.17 % for a pure exponential) plus curvature of the
+    # early-time E1 response; observed max 0.36 % with L = 0.1 → 0.5 % tolerance
+    assert np.allclose(d[inner], ref[inner], rtol=0.005)
 
 
 def test_one_sided_points_are_flagged() -> None:
@@ -111,3 +113,10 @@ def test_invalid(
 ) -> None:
     with pytest.raises(exc, match=match):
         bourdet_derivative(t, p, **{**KW, **kw})
+
+
+def test_bool_window_is_refused() -> None:
+    with pytest.raises(InputValidationError, match="window_ln"):
+        bourdet_derivative(
+            [1.0, 2.0, 3.0], [1.0, 2.0, 3.0], window_ln=True, sigma_p=0.0, pressure_unit="psi"
+        )

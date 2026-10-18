@@ -6,7 +6,7 @@
   "description": "Nominal \u2192 effective decline, b = 2.0 (secant), nominal 1 %\u20131000 %/yr.",
   "source": "SPEE Recommended Evaluation Practice #6, Definition of Decline Curve Parameters, Society of Petroleum Evaluation Engineers (copyright 2000, v1.0 adopted 2002), Table 1",
   "source_status": "confirmed",
-  "source_check": "Table read from the SPEE REP #6 PDF on 2026-10-18.",
+  "source_check": "Table transcribed from the SPEE REP #6 PDF (manual.whitson.com copy) via automated text extraction on 2026-10-18; a human spot-check against the PDF is recommended.",
   "kwargs": {
     "d_nominal": [
       0.01,

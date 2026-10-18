@@ -1,12 +1,12 @@
 {
-  "id": "VAL-DCA-L02-b00",
+  "id": "VAL-DCA-005-b05",
   "module": "dca",
   "function": "dca.arps_rate",
-  "kind": "literature",
-  "description": "Arps rate after one year, b = 0.0: per SPEE REP #6 the secant effective decline is 1 \u2212 q(1 yr)/qi, so q(1 yr) with qi = 1 must equal 1 \u2212 De(Table 1).",
+  "kind": "spec_conformance",
+  "description": "Arps rate after one year, b = 0.5: per SPEE REP #6 the secant effective decline is 1 \u2212 q(1 yr)/qi, so q(1 yr) with qi = 1 must equal 1 \u2212 De(Table 1).",
   "source": "SPEE Recommended Evaluation Practice #6, Definition of Decline Curve Parameters, Society of Petroleum Evaluation Engineers (copyright 2000, v1.0 adopted 2002), Table 1",
   "source_status": "confirmed",
-  "source_check": "Table read from the SPEE REP #6 PDF on 2026-10-18.",
+  "source_check": "Table transcribed from the SPEE REP #6 PDF (manual.whitson.com copy) via automated text extraction on 2026-10-18; a human spot-check against the PDF is recommended.",
   "kwargs": null,
   "expected": null,
   "per_row": [
@@ -17,13 +17,13 @@
         ],
         "qi": 1.0,
         "di": 0.01,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.99004983
+          0.9900745
         ]
       }
     },
@@ -34,13 +34,13 @@
         ],
         "qi": 1.0,
         "di": 0.02,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.98019867
+          0.98029605
         ]
       }
     },
@@ -51,13 +51,13 @@
         ],
         "qi": 1.0,
         "di": 0.03,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.97044553
+          0.97066175
         ]
       }
     },
@@ -68,13 +68,13 @@
         ],
         "qi": 1.0,
         "di": 0.04,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.96078944
+          0.96116878
         ]
       }
     },
@@ -85,13 +85,13 @@
         ],
         "qi": 1.0,
         "di": 0.05,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.95122942
+          0.9518144
         ]
       }
     },
@@ -102,13 +102,13 @@
         ],
         "qi": 1.0,
         "di": 0.06,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.94176453
+          0.94259591
         ]
       }
     },
@@ -119,13 +119,13 @@
         ],
         "qi": 1.0,
         "di": 0.07,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.93239382
+          0.9335107
         ]
       }
     },
@@ -136,13 +136,13 @@
         ],
         "qi": 1.0,
         "di": 0.08,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.92311635
+          0.92455621
         ]
       }
     },
@@ -153,13 +153,13 @@
         ],
         "qi": 1.0,
         "di": 0.09,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.91393119
+          0.91572995
         ]
       }
     },
@@ -170,13 +170,13 @@
         ],
         "qi": 1.0,
         "di": 0.1,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.90483742
+          0.90702948
         ]
       }
     },
@@ -187,13 +187,13 @@
         ],
         "qi": 1.0,
         "di": 0.2,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.8187307500000001
+          0.82644628
         ]
       }
     },
@@ -204,13 +204,13 @@
         ],
         "qi": 1.0,
         "di": 0.3,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.74081822
+          0.75614367
         ]
       }
     },
@@ -221,13 +221,13 @@
         ],
         "qi": 1.0,
         "di": 0.4,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.67032005
+          0.69444444
         ]
       }
     },
@@ -238,13 +238,13 @@
         ],
         "qi": 1.0,
         "di": 0.5,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.60653066
+          0.64
         ]
       }
     },
@@ -255,13 +255,13 @@
         ],
         "qi": 1.0,
         "di": 0.6,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.54881164
+          0.59171598
         ]
       }
     },
@@ -272,13 +272,13 @@
         ],
         "qi": 1.0,
         "di": 0.7,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.4965853
+          0.5486968400000001
         ]
       }
     },
@@ -289,13 +289,13 @@
         ],
         "qi": 1.0,
         "di": 0.8,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.44932896
+          0.5102040800000001
         ]
       }
     },
@@ -306,13 +306,13 @@
         ],
         "qi": 1.0,
         "di": 0.9,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.40656965999999994
+          0.47562426
         ]
       }
     },
@@ -323,13 +323,13 @@
         ],
         "qi": 1.0,
         "di": 1.0,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.36787944000000006
+          0.44444443999999994
         ]
       }
     },
@@ -340,13 +340,13 @@
         ],
         "qi": 1.0,
         "di": 2.0,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.13533528000000006
+          0.25
         ]
       }
     },
@@ -357,13 +357,13 @@
         ],
         "qi": 1.0,
         "di": 3.0,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.049787070000000044
+          0.16000000000000003
         ]
       }
     },
@@ -374,13 +374,13 @@
         ],
         "qi": 1.0,
         "di": 4.0,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.018315639999999966
+          0.11111110999999996
         ]
       }
     },
@@ -391,13 +391,13 @@
         ],
         "qi": 1.0,
         "di": 5.0,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.0067379499999999926
+          0.08163264999999997
         ]
       }
     },
@@ -408,13 +408,13 @@
         ],
         "qi": 1.0,
         "di": 6.0,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.002478749999999974
+          0.0625
         ]
       }
     },
@@ -425,13 +425,13 @@
         ],
         "qi": 1.0,
         "di": 7.0,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.000911879999999976
+          0.04938271999999999
         ]
       }
     },
@@ -442,13 +442,13 @@
         ],
         "qi": 1.0,
         "di": 8.0,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.00033546000000006515
+          0.040000000000000036
         ]
       }
     },
@@ -459,13 +459,13 @@
         ],
         "qi": 1.0,
         "di": 9.0,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          0.00012341000000004598
+          0.033057850000000055
         ]
       }
     },
@@ -476,13 +476,13 @@
         ],
         "qi": 1.0,
         "di": 10.0,
-        "b": 0.0,
+        "b": 0.5,
         "time_unit": "year",
         "d_terminal": null
       },
       "expected": {
         "q": [
-          4.540000000008426e-05
+          0.027777779999999974
         ]
       }
     }

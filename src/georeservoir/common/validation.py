@@ -65,7 +65,12 @@ def as_1d_array(name: str, value: ArrayLike, *, min_size: int = 1) -> NDArray[np
 
 
 def require_finite_scalar(name: str, value: float) -> float:
-    """Return ``value`` as a finite float or raise :class:`InputValidationError`."""
+    """Return ``value`` as a finite float or raise :class:`InputValidationError`.
+
+    Booleans are refused (``True`` is not a physical quantity).
+    """
+    if isinstance(value, (bool, np.bool_)):
+        raise InputValidationError(f"{name}: received {value!r}; expected a real number")
     try:
         v = float(value)
     except (TypeError, ValueError) as exc:

@@ -178,3 +178,40 @@ def test_property_linear_solver_matches_algebra(
     q_star = (pr - a) / (1 / j + c)
     assert r["n_solutions"] == 1 and r["stable"][0] == 1.0
     assert r["q_op"][0] == pytest.approx(q_star, rel=1e-8, abs=1e-8)
+
+
+# --- review fixes -------------------------------------------------------------------
+def test_tangency_flagged_even_with_another_root() -> None:
+    ipr = nd.LinearIPR(3000.0, 1.0)
+    q = np.linspace(0.0, 2600.0, 131)
+    # g = TPR − IPR: touches 0 at q = 1000 (no crossing), then crosses 0 near q = 2440
+    g = np.where(q < 1800.0, 1e-4 * (q - 1000.0) ** 2 + 1e-6, 64.0 - 0.1 * (q - 1800.0))
+    tpr = nd.TabulatedTPR(q, (3000.0 - q) + g)
+    r = nd.nodal_solve(ipr, tpr, **{**SOLVE, "n_grid": 1301})
+    assert r["n_solutions"] == 1 and r["q_op"][0] == pytest.approx(2440.0, rel=1e-3)
+    assert "POSSIBLE_TANGENCY" in {w.code for w in r.warnings}
+
+
+def test_zero_rate_intersection_warns() -> None:
+    ipr = nd.LinearIPR(3000.0, 1.0)
+    r = nd.nodal_solve(ipr, nd.TabulatedTPR([0.0, 3000.0], [3000.0, 6000.0]), **SOLVE)
+    assert r["q_op"].tolist() == [0.0]
+    assert "ZERO_RATE_INTERSECTION" in {w.code for w in r.warnings}
+
+
+def test_truncated_table_message() -> None:
+    ipr = nd.LinearIPR(3000.0, 1.0)
+    tpr = nd.TabulatedTPR([0.0, 1000.0], [3100.0, 2500.0])  # ends before AOF = 3000
+    r = nd.nodal_solve(ipr, tpr, **SOLVE)
+    w = r.warnings[0]
+    assert w.code == "NO_INTERSECTION" and "extend the table" in w.message
+
+
+def test_ipr_inverse_refuses_rates_outside_range() -> None:
+    for m in (
+        nd.LinearIPR(3000.0, 1.0),
+        nd.VogelIPR(2500.0, 1000.0),
+        nd.CompositeIPR(3000.0, 2000.0, 1.0),
+    ):
+        with pytest.raises(InputValidationError, match="q_max"):
+            m.pwf(np.array([m.q_max * 1.01]))

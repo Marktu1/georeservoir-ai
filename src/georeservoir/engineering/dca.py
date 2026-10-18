@@ -10,7 +10,8 @@ Conventions
 * Rate uses ``q = qi·exp(−log1p(b·Di·t)/b)``; for b < :data:`B_EXP_THRESHOLD` the
   exponential limit is used (A-011). Cumulatives use closed forms with ``expm1``/``log1p``.
 
-Maturity: ``arps_rate`` and ``nominal_to_effective_decline`` M3; all other functions M2.
+Maturity: ``nominal_to_effective_decline`` M3 (reproduces the published SPEE REP #6
+table); all other functions M2.
 """
 
 from __future__ import annotations
@@ -85,6 +86,18 @@ def _b_warnings(b: float) -> list[CalcWarning]:
                 "B_GREATER_THAN_ONE",
                 f"b = {b} > 1: typical of transient flow in low-permeability reservoirs, "
                 "not of boundary-dominated flow; long extrapolations overestimate reserves",
+            )
+        ]
+    return []
+
+
+def _terminal_warnings(di: float, dt: float | None) -> list[CalcWarning]:
+    if dt is not None and dt >= di:
+        return [
+            CalcWarning(
+                "TERMINAL_DECLINE_EXCEEDS_INITIAL",
+                f"d_terminal = {dt} >= di = {di}: the curve is exponential at d_terminal "
+                "from t = 0 (di is not used)",
             )
         ]
     return []
@@ -193,8 +206,10 @@ def arps_rate(
 
     Notes
     -----
-    Maturity: M3 — reproduces SPEE REP #6 Table 1 secant effective declines, which are
-    by definition 1 − q(1 year)/qi (VAL-DCA-L02). Assumptions: A-008, A-010, A-011.
+    Maturity: M2 — verified against quadrature (cumulative) and continuity properties;
+    also consistent with SPEE REP #6 Table 1 at t = 1 year (VAL-DCA-002x), which is the
+    same evidence as the conversion function and is not counted twice.
+    Assumptions: A-008, A-010, A-011.
     """
     tt = as_1d_array("t", t)
     _check_times(tt)
@@ -208,7 +223,7 @@ def arps_rate(
     return make_record(
         method="dca.arps_rate",
         method_reference=REF_ARPS,
-        maturity="M3",
+        maturity="M2",
         values={"q": q, "switch_time": ts},
         units={"q": "rate unit of qi", "switch_time": tu},
         scalar_inputs={
@@ -220,7 +235,7 @@ def arps_rate(
         },
         array_inputs={"t": tt},
         assumptions=("A-008", "A-010", "A-011"),
-        warnings=_b_warnings(b_),
+        warnings=_b_warnings(b_) + _terminal_warnings(di_, dt),
     )
 
 
@@ -270,7 +285,7 @@ def arps_cumulative(
         },
         array_inputs={"t": tt},
         assumptions=("A-008", "A-010", "A-011"),
-        warnings=_b_warnings(b_),
+        warnings=_b_warnings(b_) + _terminal_warnings(di_, dt),
     )
 
 

@@ -1,12 +1,12 @@
 {
-  "id": "VAL-DCA-L02-b20",
+  "id": "VAL-DCA-005-b20",
   "module": "dca",
   "function": "dca.arps_rate",
-  "kind": "literature",
+  "kind": "spec_conformance",
   "description": "Arps rate after one year, b = 2.0: per SPEE REP #6 the secant effective decline is 1 \u2212 q(1 yr)/qi, so q(1 yr) with qi = 1 must equal 1 \u2212 De(Table 1).",
   "source": "SPEE Recommended Evaluation Practice #6, Definition of Decline Curve Parameters, Society of Petroleum Evaluation Engineers (copyright 2000, v1.0 adopted 2002), Table 1",
   "source_status": "confirmed",
-  "source_check": "Table read from the SPEE REP #6 PDF on 2026-10-18.",
+  "source_check": "Table transcribed from the SPEE REP #6 PDF (manual.whitson.com copy) via automated text extraction on 2026-10-18; a human spot-check against the PDF is recommended.",
   "kwargs": null,
   "expected": null,
   "per_row": [

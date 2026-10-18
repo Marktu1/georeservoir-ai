@@ -250,3 +250,13 @@ def test_fit_flags_b_at_bound() -> None:
     )
     codes = {w.code for w in f.warnings}
     assert "B_AT_BOUND" in codes or f["b"] > 1e-8
+
+
+def test_terminal_above_initial_warns() -> None:
+    r = dca.arps_rate([1.0], qi=1000.0, di=0.05, b=0.5, time_unit="month", d_terminal=0.1)
+    assert "TERMINAL_DECLINE_EXCEEDS_INITIAL" in {w.code for w in r.warnings}
+
+
+def test_bool_refused_as_number() -> None:
+    with pytest.raises(InputValidationError, match="qi"):
+        dca.arps_rate([1.0], qi=True, di=0.1, b=0.5, time_unit="month", d_terminal=None)

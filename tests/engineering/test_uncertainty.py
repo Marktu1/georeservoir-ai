@@ -107,6 +107,7 @@ def test_eur_with_terminal_decline_and_rate_limit() -> None:
         }
     )
     assert 0 < e["eur_p90_low"] < e["eur_p50"] < e["eur_p10_high"]
+    assert "B_GREATER_THAN_ONE" in {w.code for w in e.warnings}
 
 
 @pytest.mark.parametrize(

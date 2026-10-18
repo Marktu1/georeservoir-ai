@@ -12,8 +12,8 @@ Biblioteca Python de engenharia de subsuperfície em que cada resultado é um `C
 | `engineering.well_path` | `minimum_curvature` | **M3** |
 | | `dogleg_angle`, `ratio_factor`, `normalize_azimuth` | M2 |
 | `engineering.petrophysics` | `archie_water_saturation` | **M3** |
-| `engineering.dca` | `arps_rate`, `nominal_to_effective_decline` | **M3** |
-| | `arps_cumulative`, `arps_eur`, `arps_fit`, `effective_to_nominal_decline`, `convert_nominal_decline` | M2 |
+| `engineering.dca` | `nominal_to_effective_decline` | **M3** |
+| | `arps_rate`, `arps_cumulative`, `arps_eur`, `arps_fit`, `effective_to_nominal_decline`, `convert_nominal_decline` | M2 |
 | `engineering.nodal` | `ipr_vogel`, `ipr_composite` | **M3** |
 | | `ipr_linear`, `vogel_qmax_from_test`, `composite_j_from_test`, `TabulatedTPR`, `nodal_solve` | M2 |
 | | `hagedorn_brown_tpr`, `beggs_brill_tpr` | M0 (erro descritivo) |
@@ -22,7 +22,16 @@ Biblioteca Python de engenharia de subsuperfície em que cada resultado é um `C
 | `engineering.uncertainty` | `mc_archie_sw`, `mc_arps_eur`, distribuições (`Fixed`, `Uniform`, `Triangular`, `Normal`, `LogNormal`) — P90/P50/P10 na convenção PRMS | M2 |
 | | `gamma_ray_index`, `vsh_larionov_tertiary`, `vsh_larionov_older`, `vsh_steiber`, `vsh_clavier`, `density_porosity`, `sonic_porosity_wyllie`, `archie_true_resistivity` | M2 |
 
-Níveis: M0 planeado · M1 protótipo · M2 verificado (propriedades + oráculos exatos: geometria analítica na trajetória; conformidade com as equações publicadas na petrofísica) · M3 validado com literatura · M4 validado em campo. M3 significa que a função reproduz um caso publicado dentro da tolerância de arredondamento da fonte: `minimum_curvature` (Bourgoyne et al. 1991, via Amorin & Broni-Bediako 2010) e `archie_water_saturation` (Kansas Geological Survey, PfEFFER). M3 não é validação em campo (M4). Detalhe em `docs/validation/REPORT.md`. Módulos futuros: `docs/roadmap.md`.
+Níveis: M0 planeado · M1 protótipo · M2 verificado (propriedades + oráculos exatos: geometria analítica na trajetória; conformidade com as equações publicadas na petrofísica) · M3 validado com literatura · M4 validado em campo. **O que M3 significa neste projeto:** a função reproduz, dentro da tolerância de arredondamento da fonte, um exemplo ou tabela **publicada por terceiros** com as mesmas entradas. Isto prova transcrição correta da equação, unidades e convenções contra um cálculo independente — **não** prova que o modelo físico é adequado a um reservatório (isso é M4, validação em campo). Evidência por função:
+
+| Função | Caso publicado | Força da fonte |
+|---|---|---|
+| `minimum_curvature` | Bourgoyne et al. (1991), via Amorin & Broni-Bediako (2010) | Livro SPE, citado por artigo de conferência |
+| `archie_water_saturation` | Kansas Geological Survey, PfEFFER (2010) | Serviço geológico estatal (exemplo didático) |
+| `nominal_to_effective_decline` | SPEE REP #6, Tabela 1 | Prática recomendada da SPEE |
+| `ipr_vogel`, `ipr_composite` | Notas de aula, Univ. de Mosul (2017), citando Vogel (1968) e Beggs (1991) | **Mais fraca**: material didático, não revisto por pares |
+
+Detalhe e erros observados em `docs/validation/REPORT.md`.
 
 ## Instalação
 
@@ -75,6 +84,11 @@ python scripts/build_validation_report.py    # gera docs/validation/REPORT.md
 - Trajetória: sem correção de declinação/convergência; sem modelo de incerteza de posição (ISCWSA error model).
 - Vsh: correlações empíricas. Archie: só formações limpas. Sem correções de gás, argila ou compactação.
 - Vsh, porosidades e IGR têm apenas validação analítica/de conformidade; os casos de literatura cobrem uma geometria de build e um exemplo didático de Archie, não dados de campo.
+- DCA: Arps é empírico e pressupõe operação constante; b > 1 indica regime transiente; EUR com b ≥ 1 exige declínio terminal.
+- Nodal: Vogel e IPR composta são empíricas (solution-gas drive); TPR só tabelada — correlações multifásicas por implementar (M0).
+- Bourdet: apenas tempo de fluxo (drawdown); sem tempo de superposição, identificação de regimes, k ou skin.
+- Balanço material: óleo apenas; We só como série fornecida; caso (c) despreza Efw.
+- Monte Carlo: entradas independentes (sem correlação); P90/P50/P10 na convenção de excedência PRMS.
 
 ## Licença
 Todos os direitos reservados até à decisão do ADR-0002.

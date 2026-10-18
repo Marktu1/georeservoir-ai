@@ -423,6 +423,16 @@ def mc_arps_eur(
     th = None if t_horizon is None else check_positive_scalar("t_horizon", t_horizon)
     if ql is not None and np.any(s["qi"] <= ql):
         raise InputValidationError("q_limit: some qi samples are <= q_limit; truncate qi")
+    warnings: list[CalcWarning] = []
+    n_b1 = int(np.count_nonzero(s["b"] > 1.0))
+    if n_b1:
+        warnings.append(
+            CalcWarning(
+                "B_GREATER_THAN_ONE",
+                f"{n_b1} of {n_samples} b samples exceed 1 (transient "
+                "flow; long extrapolations overestimate reserves)",
+            )
+        )
     eur = np.empty(n_samples)
     for i in range(n_samples):  # scalar closed forms; loop documented (spec §6.5)
         q0, d0, b0 = float(s["qi"][i]), float(s["di"][i]), float(s["b"][i])
@@ -446,6 +456,6 @@ def mc_arps_eur(
         n_samples,
         seed,
         return_samples,
-        [],
+        warnings,
         ("A-010", "A-011", "A-012", "A-019", "A-020"),
     )

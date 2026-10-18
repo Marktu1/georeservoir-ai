@@ -603,7 +603,9 @@ def dca_cases() -> None:
                 f"({'tangent = exponential' if b == 0 else 'secant'}), nominal 1 %–1000 %/yr.",
                 "source": SPEE_SRC,
                 "source_status": "confirmed",
-                "source_check": "Table read from the SPEE REP #6 PDF on 2026-10-18.",
+                "source_check": "Table transcribed from the SPEE REP #6 PDF (manual.whitson.com "
+                "copy) via automated text extraction on 2026-10-18; a human spot-check against "
+                "the PDF is recommended.",
                 "kwargs": {"d_nominal": d, "b": b},
                 "expected": {"d_effective": [v / 100 for v in eff]},
                 **SPEE_TOL,
@@ -611,16 +613,18 @@ def dca_cases() -> None:
         )
         write(
             {
-                "id": f"VAL-DCA-L02-b{tag}",
+                "id": f"VAL-DCA-005-b{tag}",
                 "module": "dca",
                 "function": "dca.arps_rate",
-                "kind": "literature",
+                "kind": "spec_conformance",
                 "description": f"Arps rate after one year, b = {b}: per SPEE REP #6 "
                 "the secant effective decline is 1 − q(1 yr)/qi, so q(1 yr) with qi = 1 "
                 "must equal 1 − De(Table 1).",
                 "source": SPEE_SRC,
                 "source_status": "confirmed",
-                "source_check": "Table read from the SPEE REP #6 PDF on 2026-10-18.",
+                "source_check": "Table transcribed from the SPEE REP #6 PDF (manual.whitson.com "
+                "copy) via automated text extraction on 2026-10-18; a human spot-check against "
+                "the PDF is recommended.",
                 "kwargs": None,
                 "expected": None,
                 "per_row": [
@@ -693,12 +697,12 @@ def nodal_cases() -> None:
             "uses qmax = 1067.1 (its value at pwf = 0). The text's '(Qo)max = 1076.1' is a "
             "transposition typo and is not used.",
             "kwargs": {
-                "pwf": [2500.0, 2200.0, 1500.0, 1000.0, 500.0, 0.0],
+                "pwf": [2200.0, 1500.0, 1000.0, 500.0],  # pwf = p̄r and 0 rows are trivial
                 "p_res": 2500.0,
                 "q_max": 1067.1,
                 "pressure_unit": "psi",
             },
-            "expected": {"q": [0.0, 218.2, 631.7, 845.1, 990.3, 1067.1]},
+            "expected": {"q": [218.2, 631.7, 845.1, 990.3]},
             "tol_abs": 0.05,
             "tol_rel": 0.0,
             "tolerance_justification": "Published to 0.1 STB/d: reference known to ±0.05.",
