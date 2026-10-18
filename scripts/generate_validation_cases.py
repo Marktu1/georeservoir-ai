@@ -828,6 +828,112 @@ def bourdet_cases() -> None:
     )
 
 
+def material_balance_cases() -> None:
+    # synthetic PVT table (illustrative, not field data)
+    pr = [3300.0, 3150.0, 3000.0, 2850.0, 2700.0]
+    bo = [1.30, 1.29, 1.28, 1.27, 1.26]
+    rs = [600.0, 570.0, 540.0, 510.0, 480.0]
+    bg = [0.00090, 0.00095, 0.00100, 0.00106, 0.00113]
+    pi, boi, bgi, rsi, cw, cf, swi = 3330.0, 1.31, 0.00087, 630.0, 3e-6, 4e-6, 0.2
+    n_true, m_true = 5.0e7, 0.4
+    eo = [(b - boi) + (rsi - r) * g for b, r, g in zip(bo, rs, bg, strict=True)]
+    eg = [boi * (g / bgi - 1) for g in bg]
+    efw = [(1 + m_true) * boi * (cw * swi + cf) / (1 - swi) * (pi - x) for x in pr]
+    common = {
+        "module": "material_balance",
+        "source_status": "confirmed",
+        "source": "Synthetic exact data generated from the Havlena–Odeh equations "
+        "(SPE-559-PA) with known N and m.",
+    }
+    exp_kw = {
+        "p_psia": pr,
+        "bo_rb_stb": bo,
+        "bg_rb_scf": bg,
+        "rs_scf_stb": rs,
+        "pi_psia": pi,
+        "boi_rb_stb": boi,
+        "bgi_rb_scf": bgi,
+        "rsi_scf_stb": rsi,
+        "cw_per_psi": cw,
+        "cf_per_psi": cf,
+        "swi": swi,
+        "m": m_true,
+    }
+    write(
+        {
+            "id": "VAL-MB-001",
+            **common,
+            "function": "material_balance.expansion_terms",
+            "kind": "spec_conformance",
+            "description": "Eo, Eg, Efw for a 5-step synthetic PVT table against hand-coded "
+            "Havlena–Odeh definitions.",
+            "kwargs": exp_kw,
+            "expected": {"eo": eo, "eg": eg, "efw": efw},
+            "tol_abs": 1e-15,
+            "tol_rel": 1e-13,
+            "tolerance_justification": "Terms are O(1e-3–1e-1) rb/STB built from a few "
+            "operations; float64 rounding ≤ ~1e-16 absolute.",
+        }
+    )
+    f_known = [n_true * (a + m_true * b + c) for a, b, c in zip(eo, eg, efw, strict=True)]
+    write(
+        {
+            "id": "VAL-MB-002",
+            **common,
+            "function": "material_balance.fit_known_m",
+            "kind": "synthetic_exact",
+            "description": "Case (b): F generated with N = 5e7 STB and m = 0.4; the "
+            "through-origin fit must return N exactly.",
+            "kwargs": {
+                "f_rb": f_known,
+                "eo": eo,
+                "eg": eg,
+                "efw": efw,
+                "m": m_true,
+                "we_rb": None,
+            },
+            "expected": {"n_stb": [n_true]},
+            "tol_abs": 0.0,
+            "tol_rel": 1e-12,
+            "tolerance_justification": "Exact data; only float64 rounding in the normal "
+            "equation (~1e-15 relative).",
+        }
+    )
+    f_cap = [n_true * (a + m_true * b) for a, b in zip(eo, eg, strict=True)]
+    write(
+        {
+            "id": "VAL-MB-003",
+            **common,
+            "function": "material_balance.fit_gas_cap_unknown_m",
+            "kind": "synthetic_exact",
+            "description": "Case (c): F = N(Eo + m·Eg) with N = 5e7, m = 0.4 (Efw = 0 as the "
+            "method assumes); F/Eo vs Eg/Eo must return N and m exactly.",
+            "kwargs": {"f_rb": f_cap, "eo": eo, "eg": eg, "we_rb": None},
+            "expected": {"n_stb": [n_true], "m": [m_true]},
+            "tol_abs": 0.0,
+            "tol_rel": 1e-10,
+            "tolerance_justification": "Exact data; least squares on a 2-column design with "
+            "condition number ~1e1–1e2 amplifies rounding to ≤ ~1e-13 relative.",
+        }
+    )
+    f_aq = [n_true * (a + c) + 2.0e5 * k for k, (a, c) in enumerate(zip(eo, efw, strict=True))]
+    write(
+        {
+            "id": "VAL-MB-004",
+            **common,
+            "function": "material_balance.fit_no_cap_no_aquifer",
+            "kind": "synthetic_exact",
+            "description": "Case (a) with a user-supplied We series: F = N(Eo + Efw) + We; "
+            "subtracting We must return N exactly.",
+            "kwargs": {"f_rb": f_aq, "eo": eo, "efw": efw, "we_rb": [2.0e5 * k for k in range(5)]},
+            "expected": {"n_stb": [n_true]},
+            "tol_abs": 0.0,
+            "tol_rel": 1e-12,
+            "tolerance_justification": "Exact data; float64 rounding only.",
+        }
+    )
+
+
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     well_path_cases()
@@ -837,4 +943,5 @@ if __name__ == "__main__":
     dca_cases()
     nodal_cases()
     bourdet_cases()
+    material_balance_cases()
     print(f"wrote {len(list(OUT.glob('*.json')))} cases to {OUT}")

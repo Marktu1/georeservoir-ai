@@ -1,0 +1,47 @@
+{
+  "id": "VAL-MB-004",
+  "module": "material_balance",
+  "source_status": "confirmed",
+  "source": "Synthetic exact data generated from the Havlena\u2013Odeh equations (SPE-559-PA) with known N and m.",
+  "function": "material_balance.fit_no_cap_no_aquifer",
+  "kind": "synthetic_exact",
+  "description": "Case (a) with a user-supplied We series: F = N(Eo + Efw) + We; subtracting We must return N exactly.",
+  "kwargs": {
+    "f_rb": [
+      865818.2499999995,
+      2144909.499999999,
+      3574000.7499999986,
+      5213091.999999998,
+      7107183.249999996
+    ],
+    "eo": [
+      0.01699999999999999,
+      0.036999999999999984,
+      0.05999999999999997,
+      0.08719999999999997,
+      0.11949999999999994
+    ],
+    "efw": [
+      0.000316365,
+      0.00189819,
+      0.003480015,
+      0.00506184,
+      0.006643664999999999
+    ],
+    "we_rb": [
+      0.0,
+      200000.0,
+      400000.0,
+      600000.0,
+      800000.0
+    ]
+  },
+  "expected": {
+    "n_stb": [
+      50000000.0
+    ]
+  },
+  "tol_abs": 0.0,
+  "tol_rel": 1e-12,
+  "tolerance_justification": "Exact data; float64 rounding only."
+}

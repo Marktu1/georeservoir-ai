@@ -1,0 +1,44 @@
+{
+  "id": "VAL-MB-003",
+  "module": "material_balance",
+  "source_status": "confirmed",
+  "source": "Synthetic exact data generated from the Havlena\u2013Odeh equations (SPE-559-PA) with known N and m.",
+  "function": "material_balance.fit_gas_cap_unknown_m",
+  "kind": "synthetic_exact",
+  "description": "Case (c): F = N(Eo + m\u00b7Eg) with N = 5e7, m = 0.4 (Efw = 0 as the method assumes); F/Eo vs Eg/Eo must return N and m exactly.",
+  "kwargs": {
+    "f_rb": [
+      1753448.2758620705,
+      4259195.402298847,
+      6914942.528735629,
+      10081839.080459764,
+      13804885.057471259
+    ],
+    "eo": [
+      0.01699999999999999,
+      0.036999999999999984,
+      0.05999999999999997,
+      0.08719999999999997,
+      0.11949999999999994
+    ],
+    "eg": [
+      0.04517241379310354,
+      0.12045977011494238,
+      0.19574712643678152,
+      0.2860919540229883,
+      0.39149425287356304
+    ],
+    "we_rb": null
+  },
+  "expected": {
+    "n_stb": [
+      50000000.0
+    ],
+    "m": [
+      0.4
+    ]
+  },
+  "tol_abs": 0.0,
+  "tol_rel": 1e-10,
+  "tolerance_justification": "Exact data; least squares on a 2-column design with condition number ~1e1\u20131e2 amplifies rounding to \u2264 ~1e-13 relative."
+}

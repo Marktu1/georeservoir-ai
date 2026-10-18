@@ -13,7 +13,14 @@ from typing import Any
 
 import numpy as np
 
-from georeservoir.engineering import bourdet, dca, nodal, petrophysics, well_path
+from georeservoir.engineering import (
+    bourdet,
+    dca,
+    material_balance,
+    nodal,
+    petrophysics,
+    well_path,
+)
 
 CASES_DIR = Path(__file__).parent / "cases"
 
@@ -31,6 +38,10 @@ FUNCTIONS: dict[str, Callable[..., Any]] = {
     "dca.arps_cumulative": dca.arps_cumulative,
     "dca.nominal_to_effective_decline": dca.nominal_to_effective_decline,
     "bourdet.bourdet_derivative": bourdet.bourdet_derivative,
+    "material_balance.expansion_terms": material_balance.expansion_terms,
+    "material_balance.fit_known_m": material_balance.fit_known_m,
+    "material_balance.fit_gas_cap_unknown_m": material_balance.fit_gas_cap_unknown_m,
+    "material_balance.fit_no_cap_no_aquifer": material_balance.fit_no_cap_no_aquifer,
     "nodal.ipr_vogel": nodal.ipr_vogel,
     "nodal.vogel_qmax_from_test": nodal.vogel_qmax_from_test,
     "nodal.ipr_composite": nodal.ipr_composite,

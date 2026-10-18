@@ -1,0 +1,49 @@
+{
+  "id": "VAL-MB-002",
+  "module": "material_balance",
+  "source_status": "confirmed",
+  "source": "Synthetic exact data generated from the Havlena\u2013Odeh equations (SPE-559-PA) with known N and m.",
+  "function": "material_balance.fit_known_m",
+  "kind": "synthetic_exact",
+  "description": "Case (b): F generated with N = 5e7 STB and m = 0.4; the through-origin fit must return N exactly.",
+  "kwargs": {
+    "f_rb": [
+      1769266.5258620705,
+      4354104.902298847,
+      7088943.278735629,
+      10334931.080459766,
+      14137068.307471259
+    ],
+    "eo": [
+      0.01699999999999999,
+      0.036999999999999984,
+      0.05999999999999997,
+      0.08719999999999997,
+      0.11949999999999994
+    ],
+    "eg": [
+      0.04517241379310354,
+      0.12045977011494238,
+      0.19574712643678152,
+      0.2860919540229883,
+      0.39149425287356304
+    ],
+    "efw": [
+      0.000316365,
+      0.00189819,
+      0.003480015,
+      0.00506184,
+      0.006643664999999999
+    ],
+    "m": 0.4,
+    "we_rb": null
+  },
+  "expected": {
+    "n_stb": [
+      50000000.0
+    ]
+  },
+  "tol_abs": 0.0,
+  "tol_rel": 1e-12,
+  "tolerance_justification": "Exact data; only float64 rounding in the normal equation (~1e-15 relative)."
+}
