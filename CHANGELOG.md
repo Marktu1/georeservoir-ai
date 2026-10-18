@@ -2,6 +2,14 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versionamento: SemVer.
 
+## [0.3.0] — 2026-10-18 — Fase 2 (dados)
+
+### Added
+- `georeservoir.io.las.read_las`: LAS 1.2/2.0 com proveniência (SHA-256), cabeçalho verbatim + valor interpretado, NULL declarado, sentinelas suspeitas, vírgula decimal, verificações do índice (NULL, duplicados, monotonia, amostragem irregular, STRT/STOP/STEP), unidades e mnemónicas normalizadas com relatório, avisos do parser capturados. LAS 3.0 recusado (M0).
+- `georeservoir.io.survey.read_survey`: surveys em texto delimitado com erros por linha e `Survey.trajectory()`.
+- Extra opcional `[io]` (`lasio`, MIT) — ADR-0004; hipóteses A-021 a A-023; 16 ficheiros LAS públicos de teste; exemplo `las_to_porosity.py`.
+- Teste do portão: 8 ficheiros públicos comparados com um parser independente.
+
 ## [0.2.1] — 2026-10-18
 
 ### Added

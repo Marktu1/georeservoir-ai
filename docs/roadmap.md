@@ -24,6 +24,16 @@ Estado por nível de maturidade (M0 = planeado, não implementado). Portões con
 
 **Portão da Fase 1 (todos os módulos ≥ M2, metade ≥ M3):** 8 módulos (common, well_path, petrophysics, dca, nodal, bourdet, material_balance, uncertainty), todos ≥ M2; 4 com pelo menos uma função em M3 (well_path, petrophysics, dca, nodal). A evidência M3 do nodal é a mais fraca (notas de aula). Revisão adversarial independente feita e corrigida (ver CHANGELOG 0.2.0). **Portão cumprido em 2026-10-18:** CI verde em Python 3.11 e 3.12 (GitHub Actions, run 39088260743, commit a612560).
 
+## Fase 2 — Dados v0.3.0
+
+| Item | Estado |
+|---|---|
+| LAS 1.2 / 2.0 (`io.las`, sobre `lasio`, ADR-0004) | M2 |
+| Surveys em texto delimitado (`io.survey`) | M2 |
+| LAS 3.0, DLIS, SEG-Y | M0 |
+
+**Portão da Fase 2 (ficheiros públicos de teste lidos sem perda de metadados):** cumprido para LAS 1.2/2.0 — 8 ficheiros públicos comparados com um parser independente (cabeçalho verbatim, ~O, dados, NULL). LAS 3.0 fica fora do portão (M0, declarado).
+
 ## Planeado (M0 — não existe código)
 
 | Item | Prioridade |
@@ -35,5 +45,5 @@ Estado por nível de maturidade (M0 = planeado, não implementado). Portões con
 | Petrofísica: correções de gás/argila/compactação, Raymer–Hunt–Gardner, densidade-neutrão | P1 |
 | Petrofísica: Simandoux, Indonesia, Dual-Water | P1 |
 | Correção de declinação/convergência; transformação geodésica | Fase 2+ |
-| Leitura LAS 2.0/3.0, surveys; DLIS/SEG-Y depois | Fase 2 |
+| LAS 3.0; DLIS; SEG-Y | Fase 2b |
 | API FastAPI, UI web, piloto, IA assistiva | Fases 3–6 |

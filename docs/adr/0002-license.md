@@ -24,3 +24,4 @@ Sugestão de análise (não decisão): o "dossiê de validação público" combi
 | Ruff | dev | MIT |
 | mypy | dev | MIT |
 | hatchling | build | MIT |
+| lasio | opcional (`[io]`) e dev | MIT |

@@ -1,4 +1,4 @@
-# GeoReservoir AI — Núcleo Científico v0.2.1
+# GeoReservoir AI — Núcleo Científico v0.3.0
 
 Biblioteca Python de engenharia de subsuperfície em que cada resultado é um `CalculationRecord`: valores, unidades, método, referência bibliográfica, hash SHA-256 das entradas, versão, nível de maturidade, hipóteses e avisos tipados.
 
@@ -20,6 +20,9 @@ Biblioteca Python de engenharia de subsuperfície em que cada resultado é um `C
 | `engineering.bourdet` | `bourdet_derivative` (drawdown) | M2 |
 | `engineering.material_balance` | `underground_withdrawal`, `expansion_terms`, `fit_no_cap_no_aquifer`, `fit_known_m`, `fit_gas_cap_unknown_m` | M2 |
 | `engineering.uncertainty` | `mc_archie_sw`, `mc_arps_eur`, distribuições (`Fixed`, `Uniform`, `Triangular`, `Normal`, `LogNormal`) — P90/P50/P10 na convenção PRMS | M2 |
+| `io.las` | `read_las` (LAS 1.2/2.0): proveniência SHA-256, cabeçalho verbatim, NULL, sentinelas, índice, unidades/mnemónicas, relatório de validação | M2 |
+| `io.survey` | `read_survey` (CSV/TSV/espaços) → `Survey.trajectory()` | M2 |
+| | LAS 3.0, DLIS, SEG-Y | M0 |
 | | `gamma_ray_index`, `vsh_larionov_tertiary`, `vsh_larionov_older`, `vsh_steiber`, `vsh_clavier`, `density_porosity`, `sonic_porosity_wyllie`, `archie_true_resistivity` | M2 |
 
 Níveis: M0 planeado · M1 protótipo · M2 verificado (propriedades + oráculos exatos: geometria analítica na trajetória; conformidade com as equações publicadas na petrofísica) · M3 validado com literatura · M4 validado em campo. **O que M3 significa neste projeto:** a função reproduz, dentro da tolerância de arredondamento da fonte, um exemplo ou tabela **publicada por terceiros** com as mesmas entradas. Isto prova transcrição correta da equação, unidades e convenções contra um cálculo independente — **não** prova que o modelo físico é adequado a um reservatório (isso é M4, validação em campo). Evidência por função:
@@ -38,7 +41,8 @@ Detalhe e erros observados em `docs/validation/REPORT.md`.
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
-pip install -e ".[dev]"
+pip install -e ".[dev]"      # inclui o extra de leitura de dados
+pip install "georeservoir[io]"  # só núcleo + leitura de LAS (lasio, MIT; ADR-0004)
 ```
 
 ## Uso
@@ -60,7 +64,7 @@ rec["tvd_m"], rec.units["tvd_m"], rec.maturity, rec.inputs_hash
 print(rec.to_json(indent=2))
 ```
 
-Exemplo completo: `python examples/end_to_end.py`.
+Exemplos: `python examples/end_to_end.py` e `python examples/las_to_porosity.py` (ficheiro LAS → porosidade, com linhagem do ficheiro ao resultado).
 
 ## Convenções
 - Unidades na API explícitas (no nome do parâmetro ou em `Literal`); interno SI. Saídas de comprimento da trajetória em metros.
@@ -89,6 +93,7 @@ python scripts/build_validation_report.py    # gera docs/validation/REPORT.md
 - Nodal: Vogel e IPR composta são empíricas (solution-gas drive); TPR só tabelada — correlações multifásicas por implementar (M0).
 - Bourdet: apenas tempo de fluxo (drawdown); sem tempo de superposição, identificação de regimes, k ou skin.
 - Balanço material: óleo apenas; We só como série fornecida; caso (c) despreza Efw.
+- Leitura de dados: só LAS 1.2/2.0 e surveys em texto delimitado; unidades de survey declaradas pelo utilizador.
 - Monte Carlo: entradas independentes (sem correlação); P90/P50/P10 na convenção de excedência PRMS.
 
 ## Licença

@@ -1,0 +1,25 @@
+# Build section due North at 3 deg/100 ft, surveys every 100 ft (Bourgoyne et al. 1991,
+# as tabulated by Amorin & Broni-Bediako 2010). Published at MD 2000 ft (minimum curvature):
+# TVD = 1653.99 ft, North = 954.93 ft.
+MD_FT,INC_DEG,AZI_DEG
+0,0,0
+100,3,0
+200,6,0
+300,9,0
+400,12,0
+500,15,0
+600,18,0
+700,21,0
+800,24,0
+900,27,0
+1000,30,0
+1100,33,0
+1200,36,0
+1300,39,0
+1400,42,0
+1500,45,0
+1600,48,0
+1700,51,0
+1800,54,0
+1900,57,0
+2000,60,0
