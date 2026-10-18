@@ -13,7 +13,7 @@ from typing import Any
 
 import numpy as np
 
-from georeservoir.engineering import dca, petrophysics, well_path
+from georeservoir.engineering import dca, nodal, petrophysics, well_path
 
 CASES_DIR = Path(__file__).parent / "cases"
 
@@ -30,6 +30,18 @@ FUNCTIONS: dict[str, Callable[..., Any]] = {
     "dca.arps_rate": dca.arps_rate,
     "dca.arps_cumulative": dca.arps_cumulative,
     "dca.nominal_to_effective_decline": dca.nominal_to_effective_decline,
+    "nodal.ipr_vogel": nodal.ipr_vogel,
+    "nodal.vogel_qmax_from_test": nodal.vogel_qmax_from_test,
+    "nodal.ipr_composite": nodal.ipr_composite,
+    "nodal.composite_j_from_test": nodal.composite_j_from_test,
+    "nodal.nodal_solve_linear": lambda p_res, j, tpr_q, tpr_pwf: nodal.nodal_solve(
+        nodal.LinearIPR(p_res, j),
+        nodal.TabulatedTPR(tpr_q, tpr_pwf),
+        pressure_unit="psi",
+        n_grid=100,
+        xtol=1e-10,
+        maxiter=200,
+    ),
 }
 
 
@@ -86,7 +98,7 @@ def _compare(
     worst_ratio = 0.0
     passed = True
     for key, expected in expected_map.items():
-        got = np.asarray(record[key], dtype=np.float64)
+        got = np.atleast_1d(np.asarray(record[key], dtype=np.float64))
         if index is not None:
             got = got[[index]]
         exp = np.asarray(expected, dtype=np.float64)

@@ -1,0 +1,25 @@
+{
+  "id": "VAL-ND-L03",
+  "module": "nodal",
+  "kind": "literature",
+  "source": "Production Engineering II lecture notes, 'IPR', Petroleum Engineering Department, University of Mosul (2017; uomosul.edu.iq, Lecture 4), citing Vogel (1968) and Beggs (1991) \u2014 published teaching material, not a peer-reviewed source",
+  "source_status": "confirmed",
+  "source_check": "Tables read from the lecture PDF on 2026-10-18.",
+  "function": "nodal.composite_j_from_test",
+  "description": "Problem 1-5: retest below pb (630.7 STB/d at 1700 psig, pb = 2130, p\u0304r = 3000) gives J = 0.5 STB/d/psi.",
+  "kwargs": {
+    "p_res": 3000.0,
+    "p_bubble": 2130.0,
+    "q_test": 630.7,
+    "pwf_test": 1700.0,
+    "pressure_unit": "psi"
+  },
+  "expected": {
+    "j": [
+      0.5
+    ]
+  },
+  "tol_abs": 0.05,
+  "tol_rel": 0.0,
+  "tolerance_justification": "Published to 0.1 STB/d/psi: reference known to \u00b10.05."
+}

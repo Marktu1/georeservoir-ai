@@ -14,6 +14,9 @@ Biblioteca Python de engenharia de subsuperfície em que cada resultado é um `C
 | `engineering.petrophysics` | `archie_water_saturation` | **M3** |
 | `engineering.dca` | `arps_rate`, `nominal_to_effective_decline` | **M3** |
 | | `arps_cumulative`, `arps_eur`, `arps_fit`, `effective_to_nominal_decline`, `convert_nominal_decline` | M2 |
+| `engineering.nodal` | `ipr_vogel`, `ipr_composite` | **M3** |
+| | `ipr_linear`, `vogel_qmax_from_test`, `composite_j_from_test`, `TabulatedTPR`, `nodal_solve` | M2 |
+| | `hagedorn_brown_tpr`, `beggs_brill_tpr` | M0 (erro descritivo) |
 | | `gamma_ray_index`, `vsh_larionov_tertiary`, `vsh_larionov_older`, `vsh_steiber`, `vsh_clavier`, `density_porosity`, `sonic_porosity_wyllie`, `archie_true_resistivity` | M2 |
 
 Níveis: M0 planeado · M1 protótipo · M2 verificado (propriedades + oráculos exatos: geometria analítica na trajetória; conformidade com as equações publicadas na petrofísica) · M3 validado com literatura · M4 validado em campo. M3 significa que a função reproduz um caso publicado dentro da tolerância de arredondamento da fonte: `minimum_curvature` (Bourgoyne et al. 1991, via Amorin & Broni-Bediako 2010) e `archie_water_saturation` (Kansas Geological Survey, PfEFFER). M3 não é validação em campo (M4). Detalhe em `docs/validation/REPORT.md`. Módulos futuros: `docs/roadmap.md`.

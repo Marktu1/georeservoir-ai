@@ -1,0 +1,39 @@
+{
+  "id": "VAL-ND-001",
+  "module": "nodal",
+  "function": "nodal.nodal_solve_linear",
+  "kind": "analytical",
+  "description": "Linear IPR (p\u0304r = 3000, J = 0.5) and straight-line TPR pwf = 1200 + 0.8q: unique stable intersection q* = (p\u0304r \u2212 a)/(1/J + c).",
+  "source": "Exact algebra.",
+  "source_status": "confirmed",
+  "kwargs": {
+    "p_res": 3000.0,
+    "j": 0.5,
+    "tpr_q": [
+      0.0,
+      500.0,
+      1000.0,
+      1500.0
+    ],
+    "tpr_pwf": [
+      1200.0,
+      1600.0,
+      2000.0,
+      2400.0
+    ]
+  },
+  "expected": {
+    "q_op": [
+      642.8571428571429
+    ],
+    "pwf_op": [
+      1714.2857142857142
+    ],
+    "stable": [
+      1.0
+    ]
+  },
+  "tol_abs": 1e-07,
+  "tol_rel": 1e-12,
+  "tolerance_justification": "Brent xtol = 1e-10 on O(1e3) rates; PCHIP reproduces collinear data exactly up to rounding."
+}

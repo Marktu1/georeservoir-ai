@@ -1,0 +1,44 @@
+{
+  "id": "VAL-ND-L02",
+  "module": "nodal",
+  "kind": "literature",
+  "source": "Production Engineering II lecture notes, 'IPR', Petroleum Engineering Department, University of Mosul (2017; uomosul.edu.iq, Lecture 4), citing Vogel (1968) and Beggs (1991) \u2014 published teaching material, not a peer-reviewed source",
+  "source_status": "confirmed",
+  "source_check": "Tables read from the lecture PDF on 2026-10-18.",
+  "function": "nodal.ipr_composite",
+  "description": "Problem 1-4: undersaturated, pb = 2130, p\u0304r = 3000 psig, J = 0.5 STB/d/psi. Published composite IPR table and qb = 435 STB/d.",
+  "kwargs": {
+    "pwf": [
+      3000.0,
+      2800.0,
+      2600.0,
+      2130.0,
+      1500.0,
+      1000.0,
+      500.0,
+      0.0
+    ],
+    "p_res": 3000.0,
+    "p_bubble": 2130.0,
+    "j": 0.5,
+    "pressure_unit": "psi"
+  },
+  "expected": {
+    "q": [
+      0.0,
+      100.0,
+      200.0,
+      435.0,
+      709.0,
+      867.0,
+      973.0,
+      1027.0
+    ],
+    "q_b": [
+      435.0
+    ]
+  },
+  "tol_abs": 0.5,
+  "tol_rel": 0.0,
+  "tolerance_justification": "Published to 1 STB/d: reference known to \u00b10.5."
+}

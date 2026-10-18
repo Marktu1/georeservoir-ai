@@ -642,6 +642,132 @@ def dca_cases() -> None:
         )
 
 
+MOSUL_SRC = (
+    "Production Engineering II lecture notes, 'IPR', Petroleum Engineering Department, "
+    "University of Mosul (2017; uomosul.edu.iq, Lecture 4), citing Vogel (1968) and Beggs "
+    "(1991) — published teaching material, not a peer-reviewed source"
+)
+
+
+def nodal_cases() -> None:
+    # analytical: linear IPR x linear TPR -> closed-form intersection
+    pr, j, a, c = 3000.0, 0.5, 1200.0, 0.8  # TPR: pwf = a + c q
+    q_star = (pr - a) / (1 / j + c)
+    write(
+        {
+            "id": "VAL-ND-001",
+            "module": "nodal",
+            "function": "nodal.nodal_solve_linear",
+            "kind": "analytical",
+            "description": "Linear IPR (p̄r = 3000, J = 0.5) and straight-line TPR pwf = 1200 + "
+            "0.8q: unique stable intersection q* = (p̄r − a)/(1/J + c).",
+            "source": "Exact algebra.",
+            "source_status": "confirmed",
+            "kwargs": {
+                "p_res": pr,
+                "j": j,
+                "tpr_q": [0.0, 500.0, 1000.0, 1500.0],
+                "tpr_pwf": [a + c * q for q in (0.0, 500.0, 1000.0, 1500.0)],
+            },
+            "expected": {"q_op": [q_star], "pwf_op": [a + c * q_star], "stable": [1.0]},
+            "tol_abs": 1e-7,
+            "tol_rel": 1e-12,
+            "tolerance_justification": "Brent xtol = 1e-10 on O(1e3) rates; PCHIP reproduces "
+            "collinear data exactly up to rounding.",
+        }
+    )
+    common = {
+        "module": "nodal",
+        "kind": "literature",
+        "source": MOSUL_SRC,
+        "source_status": "confirmed",
+        "source_check": "Tables read from the lecture PDF on 2026-10-18.",
+    }
+    write(
+        {
+            "id": "VAL-ND-L01",
+            **common,
+            "function": "nodal.ipr_vogel",
+            "description": "Problem 1-3: saturated well, p̄r = 2500 psig, test 350 STB/d at 2000 "
+            "psig. Published Vogel IPR table (q at pwf = 2200, 1500, 1000, 500, 0); the table "
+            "uses qmax = 1067.1 (its value at pwf = 0). The text's '(Qo)max = 1076.1' is a "
+            "transposition typo and is not used.",
+            "kwargs": {
+                "pwf": [2500.0, 2200.0, 1500.0, 1000.0, 500.0, 0.0],
+                "p_res": 2500.0,
+                "q_max": 1067.1,
+                "pressure_unit": "psi",
+            },
+            "expected": {"q": [0.0, 218.2, 631.7, 845.1, 990.3, 1067.1]},
+            "tol_abs": 0.05,
+            "tol_rel": 0.0,
+            "tolerance_justification": "Published to 0.1 STB/d: reference known to ±0.05.",
+        }
+    )
+    write(
+        {
+            "id": "VAL-ND-L01b",
+            **common,
+            "function": "nodal.vogel_qmax_from_test",
+            "description": "Problem 1-3: Vogel qmax from the test (350 STB/d at 2000 psig, "
+            "p̄r = 2500) must round to the table's 1067.1.",
+            "kwargs": {
+                "p_res": 2500.0,
+                "q_test": 350.0,
+                "pwf_test": 2000.0,
+                "pressure_unit": "psi",
+            },
+            "expected": {"q_max": [1067.1]},
+            "tol_abs": 0.05,
+            "tol_rel": 0.0,
+            "tolerance_justification": "Published to 0.1 STB/d: reference known to ±0.05.",
+        }
+    )
+    write(
+        {
+            "id": "VAL-ND-L02",
+            **common,
+            "function": "nodal.ipr_composite",
+            "description": "Problem 1-4: undersaturated, pb = 2130, p̄r = 3000 psig, J = 0.5 "
+            "STB/d/psi. Published composite IPR table and qb = 435 STB/d.",
+            "kwargs": {
+                "pwf": [3000.0, 2800.0, 2600.0, 2130.0, 1500.0, 1000.0, 500.0, 0.0],
+                "p_res": 3000.0,
+                "p_bubble": 2130.0,
+                "j": 0.5,
+                "pressure_unit": "psi",
+            },
+            "expected": {
+                "q": [0.0, 100.0, 200.0, 435.0, 709.0, 867.0, 973.0, 1027.0],
+                "q_b": [435.0],
+            },
+            "tol_abs": 0.5,
+            "tol_rel": 0.0,
+            "tolerance_justification": "Published to 1 STB/d: reference known to ±0.5.",
+        }
+    )
+    write(
+        {
+            "id": "VAL-ND-L03",
+            **common,
+            "function": "nodal.composite_j_from_test",
+            "description": "Problem 1-5: retest below pb (630.7 STB/d at 1700 psig, pb = 2130, "
+            "p̄r = 3000) gives J = 0.5 STB/d/psi.",
+            "kwargs": {
+                "p_res": 3000.0,
+                "p_bubble": 2130.0,
+                "q_test": 630.7,
+                "pwf_test": 1700.0,
+                "pressure_unit": "psi",
+            },
+            "expected": {"j": [0.5]},
+            "tol_abs": 0.05,
+            "tol_rel": 0.0,
+            "tolerance_justification": "Published to 0.1 STB/d/psi: reference known to ±0.05.",
+        }
+    )
+
+
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     well_path_cases()
@@ -649,4 +775,5 @@ if __name__ == "__main__":
     petrophysics_cases()
     petrophysics_literature()
     dca_cases()
+    nodal_cases()
     print(f"wrote {len(list(OUT.glob('*.json')))} cases to {OUT}")
