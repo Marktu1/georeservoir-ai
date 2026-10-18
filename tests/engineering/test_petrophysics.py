@@ -165,7 +165,9 @@ def test_archie_round_trip(phi: float, sw: float, m: float, n: float) -> None:
 def test_archie_monotone_decreasing_in_rt(phi: float, rts: list[float]) -> None:
     rt = np.sort(np.array(rts))
     sw = pp.archie_water_saturation([phi], rt, clip=False, **ARCHIE)["sw_raw"]
-    assert np.all(np.diff(sw) < 0)
+    # non-strict: Rt values closer than float64 resolution give equal Sw
+    assert np.all(np.diff(sw) <= 0)
+    assert sw[0] > sw[-1] or rt[-1] / rt[0] < 1 + 1e-9
 
 
 # --- numerical safety (adversarial review) -------------------------------------

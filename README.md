@@ -1,4 +1,4 @@
-# GeoReservoir AI — Núcleo Científico v0.1.1
+# GeoReservoir AI — Núcleo Científico v0.2.0
 
 Biblioteca Python de engenharia de subsuperfície em que cada resultado é um `CalculationRecord`: valores, unidades, método, referência bibliográfica, hash SHA-256 das entradas, versão, nível de maturidade, hipóteses e avisos tipados.
 
@@ -19,6 +19,7 @@ Biblioteca Python de engenharia de subsuperfície em que cada resultado é um `C
 | | `hagedorn_brown_tpr`, `beggs_brill_tpr` | M0 (erro descritivo) |
 | `engineering.bourdet` | `bourdet_derivative` (drawdown) | M2 |
 | `engineering.material_balance` | `underground_withdrawal`, `expansion_terms`, `fit_no_cap_no_aquifer`, `fit_known_m`, `fit_gas_cap_unknown_m` | M2 |
+| `engineering.uncertainty` | `mc_archie_sw`, `mc_arps_eur`, distribuições (`Fixed`, `Uniform`, `Triangular`, `Normal`, `LogNormal`) — P90/P50/P10 na convenção PRMS | M2 |
 | | `gamma_ray_index`, `vsh_larionov_tertiary`, `vsh_larionov_older`, `vsh_steiber`, `vsh_clavier`, `density_porosity`, `sonic_porosity_wyllie`, `archie_true_resistivity` | M2 |
 
 Níveis: M0 planeado · M1 protótipo · M2 verificado (propriedades + oráculos exatos: geometria analítica na trajetória; conformidade com as equações publicadas na petrofísica) · M3 validado com literatura · M4 validado em campo. M3 significa que a função reproduz um caso publicado dentro da tolerância de arredondamento da fonte: `minimum_curvature` (Bourgoyne et al. 1991, via Amorin & Broni-Bediako 2010) e `archie_water_saturation` (Kansas Geological Survey, PfEFFER). M3 não é validação em campo (M4). Detalhe em `docs/validation/REPORT.md`. Módulos futuros: `docs/roadmap.md`.

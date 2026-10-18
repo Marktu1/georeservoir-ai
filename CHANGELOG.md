@@ -2,6 +2,19 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versionamento: SemVer.
 
+## [0.2.0] — 2026-10-18 — Fase 1 (núcleo completo)
+
+### Added
+- `engineering.dca`: Arps (taxa, cumulativo, hiperbólico modificado, EUR, conversões nominal/efetivo, ajuste por mínimos quadrados com erros-padrão). `arps_rate` e `nominal_to_effective_decline` em M3 (SPEE REP #6, Tabela 1).
+- `engineering.nodal`: IPR linear, Vogel e composta; TPR tabelada (PCHIP); solver de todas as interseções com estabilidade. `ipr_vogel` e `ipr_composite` em M3 (tabelas publicadas). Hagedorn–Brown e Beggs & Brill em M0.
+- `engineering.bourdet`: derivada de Bourdet (drawdown) com janela em ln t, extremidades unilaterais e propagação de σp (M2).
+- `engineering.material_balance`: Havlena–Odeh (F, Eo, Eg, Efw; casos a, b, c; We fornecido; IdentifiabilityError) (M2).
+- `engineering.uncertainty`: Monte Carlo com seed obrigatória para Sw de Archie e EUR de Arps; P90/P50/P10 na convenção PRMS (M2).
+- Casos de validação por linha (`per_row`) no runner; hipóteses A-010 a A-020.
+
+### Changed
+- A equação de Archie passou para uma função interna partilhada (`_archie_sw`), usada pelo cálculo determinístico e pelo Monte Carlo.
+
 ## [0.1.1] — 2026-10-18
 
 ### Added

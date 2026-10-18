@@ -398,6 +398,21 @@ def _check_porosity(porosity: ArrayLike) -> NDArray[np.float64]:
     return phi
 
 
+def _archie_sw(
+    phi: NDArray[np.float64] | float,
+    rt: NDArray[np.float64] | float,
+    rw: NDArray[np.float64] | float,
+    a: NDArray[np.float64] | float,
+    m: NDArray[np.float64] | float,
+    n: NDArray[np.float64] | float,
+) -> NDArray[np.float64]:
+    """Archie Sw, broadcasting over all arguments (single source of the equation)."""
+    out: NDArray[np.float64] = np.power(
+        np.multiply(a, rw) / (np.power(phi, m) * rt), np.divide(1.0, n)
+    )
+    return out
+
+
 def archie_water_saturation(
     porosity: ArrayLike,
     rt_ohm_m: ArrayLike,
@@ -447,7 +462,7 @@ def archie_water_saturation(
     _check_positive_array("rt_ohm_m", rt)
     phi, rt = _broadcast_pair("porosity", phi, "rt_ohm_m", rt)
     a_, m_, n_, rw = _archie_params(a, m, n, rw_ohm_m)
-    raw = np.power(a_ * rw / (np.power(phi, m_) * rt), 1.0 / n_)
+    raw = _archie_sw(phi, rt, rw, a_, m_, n_)
     out, n_clipped, warnings = _out_of_unit_range("Sw", raw, clip)
     return make_record(
         method="petrophysics.archie_water_saturation",

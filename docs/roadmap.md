@@ -12,14 +12,26 @@ Estado por nível de maturidade (M0 = planeado, não implementado). Portões con
 
 **Portão da Fase 0: cumprido em 2026-10-18.** Cada módulo P0 tem uma função central em M3 com caso publicado reproduzido; relatório de validação gerado no repositório; CI verde em Python 3.11 e 3.12 (GitHub Actions, run 39086151294). Reforços recomendados na Fase 1: casos publicados para Vsh e porosidades, e o caso ISCWSA 3D.
 
+## Fase 1 — Núcleo completo v0.2.0
+
+| Módulo | Estado |
+|---|---|
+| DCA (Arps) | taxa e conversões **M3** (SPEE REP #6); restantes M2 |
+| Nodal | Vogel e IPR composta **M3** (notas de aula publicadas); restantes M2; correlações multifásicas M0 |
+| Bourdet | M2 (drawdown); superposição M0 |
+| Balanço material | M2 |
+| Monte Carlo P10/P50/P90 | M2 (Archie Sw e Arps EUR) |
+
+Portão da Fase 1 (todos os módulos ≥ M2, metade ≥ M3): ver a secção de estado no fim desta entrega.
+
 ## Planeado (M0 — não existe código)
 
 | Item | Prioridade |
 |---|---|
-| Decline Curve Analysis (Arps) com declínio terminal | P1 |
-| Nodal: IPR linear, Vogel, IPR composta, TPR tabelada, solver de interseções | P1 |
-| Derivada de Bourdet (drawdown) | P1 |
-| Balanço material Havlena–Odeh | P2 |
+| Correlações TPR multifásicas (Hagedorn–Brown, Beggs & Brill) | P1 |
+| Derivada de Bourdet em tempo de superposição (buildup) | P1 |
+| Aquíferos Fetkovich e Carter–Tracy | P2 |
+| Monte Carlo com correlação entre entradas | P2 |
 | Petrofísica: correções de gás/argila/compactação, Raymer–Hunt–Gardner, densidade-neutrão | P1 |
 | Petrofísica: Simandoux, Indonesia, Dual-Water | P1 |
 | Correção de declinação/convergência; transformação geodésica | Fase 2+ |
