@@ -125,7 +125,8 @@ def ratio_factor(beta_rad: ArrayLike) -> NDArray[np.float64]:
     if bad.size:
         i = int(bad[0])
         raise InputValidationError(
-            f"beta_rad[{i}]: received {beta[i]!r}; expected a value in [0, {BETA_MAX_RAD!r})"
+            f"beta_rad[{i}]: received {float(beta[i])!r}; "
+            f"expected a value in [0, {BETA_MAX_RAD!r})"
         )
     small = beta < RF_TAYLOR_THRESHOLD_RAD
     rf = np.empty_like(beta)
@@ -223,7 +224,7 @@ def minimum_curvature(
     if bad.size:
         k = int(bad[0])
         raise PhysicalConsistencyError(
-            f"dogleg between stations {k} and {k + 1}: received β = {beta[k]!r} rad; "
+            f"dogleg between stations {k} and {k + 1}: received β = {float(beta[k])!r} rad; "
             f"expected β < {BETA_MAX_RAD!r} rad (a ~180° reversal has no unique arc)"
         )
     rf = ratio_factor(beta)

@@ -2,6 +2,18 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versionamento: SemVer.
 
+## [0.4.0] — 2026-10-18 — Fase 3 (API)
+
+### Added
+- `georeservoir.api`: FastAPI v1 com 28 rotas de cálculo (todas as funções públicas do núcleo), upload de LAS e de surveys, `health` e `methods`; resposta = `CalculationRecord` do núcleo sem alterações.
+- Chaves portadoras guardadas só como SHA-256, autorização por projeto e escopo, limites de corpo (também em streaming), upload, arrays e amostras MC, timeout por cálculo, concorrência limitada, rate limit por chave, erros tipados sem eco de entradas, logs JSON sem dados sensíveis, cabeçalhos de segurança.
+- CLI `python -m georeservoir.api {serve,new-key,openapi}`; snapshot OpenAPI em `docs/api/openapi-v1.json`; ADR-0005; hipóteses A-025 a A-027; extra `[api]`.
+- Testes de contrato (31 casos, cada resposta igual à chamada direta) e de segurança.
+
+### Fixed
+- Núcleo: parâmetros numéricos das distribuições de Monte Carlo e dos modelos de IPR normalizados para float — `Fixed(1)` e `Fixed(1.0)` davam `inputs_hash` diferentes (encontrado pelos testes de contrato).
+- Mensagens de erro mostram números simples (`1.5`) em vez de `np.float64(1.5)`.
+
 ## [0.3.0] — 2026-10-18 — Fase 2 (dados)
 
 ### Added

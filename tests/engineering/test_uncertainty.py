@@ -160,3 +160,11 @@ def test_distribution_validation_and_truncation() -> None:
     with pytest.raises(InputValidationError, match="probability mass"):
         u.Normal(0.0, 1e-3, low=10.0, high=10.0 + 1e-9).sample(rng, 10)
     assert "Normal" in u.Normal(0.0, 1.0, low=None, high=None).describe()
+
+
+def test_int_and_float_inputs_hash_identically() -> None:
+    a = u.mc_archie_sw(**{**ARCHIE, "a": u.Fixed(1), "m": u.Uniform(2, 3)})
+    b = u.mc_archie_sw(**{**ARCHIE, "a": u.Fixed(1.0), "m": u.Uniform(2.0, 3.0)})
+    assert a.inputs_hash == b.inputs_hash and a.to_json() == b.to_json()
+    with pytest.raises(InputValidationError, match="real number"):
+        u.Fixed(True)  # type: ignore[arg-type]

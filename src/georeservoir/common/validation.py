@@ -22,6 +22,7 @@ __all__ = [
     "check_positive_scalar",
     "check_same_length",
     "check_strictly_increasing",
+    "coerce_float_fields",
     "require_bool",
     "require_finite_scalar",
 ]
@@ -58,7 +59,7 @@ def as_1d_array(name: str, value: ArrayLike, *, min_size: int = 1) -> NDArray[np
     if bad.size:
         i = int(bad[0])
         raise InputValidationError(
-            f"{name}[{i}]: received {arr[i]!r}; expected a finite value "
+            f"{name}[{i}]: received {float(arr[i])!r}; expected a finite value "
             f"({bad.size} non-finite element(s) in total)"
         )
     return arr
@@ -94,7 +95,7 @@ def check_in_closed_range(name: str, arr: NDArray[np.float64], low: float, high:
     if bad.size:
         i = int(bad[0])
         raise InputValidationError(
-            f"{name}[{i}]: received {arr[i]!r}; expected a value in [{low}, {high}] "
+            f"{name}[{i}]: received {float(arr[i])!r}; expected a value in [{low}, {high}] "
             f"({bad.size} element(s) out of range)"
         )
 
@@ -106,7 +107,7 @@ def check_strictly_increasing(name: str, arr: NDArray[np.float64]) -> None:
     if bad.size:
         i = int(bad[0]) + 1
         raise InputValidationError(
-            f"{name}[{i}]: received {arr[i]!r} after {arr[i - 1]!r}; "
+            f"{name}[{i}]: received {float(arr[i])!r} after {arr[i - 1]!r}; "
             "expected strictly increasing values"
         )
 
@@ -123,3 +124,16 @@ def require_bool(name: str, value: bool) -> bool:
     if not isinstance(value, (bool, np.bool_)):
         raise InputValidationError(f"{name}: received {value!r}; expected True or False")
     return bool(value)
+
+
+def coerce_float_fields(obj: object, *names: str) -> None:
+    """Store numeric dataclass fields as ``float`` (so ``1`` and ``1.0`` describe and hash
+    identically). Booleans are refused; non-numeric values are left for validation."""
+    for name in names:
+        v = getattr(obj, name)
+        if v is None:
+            continue
+        if isinstance(v, (bool, np.bool_)):
+            raise InputValidationError(f"{name}: received {v!r}; expected a real number")
+        if isinstance(v, (int, float, np.integer, np.floating)):
+            object.__setattr__(obj, name, float(v))

@@ -38,6 +38,7 @@ from georeservoir.common.validation import (
     check_positive_scalar,
     check_same_length,
     check_strictly_increasing,
+    coerce_float_fields,
 )
 
 __all__ = [
@@ -89,7 +90,7 @@ def _check_pwf(pwf: NDArray[np.float64], p_res: float) -> None:
     if bad.size:
         i = int(bad[0])
         raise InputValidationError(
-            f"pwf[{i}]: received {pwf[i]!r}; expected a value in [0, p_res = {p_res!r}]"
+            f"pwf[{i}]: received {float(pwf[i])!r}; expected a value in [0, p_res = {p_res!r}]"
         )
 
 
@@ -98,7 +99,7 @@ def _check_q(q: NDArray[np.float64], q_max: float) -> None:
     if bad.size:
         i = int(bad[0])
         raise InputValidationError(
-            f"q[{i}]: received {q[i]!r}; expected a value in [0, q_max = {q_max!r}]"
+            f"q[{i}]: received {float(q[i])!r}; expected a value in [0, q_max = {q_max!r}]"
         )
 
 
@@ -125,6 +126,7 @@ class LinearIPR:
     j: float
 
     def __post_init__(self) -> None:
+        coerce_float_fields(self, "p_res", "j")
         check_positive_scalar("p_res", self.p_res)
         check_positive_scalar("j", self.j)
 
@@ -156,6 +158,7 @@ class VogelIPR:
     aof: float  # absolute open flow, rate at pwf = 0
 
     def __post_init__(self) -> None:
+        coerce_float_fields(self, "p_res", "aof")
         check_positive_scalar("p_res", self.p_res)
         check_positive_scalar("aof", self.aof)
 
@@ -187,6 +190,7 @@ class CompositeIPR:
     j: float
 
     def __post_init__(self) -> None:
+        coerce_float_fields(self, "p_res", "p_bubble", "j")
         check_positive_scalar("p_res", self.p_res)
         check_positive_scalar("p_bubble", self.p_bubble)
         check_positive_scalar("j", self.j)
@@ -499,7 +503,7 @@ class TabulatedTPR:
         bad = np.flatnonzero(pp <= 0.0)
         if bad.size:
             i = int(bad[0])
-            raise InputValidationError(f"pwf[{i}]: received {pp[i]!r}; expected pwf > 0")
+            raise InputValidationError(f"pwf[{i}]: received {float(pp[i])!r}; expected pwf > 0")
         qq.setflags(write=False)
         pp.setflags(write=False)
         object.__setattr__(self, "q", qq)
@@ -519,7 +523,7 @@ class TabulatedTPR:
         if bad.size:
             i = int(bad[0])
             raise InputValidationError(
-                f"q[{i}]: received {q[i]!r}; the TPR table covers [{self.q_min!r}, "
+                f"q[{i}]: received {float(q[i])!r}; the TPR table covers [{self.q_min!r}, "
                 f"{self.q_max!r}] and is not extrapolated"
             )
 
@@ -643,7 +647,7 @@ def nodal_solve(
                 r = brentq(f, grid[k], grid[k + 1], xtol=xt, maxiter=maxiter)
             except RuntimeError as exc:
                 raise NumericalError(
-                    f"brentq did not converge in [{grid[k]!r}, {grid[k + 1]!r}] within "
+                    f"brentq did not converge in [{float(grid[k])!r}, {grid[k + 1]!r}] within "
                     f"{maxiter} iterations: {exc}"
                 ) from exc
             roots.append(float(r))

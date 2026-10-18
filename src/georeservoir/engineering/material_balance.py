@@ -59,14 +59,14 @@ def _nonneg(name: str, a: NDArray[np.float64]) -> None:
     bad = np.flatnonzero(a < 0.0)
     if bad.size:
         i = int(bad[0])
-        raise InputValidationError(f"{name}[{i}]: received {a[i]!r}; expected a value >= 0")
+        raise InputValidationError(f"{name}[{i}]: received {float(a[i])!r}; expected a value >= 0")
 
 
 def _pos(name: str, a: NDArray[np.float64]) -> None:
     bad = np.flatnonzero(a <= 0.0)
     if bad.size:
         i = int(bad[0])
-        raise InputValidationError(f"{name}[{i}]: received {a[i]!r}; expected a value > 0")
+        raise InputValidationError(f"{name}[{i}]: received {float(a[i])!r}; expected a value > 0")
 
 
 def underground_withdrawal(
@@ -203,7 +203,7 @@ def expansion_terms(
     if above.size:
         i = int(above[0])
         raise PhysicalConsistencyError(
-            f"p_psia[{i}]: received {p[i]!r} above pi_psia = {pi!r}; depletion data must "
+            f"p_psia[{i}]: received {float(p[i])!r} above pi_psia = {pi!r}; depletion data must "
             "satisfy p <= pi"
         )
     dp = pi - p

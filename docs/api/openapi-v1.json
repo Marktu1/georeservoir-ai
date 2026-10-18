@@ -1,0 +1,5177 @@
+{
+  "components": {
+    "schemas": {
+      "ArchieRtReq": {
+        "additionalProperties": false,
+        "properties": {
+          "a": {
+            "title": "A",
+            "type": "number"
+          },
+          "m": {
+            "title": "M",
+            "type": "number"
+          },
+          "n": {
+            "title": "N",
+            "type": "number"
+          },
+          "porosity": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Porosity",
+            "type": "array"
+          },
+          "rw_ohm_m": {
+            "title": "Rw Ohm M",
+            "type": "number"
+          },
+          "sw": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Sw",
+            "type": "array"
+          }
+        },
+        "required": [
+          "rw_ohm_m",
+          "a",
+          "m",
+          "n",
+          "porosity",
+          "sw"
+        ],
+        "title": "ArchieRtReq",
+        "type": "object"
+      },
+      "ArchieSwReq": {
+        "additionalProperties": false,
+        "properties": {
+          "a": {
+            "title": "A",
+            "type": "number"
+          },
+          "clip": {
+            "title": "Clip",
+            "type": "boolean"
+          },
+          "m": {
+            "title": "M",
+            "type": "number"
+          },
+          "n": {
+            "title": "N",
+            "type": "number"
+          },
+          "porosity": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Porosity",
+            "type": "array"
+          },
+          "rt_ohm_m": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Rt Ohm M",
+            "type": "array"
+          },
+          "rw_ohm_m": {
+            "title": "Rw Ohm M",
+            "type": "number"
+          }
+        },
+        "required": [
+          "rw_ohm_m",
+          "a",
+          "m",
+          "n",
+          "porosity",
+          "rt_ohm_m",
+          "clip"
+        ],
+        "title": "ArchieSwReq",
+        "type": "object"
+      },
+      "ArpsEurReq": {
+        "additionalProperties": false,
+        "properties": {
+          "b": {
+            "title": "B",
+            "type": "number"
+          },
+          "d_terminal": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "D Terminal"
+          },
+          "di": {
+            "title": "Di",
+            "type": "number"
+          },
+          "q_limit": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Q Limit"
+          },
+          "qi": {
+            "title": "Qi",
+            "type": "number"
+          },
+          "t_horizon": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "T Horizon"
+          },
+          "time_unit": {
+            "enum": [
+              "day",
+              "month",
+              "year"
+            ],
+            "title": "Time Unit",
+            "type": "string"
+          }
+        },
+        "required": [
+          "qi",
+          "di",
+          "b",
+          "time_unit",
+          "d_terminal",
+          "q_limit",
+          "t_horizon"
+        ],
+        "title": "ArpsEurReq",
+        "type": "object"
+      },
+      "ArpsFitReq": {
+        "additionalProperties": false,
+        "properties": {
+          "include": {
+            "items": {
+              "type": "boolean"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Include",
+            "type": "array"
+          },
+          "q": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Q",
+            "type": "array"
+          },
+          "t": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "T",
+            "type": "array"
+          },
+          "time_unit": {
+            "enum": [
+              "day",
+              "month",
+              "year"
+            ],
+            "title": "Time Unit",
+            "type": "string"
+          }
+        },
+        "required": [
+          "t",
+          "q",
+          "include",
+          "time_unit"
+        ],
+        "title": "ArpsFitReq",
+        "type": "object"
+      },
+      "ArpsReq": {
+        "additionalProperties": false,
+        "properties": {
+          "b": {
+            "title": "B",
+            "type": "number"
+          },
+          "d_terminal": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "D Terminal"
+          },
+          "di": {
+            "title": "Di",
+            "type": "number"
+          },
+          "qi": {
+            "title": "Qi",
+            "type": "number"
+          },
+          "t": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "T",
+            "type": "array"
+          },
+          "time_unit": {
+            "enum": [
+              "day",
+              "month",
+              "year"
+            ],
+            "title": "Time Unit",
+            "type": "string"
+          }
+        },
+        "required": [
+          "t",
+          "qi",
+          "di",
+          "b",
+          "time_unit",
+          "d_terminal"
+        ],
+        "title": "ArpsReq",
+        "type": "object"
+      },
+      "Body_upload_las_api_v1_projects__project_id__data_las_post": {
+        "properties": {
+          "file": {
+            "contentMediaType": "application/octet-stream",
+            "title": "File",
+            "type": "string"
+          },
+          "include_data": {
+            "default": true,
+            "title": "Include Data",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "title": "Body_upload_las_api_v1_projects__project_id__data_las_post",
+        "type": "object"
+      },
+      "Body_upload_survey_api_v1_projects__project_id__data_survey_post": {
+        "properties": {
+          "azimuth_column": {
+            "maxLength": 64,
+            "title": "Azimuth Column",
+            "type": "string"
+          },
+          "azimuth_reference": {
+            "enum": [
+              "true",
+              "magnetic",
+              "grid"
+            ],
+            "title": "Azimuth Reference",
+            "type": "string"
+          },
+          "delimiter": {
+            "enum": [
+              ",",
+              ";",
+              "tab",
+              "whitespace"
+            ],
+            "title": "Delimiter",
+            "type": "string"
+          },
+          "file": {
+            "contentMediaType": "application/octet-stream",
+            "title": "File",
+            "type": "string"
+          },
+          "inclination_column": {
+            "maxLength": 64,
+            "title": "Inclination Column",
+            "type": "string"
+          },
+          "length_unit": {
+            "enum": [
+              "m",
+              "ft"
+            ],
+            "title": "Length Unit",
+            "type": "string"
+          },
+          "md_column": {
+            "maxLength": 64,
+            "title": "Md Column",
+            "type": "string"
+          },
+          "start_east": {
+            "title": "Start East",
+            "type": "number"
+          },
+          "start_north": {
+            "title": "Start North",
+            "type": "number"
+          },
+          "start_tvd": {
+            "title": "Start Tvd",
+            "type": "number"
+          }
+        },
+        "required": [
+          "file",
+          "md_column",
+          "inclination_column",
+          "azimuth_column",
+          "length_unit",
+          "azimuth_reference",
+          "delimiter",
+          "start_east",
+          "start_north",
+          "start_tvd"
+        ],
+        "title": "Body_upload_survey_api_v1_projects__project_id__data_survey_post",
+        "type": "object"
+      },
+      "BourdetReq": {
+        "additionalProperties": false,
+        "properties": {
+          "dp": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Dp",
+            "type": "array"
+          },
+          "dt": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Dt",
+            "type": "array"
+          },
+          "pressure_unit": {
+            "enum": [
+              "Pa",
+              "kPa",
+              "MPa",
+              "psi",
+              "bar"
+            ],
+            "title": "Pressure Unit",
+            "type": "string"
+          },
+          "sigma_p": {
+            "title": "Sigma P",
+            "type": "number"
+          },
+          "window_ln": {
+            "title": "Window Ln",
+            "type": "number"
+          }
+        },
+        "required": [
+          "dt",
+          "dp",
+          "window_ln",
+          "sigma_p",
+          "pressure_unit"
+        ],
+        "title": "BourdetReq",
+        "type": "object"
+      },
+      "CalcResponse": {
+        "properties": {
+          "api_version": {
+            "const": "v1",
+            "title": "Api Version",
+            "type": "string"
+          },
+          "project_id": {
+            "title": "Project Id",
+            "type": "string"
+          },
+          "record": {
+            "$ref": "#/components/schemas/CalculationRecordModel"
+          }
+        },
+        "required": [
+          "api_version",
+          "project_id",
+          "record"
+        ],
+        "title": "CalcResponse",
+        "type": "object"
+      },
+      "CalculationRecordModel": {
+        "description": "Serialised ``georeservoir.common.record.CalculationRecord`` (contract v1).",
+        "properties": {
+          "assumptions": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Assumptions",
+            "type": "array"
+          },
+          "inputs": {
+            "additionalProperties": true,
+            "title": "Inputs",
+            "type": "object"
+          },
+          "inputs_hash": {
+            "title": "Inputs Hash",
+            "type": "string"
+          },
+          "library_version": {
+            "title": "Library Version",
+            "type": "string"
+          },
+          "maturity": {
+            "enum": [
+              "M0",
+              "M1",
+              "M2",
+              "M3"
+            ],
+            "title": "Maturity",
+            "type": "string"
+          },
+          "method": {
+            "title": "Method",
+            "type": "string"
+          },
+          "method_reference": {
+            "title": "Method Reference",
+            "type": "string"
+          },
+          "units": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Units",
+            "type": "object"
+          },
+          "values": {
+            "additionalProperties": true,
+            "title": "Values",
+            "type": "object"
+          },
+          "warnings": {
+            "items": {
+              "$ref": "#/components/schemas/WarningModel"
+            },
+            "title": "Warnings",
+            "type": "array"
+          }
+        },
+        "required": [
+          "values",
+          "units",
+          "method",
+          "method_reference",
+          "inputs",
+          "inputs_hash",
+          "library_version",
+          "maturity",
+          "assumptions",
+          "warnings"
+        ],
+        "title": "CalculationRecordModel",
+        "type": "object"
+      },
+      "CompositeJReq": {
+        "additionalProperties": false,
+        "properties": {
+          "p_bubble": {
+            "title": "P Bubble",
+            "type": "number"
+          },
+          "p_res": {
+            "title": "P Res",
+            "type": "number"
+          },
+          "pressure_unit": {
+            "enum": [
+              "Pa",
+              "kPa",
+              "MPa",
+              "psi",
+              "bar"
+            ],
+            "title": "Pressure Unit",
+            "type": "string"
+          },
+          "pwf_test": {
+            "title": "Pwf Test",
+            "type": "number"
+          },
+          "q_test": {
+            "title": "Q Test",
+            "type": "number"
+          }
+        },
+        "required": [
+          "p_res",
+          "q_test",
+          "pwf_test",
+          "pressure_unit",
+          "p_bubble"
+        ],
+        "title": "CompositeJReq",
+        "type": "object"
+      },
+      "DFixed": {
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "const": "fixed",
+            "title": "Kind",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "number"
+          }
+        },
+        "required": [
+          "kind",
+          "value"
+        ],
+        "title": "DFixed",
+        "type": "object"
+      },
+      "DLogNormal": {
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "const": "lognormal",
+            "title": "Kind",
+            "type": "string"
+          },
+          "median": {
+            "title": "Median",
+            "type": "number"
+          },
+          "sigma_ln": {
+            "title": "Sigma Ln",
+            "type": "number"
+          }
+        },
+        "required": [
+          "kind",
+          "median",
+          "sigma_ln"
+        ],
+        "title": "DLogNormal",
+        "type": "object"
+      },
+      "DNormal": {
+        "additionalProperties": false,
+        "properties": {
+          "high": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "High"
+          },
+          "kind": {
+            "const": "normal",
+            "title": "Kind",
+            "type": "string"
+          },
+          "low": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Low"
+          },
+          "mean": {
+            "title": "Mean",
+            "type": "number"
+          },
+          "sd": {
+            "title": "Sd",
+            "type": "number"
+          }
+        },
+        "required": [
+          "kind",
+          "mean",
+          "sd",
+          "low",
+          "high"
+        ],
+        "title": "DNormal",
+        "type": "object"
+      },
+      "DTriangular": {
+        "additionalProperties": false,
+        "properties": {
+          "high": {
+            "title": "High",
+            "type": "number"
+          },
+          "kind": {
+            "const": "triangular",
+            "title": "Kind",
+            "type": "string"
+          },
+          "low": {
+            "title": "Low",
+            "type": "number"
+          },
+          "mode": {
+            "title": "Mode",
+            "type": "number"
+          }
+        },
+        "required": [
+          "kind",
+          "low",
+          "mode",
+          "high"
+        ],
+        "title": "DTriangular",
+        "type": "object"
+      },
+      "DUniform": {
+        "additionalProperties": false,
+        "properties": {
+          "high": {
+            "title": "High",
+            "type": "number"
+          },
+          "kind": {
+            "const": "uniform",
+            "title": "Kind",
+            "type": "string"
+          },
+          "low": {
+            "title": "Low",
+            "type": "number"
+          }
+        },
+        "required": [
+          "kind",
+          "low",
+          "high"
+        ],
+        "title": "DUniform",
+        "type": "object"
+      },
+      "DataResponse": {
+        "description": "LAS or survey file read result (provenance + validation report + data).",
+        "properties": {
+          "api_version": {
+            "const": "v1",
+            "title": "Api Version",
+            "type": "string"
+          },
+          "content": {
+            "additionalProperties": true,
+            "title": "Content",
+            "type": "object"
+          },
+          "project_id": {
+            "title": "Project Id",
+            "type": "string"
+          },
+          "provenance": {
+            "additionalProperties": true,
+            "title": "Provenance",
+            "type": "object"
+          },
+          "report": {
+            "additionalProperties": true,
+            "title": "Report",
+            "type": "object"
+          }
+        },
+        "required": [
+          "api_version",
+          "project_id",
+          "provenance",
+          "report",
+          "content"
+        ],
+        "title": "DataResponse",
+        "type": "object"
+      },
+      "DeclineConversionReq": {
+        "additionalProperties": false,
+        "properties": {
+          "b": {
+            "title": "B",
+            "type": "number"
+          },
+          "values": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Values",
+            "type": "array"
+          }
+        },
+        "required": [
+          "values",
+          "b"
+        ],
+        "title": "DeclineConversionReq",
+        "type": "object"
+      },
+      "DensityPorosityReq": {
+        "additionalProperties": false,
+        "properties": {
+          "clip": {
+            "title": "Clip",
+            "type": "boolean"
+          },
+          "rho_bulk_g_cc": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Rho Bulk G Cc",
+            "type": "array"
+          },
+          "rho_fluid_g_cc": {
+            "title": "Rho Fluid G Cc",
+            "type": "number"
+          },
+          "rho_matrix_g_cc": {
+            "title": "Rho Matrix G Cc",
+            "type": "number"
+          }
+        },
+        "required": [
+          "rho_bulk_g_cc",
+          "rho_matrix_g_cc",
+          "rho_fluid_g_cc",
+          "clip"
+        ],
+        "title": "DensityPorosityReq",
+        "type": "object"
+      },
+      "ErrorBody": {
+        "properties": {
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "message",
+          "request_id"
+        ],
+        "title": "ErrorBody",
+        "type": "object"
+      },
+      "ErrorResponse": {
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ErrorBody"
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "title": "ErrorResponse",
+        "type": "object"
+      },
+      "ExpansionTermsReq": {
+        "additionalProperties": false,
+        "properties": {
+          "bg_rb_scf": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Bg Rb Scf",
+            "type": "array"
+          },
+          "bgi_rb_scf": {
+            "title": "Bgi Rb Scf",
+            "type": "number"
+          },
+          "bo_rb_stb": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Bo Rb Stb",
+            "type": "array"
+          },
+          "boi_rb_stb": {
+            "title": "Boi Rb Stb",
+            "type": "number"
+          },
+          "cf_per_psi": {
+            "title": "Cf Per Psi",
+            "type": "number"
+          },
+          "cw_per_psi": {
+            "title": "Cw Per Psi",
+            "type": "number"
+          },
+          "m": {
+            "title": "M",
+            "type": "number"
+          },
+          "p_psia": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "P Psia",
+            "type": "array"
+          },
+          "pi_psia": {
+            "title": "Pi Psia",
+            "type": "number"
+          },
+          "rs_scf_stb": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Rs Scf Stb",
+            "type": "array"
+          },
+          "rsi_scf_stb": {
+            "title": "Rsi Scf Stb",
+            "type": "number"
+          },
+          "swi": {
+            "title": "Swi",
+            "type": "number"
+          }
+        },
+        "required": [
+          "p_psia",
+          "bo_rb_stb",
+          "bg_rb_scf",
+          "rs_scf_stb",
+          "pi_psia",
+          "boi_rb_stb",
+          "bgi_rb_scf",
+          "rsi_scf_stb",
+          "cw_per_psi",
+          "cf_per_psi",
+          "swi",
+          "m"
+        ],
+        "title": "ExpansionTermsReq",
+        "type": "object"
+      },
+      "FitGasCapReq": {
+        "additionalProperties": false,
+        "properties": {
+          "eg": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Eg",
+            "type": "array"
+          },
+          "eo": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Eo",
+            "type": "array"
+          },
+          "f_rb": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "F Rb",
+            "type": "array"
+          },
+          "we_rb": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "maxItems": 1000000,
+                "minItems": 1,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "We Rb"
+          }
+        },
+        "required": [
+          "f_rb",
+          "eo",
+          "eg",
+          "we_rb"
+        ],
+        "title": "FitGasCapReq",
+        "type": "object"
+      },
+      "FitKnownMReq": {
+        "additionalProperties": false,
+        "properties": {
+          "efw": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Efw",
+            "type": "array"
+          },
+          "eg": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Eg",
+            "type": "array"
+          },
+          "eo": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Eo",
+            "type": "array"
+          },
+          "f_rb": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "F Rb",
+            "type": "array"
+          },
+          "m": {
+            "title": "M",
+            "type": "number"
+          },
+          "we_rb": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "maxItems": 1000000,
+                "minItems": 1,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "We Rb"
+          }
+        },
+        "required": [
+          "f_rb",
+          "eo",
+          "eg",
+          "efw",
+          "m",
+          "we_rb"
+        ],
+        "title": "FitKnownMReq",
+        "type": "object"
+      },
+      "FitNoCapReq": {
+        "additionalProperties": false,
+        "properties": {
+          "efw": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Efw",
+            "type": "array"
+          },
+          "eo": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Eo",
+            "type": "array"
+          },
+          "f_rb": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "F Rb",
+            "type": "array"
+          },
+          "we_rb": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "maxItems": 1000000,
+                "minItems": 1,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "We Rb"
+          }
+        },
+        "required": [
+          "f_rb",
+          "eo",
+          "efw",
+          "we_rb"
+        ],
+        "title": "FitNoCapReq",
+        "type": "object"
+      },
+      "GammaRayIndexReq": {
+        "additionalProperties": false,
+        "properties": {
+          "clip": {
+            "title": "Clip",
+            "type": "boolean"
+          },
+          "gr_api": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Gr Api",
+            "type": "array"
+          },
+          "gr_max_api": {
+            "title": "Gr Max Api",
+            "type": "number"
+          },
+          "gr_min_api": {
+            "title": "Gr Min Api",
+            "type": "number"
+          }
+        },
+        "required": [
+          "gr_api",
+          "gr_min_api",
+          "gr_max_api",
+          "clip"
+        ],
+        "title": "GammaRayIndexReq",
+        "type": "object"
+      },
+      "HealthResponse": {
+        "properties": {
+          "api_version": {
+            "const": "v1",
+            "title": "Api Version",
+            "type": "string"
+          },
+          "library_version": {
+            "title": "Library Version",
+            "type": "string"
+          },
+          "status": {
+            "const": "ok",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "api_version",
+          "library_version"
+        ],
+        "title": "HealthResponse",
+        "type": "object"
+      },
+      "IprReq": {
+        "additionalProperties": false,
+        "properties": {
+          "j": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "J"
+          },
+          "model": {
+            "enum": [
+              "linear",
+              "vogel",
+              "composite"
+            ],
+            "title": "Model",
+            "type": "string"
+          },
+          "p_bubble": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "P Bubble"
+          },
+          "p_res": {
+            "title": "P Res",
+            "type": "number"
+          },
+          "pressure_unit": {
+            "enum": [
+              "Pa",
+              "kPa",
+              "MPa",
+              "psi",
+              "bar"
+            ],
+            "title": "Pressure Unit",
+            "type": "string"
+          },
+          "pwf": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Pwf",
+            "type": "array"
+          },
+          "q_max": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Q Max"
+          }
+        },
+        "required": [
+          "model",
+          "pwf",
+          "p_res",
+          "pressure_unit"
+        ],
+        "title": "IprReq",
+        "type": "object"
+      },
+      "McArchieReq": {
+        "additionalProperties": false,
+        "properties": {
+          "a": {
+            "discriminator": {
+              "mapping": {
+                "fixed": "#/components/schemas/DFixed",
+                "lognormal": "#/components/schemas/DLogNormal",
+                "normal": "#/components/schemas/DNormal",
+                "triangular": "#/components/schemas/DTriangular",
+                "uniform": "#/components/schemas/DUniform"
+              },
+              "propertyName": "kind"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DFixed"
+              },
+              {
+                "$ref": "#/components/schemas/DUniform"
+              },
+              {
+                "$ref": "#/components/schemas/DTriangular"
+              },
+              {
+                "$ref": "#/components/schemas/DNormal"
+              },
+              {
+                "$ref": "#/components/schemas/DLogNormal"
+              }
+            ],
+            "title": "A"
+          },
+          "clip": {
+            "title": "Clip",
+            "type": "boolean"
+          },
+          "m": {
+            "discriminator": {
+              "mapping": {
+                "fixed": "#/components/schemas/DFixed",
+                "lognormal": "#/components/schemas/DLogNormal",
+                "normal": "#/components/schemas/DNormal",
+                "triangular": "#/components/schemas/DTriangular",
+                "uniform": "#/components/schemas/DUniform"
+              },
+              "propertyName": "kind"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DFixed"
+              },
+              {
+                "$ref": "#/components/schemas/DUniform"
+              },
+              {
+                "$ref": "#/components/schemas/DTriangular"
+              },
+              {
+                "$ref": "#/components/schemas/DNormal"
+              },
+              {
+                "$ref": "#/components/schemas/DLogNormal"
+              }
+            ],
+            "title": "M"
+          },
+          "n": {
+            "discriminator": {
+              "mapping": {
+                "fixed": "#/components/schemas/DFixed",
+                "lognormal": "#/components/schemas/DLogNormal",
+                "normal": "#/components/schemas/DNormal",
+                "triangular": "#/components/schemas/DTriangular",
+                "uniform": "#/components/schemas/DUniform"
+              },
+              "propertyName": "kind"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DFixed"
+              },
+              {
+                "$ref": "#/components/schemas/DUniform"
+              },
+              {
+                "$ref": "#/components/schemas/DTriangular"
+              },
+              {
+                "$ref": "#/components/schemas/DNormal"
+              },
+              {
+                "$ref": "#/components/schemas/DLogNormal"
+              }
+            ],
+            "title": "N"
+          },
+          "n_samples": {
+            "title": "N Samples",
+            "type": "integer"
+          },
+          "porosity": {
+            "discriminator": {
+              "mapping": {
+                "fixed": "#/components/schemas/DFixed",
+                "lognormal": "#/components/schemas/DLogNormal",
+                "normal": "#/components/schemas/DNormal",
+                "triangular": "#/components/schemas/DTriangular",
+                "uniform": "#/components/schemas/DUniform"
+              },
+              "propertyName": "kind"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DFixed"
+              },
+              {
+                "$ref": "#/components/schemas/DUniform"
+              },
+              {
+                "$ref": "#/components/schemas/DTriangular"
+              },
+              {
+                "$ref": "#/components/schemas/DNormal"
+              },
+              {
+                "$ref": "#/components/schemas/DLogNormal"
+              }
+            ],
+            "title": "Porosity"
+          },
+          "rt_ohm_m": {
+            "discriminator": {
+              "mapping": {
+                "fixed": "#/components/schemas/DFixed",
+                "lognormal": "#/components/schemas/DLogNormal",
+                "normal": "#/components/schemas/DNormal",
+                "triangular": "#/components/schemas/DTriangular",
+                "uniform": "#/components/schemas/DUniform"
+              },
+              "propertyName": "kind"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DFixed"
+              },
+              {
+                "$ref": "#/components/schemas/DUniform"
+              },
+              {
+                "$ref": "#/components/schemas/DTriangular"
+              },
+              {
+                "$ref": "#/components/schemas/DNormal"
+              },
+              {
+                "$ref": "#/components/schemas/DLogNormal"
+              }
+            ],
+            "title": "Rt Ohm M"
+          },
+          "rw_ohm_m": {
+            "discriminator": {
+              "mapping": {
+                "fixed": "#/components/schemas/DFixed",
+                "lognormal": "#/components/schemas/DLogNormal",
+                "normal": "#/components/schemas/DNormal",
+                "triangular": "#/components/schemas/DTriangular",
+                "uniform": "#/components/schemas/DUniform"
+              },
+              "propertyName": "kind"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DFixed"
+              },
+              {
+                "$ref": "#/components/schemas/DUniform"
+              },
+              {
+                "$ref": "#/components/schemas/DTriangular"
+              },
+              {
+                "$ref": "#/components/schemas/DNormal"
+              },
+              {
+                "$ref": "#/components/schemas/DLogNormal"
+              }
+            ],
+            "title": "Rw Ohm M"
+          },
+          "seed": {
+            "maximum": 9.223372036854776e+18,
+            "minimum": 0.0,
+            "title": "Seed",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "porosity",
+          "rt_ohm_m",
+          "rw_ohm_m",
+          "a",
+          "m",
+          "n",
+          "clip",
+          "n_samples",
+          "seed"
+        ],
+        "title": "McArchieReq",
+        "type": "object"
+      },
+      "McEurReq": {
+        "additionalProperties": false,
+        "properties": {
+          "b": {
+            "discriminator": {
+              "mapping": {
+                "fixed": "#/components/schemas/DFixed",
+                "lognormal": "#/components/schemas/DLogNormal",
+                "normal": "#/components/schemas/DNormal",
+                "triangular": "#/components/schemas/DTriangular",
+                "uniform": "#/components/schemas/DUniform"
+              },
+              "propertyName": "kind"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DFixed"
+              },
+              {
+                "$ref": "#/components/schemas/DUniform"
+              },
+              {
+                "$ref": "#/components/schemas/DTriangular"
+              },
+              {
+                "$ref": "#/components/schemas/DNormal"
+              },
+              {
+                "$ref": "#/components/schemas/DLogNormal"
+              }
+            ],
+            "title": "B"
+          },
+          "d_terminal": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "D Terminal"
+          },
+          "di": {
+            "discriminator": {
+              "mapping": {
+                "fixed": "#/components/schemas/DFixed",
+                "lognormal": "#/components/schemas/DLogNormal",
+                "normal": "#/components/schemas/DNormal",
+                "triangular": "#/components/schemas/DTriangular",
+                "uniform": "#/components/schemas/DUniform"
+              },
+              "propertyName": "kind"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DFixed"
+              },
+              {
+                "$ref": "#/components/schemas/DUniform"
+              },
+              {
+                "$ref": "#/components/schemas/DTriangular"
+              },
+              {
+                "$ref": "#/components/schemas/DNormal"
+              },
+              {
+                "$ref": "#/components/schemas/DLogNormal"
+              }
+            ],
+            "title": "Di"
+          },
+          "n_samples": {
+            "title": "N Samples",
+            "type": "integer"
+          },
+          "q_limit": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Q Limit"
+          },
+          "qi": {
+            "discriminator": {
+              "mapping": {
+                "fixed": "#/components/schemas/DFixed",
+                "lognormal": "#/components/schemas/DLogNormal",
+                "normal": "#/components/schemas/DNormal",
+                "triangular": "#/components/schemas/DTriangular",
+                "uniform": "#/components/schemas/DUniform"
+              },
+              "propertyName": "kind"
+            },
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DFixed"
+              },
+              {
+                "$ref": "#/components/schemas/DUniform"
+              },
+              {
+                "$ref": "#/components/schemas/DTriangular"
+              },
+              {
+                "$ref": "#/components/schemas/DNormal"
+              },
+              {
+                "$ref": "#/components/schemas/DLogNormal"
+              }
+            ],
+            "title": "Qi"
+          },
+          "seed": {
+            "maximum": 9.223372036854776e+18,
+            "minimum": 0.0,
+            "title": "Seed",
+            "type": "integer"
+          },
+          "t_horizon": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "T Horizon"
+          },
+          "time_unit": {
+            "enum": [
+              "day",
+              "month",
+              "year"
+            ],
+            "title": "Time Unit",
+            "type": "string"
+          }
+        },
+        "required": [
+          "qi",
+          "di",
+          "b",
+          "time_unit",
+          "d_terminal",
+          "q_limit",
+          "t_horizon",
+          "n_samples",
+          "seed"
+        ],
+        "title": "McEurReq",
+        "type": "object"
+      },
+      "MethodInfo": {
+        "properties": {
+          "endpoint": {
+            "title": "Endpoint",
+            "type": "string"
+          },
+          "maturity": {
+            "title": "Maturity",
+            "type": "string"
+          },
+          "method": {
+            "title": "Method",
+            "type": "string"
+          },
+          "reference": {
+            "title": "Reference",
+            "type": "string"
+          }
+        },
+        "required": [
+          "endpoint",
+          "method",
+          "maturity",
+          "reference"
+        ],
+        "title": "MethodInfo",
+        "type": "object"
+      },
+      "MinimumCurvatureReq": {
+        "additionalProperties": false,
+        "properties": {
+          "azimuth_deg": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Azimuth Deg",
+            "type": "array"
+          },
+          "azimuth_reference": {
+            "enum": [
+              "true",
+              "magnetic",
+              "grid"
+            ],
+            "title": "Azimuth Reference",
+            "type": "string"
+          },
+          "inclination_deg": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Inclination Deg",
+            "type": "array"
+          },
+          "length_unit": {
+            "enum": [
+              "m",
+              "ft"
+            ],
+            "title": "Length Unit",
+            "type": "string"
+          },
+          "md": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Md",
+            "type": "array"
+          },
+          "start_east": {
+            "title": "Start East",
+            "type": "number"
+          },
+          "start_north": {
+            "title": "Start North",
+            "type": "number"
+          },
+          "start_tvd": {
+            "title": "Start Tvd",
+            "type": "number"
+          }
+        },
+        "required": [
+          "md",
+          "inclination_deg",
+          "azimuth_deg",
+          "length_unit",
+          "azimuth_reference",
+          "start_east",
+          "start_north",
+          "start_tvd"
+        ],
+        "title": "MinimumCurvatureReq",
+        "type": "object"
+      },
+      "NodalSolveReq": {
+        "additionalProperties": false,
+        "properties": {
+          "ipr": {
+            "$ref": "#/components/schemas/IprReq"
+          },
+          "maxiter": {
+            "maximum": 10000.0,
+            "minimum": 1.0,
+            "title": "Maxiter",
+            "type": "integer"
+          },
+          "n_grid": {
+            "maximum": 100000.0,
+            "minimum": 10.0,
+            "title": "N Grid",
+            "type": "integer"
+          },
+          "tpr_pwf": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Tpr Pwf",
+            "type": "array"
+          },
+          "tpr_q": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Tpr Q",
+            "type": "array"
+          },
+          "xtol": {
+            "title": "Xtol",
+            "type": "number"
+          }
+        },
+        "required": [
+          "ipr",
+          "tpr_q",
+          "tpr_pwf",
+          "n_grid",
+          "xtol",
+          "maxiter"
+        ],
+        "title": "NodalSolveReq",
+        "type": "object"
+      },
+      "SonicPorosityReq": {
+        "additionalProperties": false,
+        "properties": {
+          "clip": {
+            "title": "Clip",
+            "type": "boolean"
+          },
+          "dt_fluid_us_per_ft": {
+            "title": "Dt Fluid Us Per Ft",
+            "type": "number"
+          },
+          "dt_matrix_us_per_ft": {
+            "title": "Dt Matrix Us Per Ft",
+            "type": "number"
+          },
+          "dt_us_per_ft": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Dt Us Per Ft",
+            "type": "array"
+          }
+        },
+        "required": [
+          "dt_us_per_ft",
+          "dt_matrix_us_per_ft",
+          "dt_fluid_us_per_ft",
+          "clip"
+        ],
+        "title": "SonicPorosityReq",
+        "type": "object"
+      },
+      "UndergroundWithdrawalReq": {
+        "additionalProperties": false,
+        "properties": {
+          "bg_rb_scf": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Bg Rb Scf",
+            "type": "array"
+          },
+          "bo_rb_stb": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Bo Rb Stb",
+            "type": "array"
+          },
+          "bw_rb_stb": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Bw Rb Stb",
+            "type": "array"
+          },
+          "np_stb": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Np Stb",
+            "type": "array"
+          },
+          "rp_scf_stb": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Rp Scf Stb",
+            "type": "array"
+          },
+          "rs_scf_stb": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Rs Scf Stb",
+            "type": "array"
+          },
+          "wp_stb": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Wp Stb",
+            "type": "array"
+          }
+        },
+        "required": [
+          "np_stb",
+          "rp_scf_stb",
+          "wp_stb",
+          "bo_rb_stb",
+          "bg_rb_scf",
+          "rs_scf_stb",
+          "bw_rb_stb"
+        ],
+        "title": "UndergroundWithdrawalReq",
+        "type": "object"
+      },
+      "VogelQmaxReq": {
+        "additionalProperties": false,
+        "properties": {
+          "p_res": {
+            "title": "P Res",
+            "type": "number"
+          },
+          "pressure_unit": {
+            "enum": [
+              "Pa",
+              "kPa",
+              "MPa",
+              "psi",
+              "bar"
+            ],
+            "title": "Pressure Unit",
+            "type": "string"
+          },
+          "pwf_test": {
+            "title": "Pwf Test",
+            "type": "number"
+          },
+          "q_test": {
+            "title": "Q Test",
+            "type": "number"
+          }
+        },
+        "required": [
+          "p_res",
+          "q_test",
+          "pwf_test",
+          "pressure_unit"
+        ],
+        "title": "VogelQmaxReq",
+        "type": "object"
+      },
+      "VshReq": {
+        "additionalProperties": false,
+        "properties": {
+          "igr": {
+            "items": {
+              "type": "number"
+            },
+            "maxItems": 1000000,
+            "minItems": 1,
+            "title": "Igr",
+            "type": "array"
+          },
+          "method": {
+            "enum": [
+              "larionov_tertiary",
+              "larionov_older",
+              "steiber",
+              "clavier"
+            ],
+            "title": "Method",
+            "type": "string"
+          }
+        },
+        "required": [
+          "igr",
+          "method"
+        ],
+        "title": "VshReq",
+        "type": "object"
+      },
+      "WarningModel": {
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "indices": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Indices",
+            "type": "array"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "indices"
+        ],
+        "title": "WarningModel",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "summary": "Auditable subsurface engineering calculations. Every result is a CalculationRecord with inputs hash, method, reference and maturity.",
+    "title": "GeoReservoir AI API",
+    "version": "0.4.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "description": "Liveness check (no authentication; returns no data).",
+        "operationId": "health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health",
+        "tags": [
+          "meta"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/bourdet/derivative": {
+      "post": {
+        "description": "Bourdet derivative d\u0394p/d(ln \u0394t) in flowing (drawdown) time.\n\nParameters\n----------\ndt : array_like\n    Elapsed time since the rate change, any time unit (> 0, strictly increasing;\n    duplicates are refused). The derivative is independent of the time unit.\ndp : array_like\n    Pressure change \u0394p, ``pressure_unit``; same length as ``dt`` (>= 3 points).\nwindow_ln : float\n    Smoothing distance L in natural-log units of time (> 0). L = 0 is not allowed;\n    the smallest L that still selects neighbours is any value below the minimum\n    log-spacing.\nsigma_p : float\n    Standard deviation of the independent pressure error per point, ``pressure_unit``\n    (>= 0), propagated linearly to the derivative.\npressure_unit : {\"Pa\", \"kPa\", \"MPa\", \"psi\", \"bar\"}\n\nReturns\n-------\nCalculationRecord\n    ``derivative`` (``pressure_unit``), ``sigma_derivative`` (``pressure_unit``) and\n    ``side`` (0 = central, \u22121 = backward only, +1 = forward only).\n\nRaises\n------\nInputValidationError\n    Non-finite values, < 3 points, non-positive or non-increasing time, L <= 0,\n    sigma_p < 0, unknown unit.\nNumericalError\n    Some point has no neighbour at distance >= L on either side (record shorter than L).\n\nNotes\n-----\nMaturity: M2. Exact for \u0394p linear in ln t; for \u0394p \u221d t with uniform log spacing equal\nto L it returns \u0394p\u00b7sinh(L)/L (smoothing bias L\u00b2/6, tested). Assumptions: A-008, A-016.",
+        "operationId": "calc_bourdet_derivative_api_v1_projects__project_id__calc_bourdet_derivative_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BourdetReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Bourdet derivative d\u0394p/d(ln \u0394t) in flowing (drawdown) time.",
+        "tags": [
+          "well test"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/dca/cumulative": {
+      "post": {
+        "description": "Arps cumulative production Np(t) in closed form (optionally modified hyperbolic).\n\nParameters are as in :func:`arps_rate`.\n\nReturns\n-------\nCalculationRecord\n    ``np`` = \u222b\u2080\u1d57 q dt, in (rate unit of ``qi``) \u00d7 ``time_unit``.\n\nNotes\n-----\nMaturity: M2 \u2014 verified against numerical quadrature of q(t). Assumptions: A-008,\nA-010, A-011.",
+        "operationId": "calc_dca_cumulative_api_v1_projects__project_id__calc_dca_cumulative_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArpsReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Arps cumulative production Np(t) in closed form (optionally modified hyperbolic).",
+        "tags": [
+          "dca"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/dca/effective-to-nominal": {
+      "post": {
+        "description": "Inverse of :func:`nominal_to_effective_decline`.\n\nb = 0: ``D = \u2212ln(1 \u2212 De)``; b > 0: ``D = ((1 \u2212 De)^(\u2212b) \u2212 1)/b``.\n\nParameters\n----------\nd_effective : array_like\n    Effective decline per period, fraction in (0, 1).\nb : float\n    Hyperbolic exponent in [0, 2].\n\nNotes\n-----\nMaturity: M2 (round-trip with the M3 forward conversion). Assumptions: A-008, A-011.",
+        "operationId": "calc_dca_effective_to_nominal_api_v1_projects__project_id__calc_dca_effective_to_nominal_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeclineConversionReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Inverse of :func:`nominal_to_effective_decline`.",
+        "tags": [
+          "dca"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/dca/eur": {
+      "post": {
+        "description": "Estimated ultimate recovery to an economic rate limit and/or a time horizon.\n\nAt least one of ``q_limit`` and ``t_horizon`` must be given; if both, the earlier\ncut-off applies.\n\nParameters\n----------\nqi, di, b, time_unit, d_terminal\n    As in :func:`arps_rate`. For b >= 1 a ``d_terminal`` is **required** (A-012).\nq_limit : float or None\n    Economic limit rate (> 0, < qi), same unit as ``qi``.\nt_horizon : float or None\n    Time horizon in ``time_unit`` (> 0).\n\nReturns\n-------\nCalculationRecord\n    ``eur`` (rate unit \u00d7 time unit), ``t_end`` (``time_unit``) and ``q_end``.\n\nRaises\n------\nInputValidationError\n    Neither cut-off given, invalid values, or b >= 1 without ``d_terminal``.\n\nNotes\n-----\nMaturity: M2. Assumptions: A-010, A-011, A-012.",
+        "operationId": "calc_dca_eur_api_v1_projects__project_id__calc_dca_eur_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArpsEurReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Estimated ultimate recovery to an economic rate limit and/or a time horizon.",
+        "tags": [
+          "dca"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/dca/fit": {
+      "post": {
+        "description": "Fit qi, Di, b of a pure Arps hyperbola by bounded nonlinear least squares.\n\nResiduals are ``ln q_model \u2212 ln q_obs`` on the included points (A-013), solved with\n``scipy.optimize.least_squares`` (trust-region reflective) with bounds qi > 0,\nDi > 0, 0 <= b <= 2.\n\nParameters\n----------\nt : array_like\n    Time in ``time_unit`` (>= 0, strictly increasing).\nq : array_like\n    Observed rate (any unit), same length as ``t``.\ninclude : array_like of bool\n    Explicit mask of points used in the fit (shut-ins and outliers must be excluded\n    here). Included points must have q > 0.\ntime_unit : {\"day\", \"month\", \"year\"}\n\nReturns\n-------\nCalculationRecord\n    ``qi``, ``di``, ``b`` and their standard errors ``*_se`` (from the Jacobian,\n    s\u00b2\u00b7(J\u1d40J)\u207b\u00b9), ``rmse`` and ``r2`` (in rate space, included points), ``converged``\n    (1/0), ``nfev``, ``n_points`` and ``q_fitted`` (evaluated at all t, including\n    excluded points, for diagnostics).\n\nRaises\n------\nInputValidationError\n    Bad shapes, non-bool mask, included q <= 0, t not strictly increasing.\nIdentifiabilityError\n    Fewer than 4 included points, or ill-conditioned Jacobian (cond > 1e12).\n\nNotes\n-----\nMaturity: M2 \u2014 recovers parameters of exact and noisy synthetic curves (seeded).\nAssumptions: A-008, A-010, A-011, A-013.",
+        "operationId": "calc_dca_fit_api_v1_projects__project_id__calc_dca_fit_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArpsFitReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Fit qi, Di, b of a pure Arps hyperbola by bounded nonlinear least squares.",
+        "tags": [
+          "dca"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/dca/nominal-to-effective": {
+      "post": {
+        "description": "Effective decline over one period from the nominal decline per that period.\n\nb = 0 gives the (tangent) effective decline ``1 \u2212 exp(\u2212D)``; b > 0 gives the\n**secant** effective decline ``1 \u2212 (1 + b\u00b7D)^(\u22121/b)`` (SPEE REP #6), i.e.\n``1 \u2212 q(1 period)/qi`` for an Arps hyperbola.\n\nParameters\n----------\nd_nominal : array_like\n    Nominal decline per period (> 0, fraction, e.g. 0.30 for 30 %/period).\nb : float\n    Hyperbolic exponent in [0, 2].\n\nReturns\n-------\nCalculationRecord\n    ``d_effective`` (fraction per period).\n\nNotes\n-----\nMaturity: M3 \u2014 reproduces SPEE REP #6 Table 1 (VAL-DCA-L01). Assumptions: A-008, A-011.",
+        "operationId": "calc_dca_nominal_to_effective_api_v1_projects__project_id__calc_dca_nominal_to_effective_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeclineConversionReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Effective decline over one period from the nominal decline per that period.",
+        "tags": [
+          "dca"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/dca/rate": {
+      "post": {
+        "description": "Arps production rate q(t), optionally modified hyperbolic.\n\nParameters\n----------\nt : array_like\n    Time since start of decline, in ``time_unit`` (>= 0).\nqi : float\n    Initial rate (> 0), any rate unit; ``q`` is returned in the same unit.\ndi : float\n    Initial nominal decline per ``time_unit`` (> 0).\nb : float\n    Hyperbolic exponent in [0, 2]; 0 = exponential, 1 = harmonic.\ntime_unit : {\"day\", \"month\", \"year\"}\n    Unit of ``t``, ``di`` and ``d_terminal``.\nd_terminal : float or None\n    Terminal nominal decline per ``time_unit`` (> 0). When given, the decline switches\n    to exponential once D(t) = d_terminal (modified hyperbolic). ``None`` = pure Arps.\n\nReturns\n-------\nCalculationRecord\n    ``q`` (rate unit of ``qi``) and ``switch_time`` (``time_unit``; 0 if no switch).\n\nRaises\n------\nInputValidationError\n    Non-finite inputs, t < 0, non-positive qi/di/d_terminal, b outside [0, 2],\n    unknown ``time_unit``.\n\nNotes\n-----\nMaturity: M2 \u2014 verified against quadrature (cumulative) and continuity properties;\nalso consistent with SPEE REP #6 Table 1 at t = 1 year (VAL-DCA-002x), which is the\nsame evidence as the conversion function and is not counted twice.\nAssumptions: A-008, A-010, A-011.",
+        "operationId": "calc_dca_rate_api_v1_projects__project_id__calc_dca_rate_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArpsReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Arps production rate q(t), optionally modified hyperbolic.",
+        "tags": [
+          "dca"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/material-balance/expansion-terms": {
+      "post": {
+        "description": "Expansion terms Eo, Eg (rb/STB) and Efw (rb/STB) of the Havlena\u2013Odeh equation.\n\nParameters\n----------\np_psia : array_like\n    Average reservoir pressure at each step (> 0, <= pi).\nbo_rb_stb, bg_rb_scf, rs_scf_stb : array_like\n    PVT at each step (Bo, Bg > 0; Rs >= 0).\npi_psia, boi_rb_stb, bgi_rb_scf, rsi_scf_stb : float\n    Initial pressure and PVT (> 0; Rsi >= 0).\ncw_per_psi, cf_per_psi : float\n    Water and pore compressibilities (>= 0).\nswi : float\n    Initial water saturation, fraction in [0, 1).\nm : float\n    Gas-cap to oil-zone initial volume ratio (>= 0; 0 = no gas cap). Enters Efw.\n\nReturns\n-------\nCalculationRecord\n    ``eo``, ``eg`` and ``efw`` (rb/STB) and ``dp_psi``.\n\nRaises\n------\nInputValidationError\n    Invalid values or shapes.\nPhysicalConsistencyError\n    A pressure above the initial pressure.\n\nNotes\n-----\nMaturity: M2. Assumptions: A-008, A-017.",
+        "operationId": "calc_material_balance_expansion_terms_api_v1_projects__project_id__calc_material_balance_expansion_terms_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpansionTermsReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Expansion terms Eo, Eg (rb/STB) and Efw (rb/STB) of the Havlena\u2013Odeh equation.",
+        "tags": [
+          "material balance"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/material-balance/fit-gas-cap-unknown-m": {
+      "post": {
+        "description": "Case (c): (F \u2212 We)/Eo = N + N\u00b7m\u00b7(Eg/Eo); intercept \u2192 N, slope/intercept \u2192 m.\n\nEfw is neglected (A-018), as in the classic Havlena\u2013Odeh gas-cap plot.\n\nReturns\n-------\nCalculationRecord\n    ``n_stb``, ``m``, ``n_se_stb``, ``nm_se_stb`` (s.e. of slope N\u00b7m), ``r2``,\n    ``residual`` (in F/Eo units, STB) and ``n_points``.\n\nRaises\n------\nInputValidationError\n    Any Eo <= 0 (F/Eo undefined).\nIdentifiabilityError\n    Fewer than 3 points or ill-conditioned design (Eg/Eo nearly constant).\n\nNotes\n-----\nMaturity: M2. Assumptions: A-008, A-017, A-018.",
+        "operationId": "calc_material_balance_fit_gas_cap_unknown_m_api_v1_projects__project_id__calc_material_balance_fit_gas_cap_unknown_m_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FitGasCapReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Case (c): (F \u2212 We)/Eo = N + N\u00b7m\u00b7(Eg/Eo); intercept \u2192 N, slope/intercept \u2192 m.",
+        "tags": [
+          "material balance"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/material-balance/fit-known-m": {
+      "post": {
+        "description": "Case (b): N from (F \u2212 We) = N\u00b7(Eo + m\u00b7Eg + Efw) with known gas-cap ratio m.\n\n``efw`` must have been computed with the same ``m`` (it carries the (1 + m) factor).\n\nNotes\n-----\nMaturity: M2. Assumptions: A-008, A-017, A-018.",
+        "operationId": "calc_material_balance_fit_known_m_api_v1_projects__project_id__calc_material_balance_fit_known_m_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FitKnownMReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Case (b): N from (F \u2212 We) = N\u00b7(Eo + m\u00b7Eg + Efw) with known gas-cap ratio m.",
+        "tags": [
+          "material balance"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/material-balance/fit-no-cap-no-aquifer": {
+      "post": {
+        "description": "Case (a): N from (F \u2212 We) = N\u00b7(Eo + Efw), least squares through the origin.\n\nParameters\n----------\nf_rb : array_like\n    Underground withdrawal F (rb), one value per pressure step.\neo, efw : array_like\n    Expansion terms (rb/STB) from :func:`expansion_terms` with m = 0.\nwe_rb : array_like or None\n    User-supplied cumulative water influx (rb) or ``None`` (no aquifer).\n\nReturns\n-------\nCalculationRecord\n    ``n_stb``, ``n_se_stb``, ``r2_uncentred``, ``residual_rb``, ``n_points``.\n\nRaises\n------\nIdentifiabilityError\n    Fewer than 2 points or all expansion terms ~0.\n\nNotes\n-----\nMaturity: M2. Assumptions: A-008, A-017, A-018.",
+        "operationId": "calc_material_balance_fit_no_cap_no_aquifer_api_v1_projects__project_id__calc_material_balance_fit_no_cap_no_aquifer_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FitNoCapReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Case (a): N from (F \u2212 We) = N\u00b7(Eo + Efw), least squares through the origin.",
+        "tags": [
+          "material balance"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/material-balance/underground-withdrawal": {
+      "post": {
+        "description": "Underground withdrawal F = Np\u00b7[Bo + (Rp \u2212 Rs)\u00b7Bg] + Wp\u00b7Bw, in rb.\n\nAll arguments are 1-D arrays of the same length (one value per pressure step).\nNp, Wp >= 0; Rp >= 0; Bo, Bg, Bw > 0; Rs >= 0.\n\nNotes\n-----\nMaturity: M2. Assumptions: A-008, A-017.",
+        "operationId": "calc_material_balance_underground_withdrawal_api_v1_projects__project_id__calc_material_balance_underground_withdrawal_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UndergroundWithdrawalReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Underground withdrawal F = Np\u00b7[Bo + (Rp \u2212 Rs)\u00b7Bg] + Wp\u00b7Bw, in rb.",
+        "tags": [
+          "material balance"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/nodal/composite-j-from-test": {
+      "post": {
+        "description": "Productivity index J of the composite IPR from one stabilised test.\n\nAbove pb: J = q/(p\u0304r \u2212 pwf). Below pb: J = q / [(p\u0304r \u2212 pb) + (pb/1.8)\u00b7V(pwf/pb)].\n\nNotes\n-----\nMaturity: M2. Assumptions: A-014.",
+        "operationId": "calc_nodal_composite_j_from_test_api_v1_projects__project_id__calc_nodal_composite_j_from_test_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompositeJReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Productivity index J of the composite IPR from one stabilised test.",
+        "tags": [
+          "nodal"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/nodal/ipr": {
+      "post": {
+        "description": "Vogel IPR for a saturated reservoir (p\u0304r <= pb).\n\nParameters\n----------\npwf : array_like\n    Flowing bottomhole pressure in [0, p\u0304r], ``pressure_unit``.\np_res : float\n    Average reservoir pressure (> 0).\nq_max : float\n    Absolute open flow (rate at pwf = 0), > 0. See :func:`vogel_qmax_from_test`.\npressure_unit : {\"Pa\", \"kPa\", \"MPa\", \"psi\", \"bar\"}\n\nNotes\n-----\nMaturity: M3 \u2014 reproduces the worked example of Vogel (1968) (VAL-ND-L05) and a\npublished lecture-note IPR table (VAL-ND-L01). Empirical: Vogel expects maximum errors\nof ~20 % (typically ~10 %) for solution-gas drive. Assumptions: A-008, A-014.",
+        "operationId": "calc_nodal_ipr_api_v1_projects__project_id__calc_nodal_ipr_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IprReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Vogel IPR for a saturated reservoir (p\u0304r <= pb).",
+        "tags": [
+          "nodal"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/nodal/solve": {
+      "post": {
+        "description": "Find **all** intersections of IPR and TPR on their common rate range.\n\nf(q) = pwf_IPR(q) \u2212 pwf_TPR(q) is sampled on a uniform grid of ``n_grid`` points over\n[max(q_min_TPR, 0), min(q_max_TPR, q_max_IPR)]; each sign change is refined with\nBrent's method (``xtol``, ``maxiter``). An intersection is **stable** when\ndf/dq < 0 there (a small rate increase makes the tubing need more pressure than the\nreservoir supplies), otherwise unstable.\n\nParameters\n----------\nipr : IPRModel\n    :class:`LinearIPR`, :class:`VogelIPR` or :class:`CompositeIPR`.\ntpr : TPRModel\n    :class:`TabulatedTPR`.\npressure_unit : {\"Pa\", \"kPa\", \"MPa\", \"psi\", \"bar\"}\n    Common unit of IPR and TPR pressures (recorded).\nn_grid : int\n    Grid points for bracketing (>= 10). Intersections closer than one grid step can\n    be missed; a near-tangency raises a warning.\nxtol : float\n    Absolute rate tolerance for Brent's method (> 0).\nmaxiter : int\n    Maximum Brent iterations (>= 1).\n\nReturns\n-------\nCalculationRecord\n    ``q_op``, ``pwf_op`` and ``stable`` (1/0) arrays (possibly empty) and\n    ``n_solutions``. Warnings: ``NO_INTERSECTION``, ``POSSIBLE_TANGENCY``,\n    ``MULTIPLE_SOLUTIONS``.\n\nRaises\n------\nInputValidationError\n    Bad numerical settings or no overlapping rate range.\nNumericalError\n    Brent's method failed to converge.\n\nNotes\n-----\nMaturity: M2. Assumptions: A-014, A-015.",
+        "operationId": "calc_nodal_solve_api_v1_projects__project_id__calc_nodal_solve_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NodalSolveReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Find **all** intersections of IPR and TPR on their common rate range.",
+        "tags": [
+          "nodal"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/nodal/vogel-qmax-from-test": {
+      "post": {
+        "description": "Vogel AOF from one stabilised test: q_max = q_test / (1 \u2212 0.2x \u2212 0.8x\u00b2), x = pwf/p\u0304r.\n\nRaises\n------\nInputValidationError\n    pwf_test outside [0, p\u0304r) (a test at pwf = p\u0304r carries no rate information).\n\nNotes\n-----\nMaturity: M3 \u2014 reproduces (qo)max of the worked example in Vogel (1968)\n(VAL-ND-L04). Assumptions: A-014.",
+        "operationId": "calc_nodal_vogel_qmax_from_test_api_v1_projects__project_id__calc_nodal_vogel_qmax_from_test_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VogelQmaxReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Vogel AOF from one stabilised test: q_max = q_test / (1 \u2212 0.2x \u2212 0.8x\u00b2), x = pwf/p\u0304r.",
+        "tags": [
+          "nodal"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/petrophysics/archie-rt": {
+      "post": {
+        "description": "Inverse Archie: Rt = a\u00b7Rw / (\u03c6^m \u00b7 Sw^n), in ohm\u00b7m.\n\nParameters\n----------\nporosity : array_like\n    Fraction in (0, 1].\nsw : array_like\n    Water saturation, fraction in (0, 1].\nrw_ohm_m, a, m, n : float\n    As in :func:`archie_water_saturation` (> 0).\n\nReturns\n-------\nCalculationRecord\n    ``rt_ohm_m``.\n\nNotes\n-----\nMaturity: M2. Clean formations only. Assumptions: A-008, A-009.",
+        "operationId": "calc_petrophysics_archie_rt_api_v1_projects__project_id__calc_petrophysics_archie_rt_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArchieRtReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Inverse Archie: Rt = a\u00b7Rw / (\u03c6^m \u00b7 Sw^n), in ohm\u00b7m.",
+        "tags": [
+          "petrophysics"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/petrophysics/archie-sw": {
+      "post": {
+        "description": "Archie water saturation Sw = (a\u00b7Rw / (\u03c6^m \u00b7 Rt))^(1/n).\n\nParameters\n----------\nporosity : array_like\n    Effective porosity, fraction in (0, 1].\nrt_ohm_m : array_like\n    True formation resistivity, ohm\u00b7m (> 0). Same length as ``porosity``\n    (or length 1, broadcast).\nrw_ohm_m : float\n    Formation-water resistivity at formation temperature, ohm\u00b7m (> 0).\na, m, n : float\n    Tortuosity factor, cementation exponent and saturation exponent (> 0).\n    No defaults: the user must choose them for the formation.\nclip : bool\n    Clip Sw to [0, 1]; raw Sw > 1 always raises a warning.\n\nReturns\n-------\nCalculationRecord\n    ``sw`` (clipped if requested), ``sw_raw`` and ``n_clipped``.\n\nRaises\n------\nInputValidationError\n    Non-finite inputs, \u03c6 \u2209 (0, 1], non-positive Rt, Rw, a, m or n, or\n    incompatible lengths.\n\nNotes\n-----\nMaturity: M3 \u2014 reproduces the Kansas Geological Survey PfEFFER 10-zone example\nwithin its 0.01 rounding (VAL-PP-L01). Valid for clean formations only; clay\nconductivity is ignored and Sw is overestimated in shaly sands. Assumptions: A-008, A-009.",
+        "operationId": "calc_petrophysics_archie_sw_api_v1_projects__project_id__calc_petrophysics_archie_sw_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArchieSwReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Archie water saturation Sw = (a\u00b7Rw / (\u03c6^m \u00b7 Rt))^(1/n).",
+        "tags": [
+          "petrophysics"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/petrophysics/density-porosity": {
+      "post": {
+        "description": "Density porosity \u03c6D = (\u03c1ma \u2212 \u03c1b) / (\u03c1ma \u2212 \u03c1fl).\n\nParameters\n----------\nrho_bulk_g_cc : array_like\n    Bulk density log, g/cm\u00b3 (> 0).\nrho_matrix_g_cc, rho_fluid_g_cc : float\n    Matrix and fluid densities, g/cm\u00b3 (> 0, with \u03c1ma > \u03c1fl).\nclip : bool\n    Clip \u03c6D to [0, 1]; out-of-range raw values always raise a warning.\n\nReturns\n-------\nCalculationRecord\n    ``porosity`` (clipped if requested), ``porosity_raw`` and ``n_clipped``.\n\nRaises\n------\nInputValidationError\n    Non-finite or non-positive densities.\nPhysicalConsistencyError\n    ``rho_matrix_g_cc <= rho_fluid_g_cc``.\n\nNotes\n-----\nMaturity: M2. No gas, shale or compaction correction (M0, roadmap).\nAssumptions: A-008, A-009.",
+        "operationId": "calc_petrophysics_density_porosity_api_v1_projects__project_id__calc_petrophysics_density_porosity_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DensityPorosityReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Density porosity \u03c6D = (\u03c1ma \u2212 \u03c1b) / (\u03c1ma \u2212 \u03c1fl).",
+        "tags": [
+          "petrophysics"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/petrophysics/gamma-ray-index": {
+      "post": {
+        "description": "Linear gamma-ray index IGR = (GR \u2212 GRmin) / (GRmax \u2212 GRmin).\n\nParameters\n----------\ngr_api : array_like\n    Gamma-ray log, API units.\ngr_min_api, gr_max_api : float\n    Clean-sand and shale baselines, API; must satisfy ``gr_max_api > gr_min_api``.\n    Always explicit \u2014 never estimated implicitly.\nclip : bool\n    Clip IGR to [0, 1]. Out-of-range raw values always raise a warning.\n\nReturns\n-------\nCalculationRecord\n    ``igr`` (clipped if requested), ``igr_raw`` and ``n_clipped``.\n\nRaises\n------\nInputValidationError\n    Non-finite inputs or ``gr_max_api <= gr_min_api``.\n\nNotes\n-----\nMaturity: M2. Assumptions: A-008, A-009.",
+        "operationId": "calc_petrophysics_gamma_ray_index_api_v1_projects__project_id__calc_petrophysics_gamma_ray_index_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GammaRayIndexReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Linear gamma-ray index IGR = (GR \u2212 GRmin) / (GRmax \u2212 GRmin).",
+        "tags": [
+          "petrophysics"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/petrophysics/sonic-porosity-wyllie": {
+      "post": {
+        "description": "Wyllie time-average sonic porosity \u03c6S = (\u0394t \u2212 \u0394tma) / (\u0394tfl \u2212 \u0394tma).\n\nParameters\n----------\ndt_us_per_ft : array_like\n    Compressional slowness log, \u00b5s/ft (> 0).\ndt_matrix_us_per_ft, dt_fluid_us_per_ft : float\n    Matrix and fluid slowness, \u00b5s/ft (> 0, with \u0394tfl > \u0394tma).\nclip : bool\n    Clip \u03c6S to [0, 1]; out-of-range raw values always raise a warning.\n\nReturns\n-------\nCalculationRecord\n    ``porosity`` (clipped if requested), ``porosity_raw`` and ``n_clipped``.\n\nRaises\n------\nInputValidationError\n    Non-finite or non-positive slowness.\nPhysicalConsistencyError\n    ``dt_fluid_us_per_ft <= dt_matrix_us_per_ft``.\n\nNotes\n-----\nMaturity: M2. No compaction correction; Raymer\u2013Hunt\u2013Gardner is M0 (roadmap).\nAssumptions: A-008, A-009.",
+        "operationId": "calc_petrophysics_sonic_porosity_wyllie_api_v1_projects__project_id__calc_petrophysics_sonic_porosity_wyllie_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SonicPorosityReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Wyllie time-average sonic porosity \u03c6S = (\u0394t \u2212 \u0394tma) / (\u0394tfl \u2212 \u0394tma).",
+        "tags": [
+          "petrophysics"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/petrophysics/vsh": {
+      "post": {
+        "description": "Steiber: Vsh = IGR / (3 \u2212 2\u00b7IGR).\n\nf(0) = 0; f(1) = 1 exactly. IGR must be in [0, 1].\n\nNotes\n-----\nMaturity: M2. Empirical correlation. Assumptions: A-006, A-007, A-008.",
+        "operationId": "calc_petrophysics_vsh_api_v1_projects__project_id__calc_petrophysics_vsh_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VshReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Steiber: Vsh = IGR / (3 \u2212 2\u00b7IGR).",
+        "tags": [
+          "petrophysics"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/uncertainty/mc-archie-sw": {
+      "post": {
+        "description": "Monte Carlo distribution of Archie Sw (uses the library's Archie equation).\n\nParameters\n----------\nporosity, rt_ohm_m, rw_ohm_m, a, m, n : Distribution\n    Independent input distributions (porosity fraction in (0, 1]; resistivities in\n    ohm\u00b7m; a, m, n > 0). Use :class:`Fixed` for known values.\nclip : bool\n    Clip each Sw sample to [0, 1] before summarising. Samples with raw Sw > 1 are\n    always counted in a warning.\nn_samples : int\n    Number of samples (100 \u2026 1e7).\nseed : int\n    Seed of the PCG64 generator (>= 0). Mandatory for reproducibility.\nreturn_samples : bool\n    Include the full sample array (``sw_samples``) in the record.\n\nReturns\n-------\nCalculationRecord\n    ``sw_p90_low``, ``sw_p50``, ``sw_p10_high`` (PRMS exceedance convention),\n    ``sw_mean``, ``sw_std``, ``sw_se_mean``, ``n_samples`` (+ ``sw_samples``).\n\nRaises\n------\nInputValidationError\n    Invalid settings or any sample outside the physical domain (e.g. porosity <= 0).\n\nNotes\n-----\nMaturity: M2. Clean formations only (as Archie). Assumptions: A-019, A-020.",
+        "operationId": "mc_archie_api_v1_projects__project_id__calc_uncertainty_mc_archie_sw_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/McArchieReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Monte Carlo distribution of Archie Sw (P90/P50/P10, PRMS convention)",
+        "tags": [
+          "uncertainty"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/uncertainty/mc-arps-eur": {
+      "post": {
+        "description": "Monte Carlo distribution of Arps EUR (uses the library's Arps equations).\n\nParameters\n----------\nqi, di, b : Distribution\n    Independent distributions of initial rate (> 0), nominal decline per\n    ``time_unit`` (> 0) and b in [0, 2].\ntime_unit, d_terminal, q_limit, t_horizon\n    As in :func:`georeservoir.engineering.dca.arps_eur` (deterministic). If any b\n    sample is >= 1, ``d_terminal`` is required (A-012).\nn_samples, seed, return_samples\n    As in :func:`mc_archie_sw`.\n\nReturns\n-------\nCalculationRecord\n    ``eur_p90_low``, ``eur_p50``, ``eur_p10_high`` (PRMS exceedance convention),\n    ``eur_mean``, ``eur_std``, ``eur_se_mean``, ``n_samples`` (+ ``eur_samples``),\n    in rate unit \u00d7 ``time_unit``.\n\nNotes\n-----\nMaturity: M2. Assumptions: A-010, A-011, A-012, A-019, A-020.",
+        "operationId": "mc_eur_api_v1_projects__project_id__calc_uncertainty_mc_arps_eur_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/McEurReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Monte Carlo distribution of Arps EUR (P90/P50/P10, PRMS convention)",
+        "tags": [
+          "uncertainty"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/calc/well-path/minimum-curvature": {
+      "post": {
+        "description": "Compute a wellbore trajectory with the Minimum Curvature method.\n\nParameters\n----------\nmd : array_like, shape (n,)\n    Measured depth, in ``length_unit``; strictly increasing; n \u2265 2.\ninclination_deg : array_like, shape (n,)\n    Inclination in degrees, in [0, 180].\nazimuth_deg : array_like, shape (n,)\n    Azimuth in degrees from North, clockwise; any finite value (normalised to [0, 360)).\nlength_unit : {\"m\", \"ft\"}\n    Unit of ``md`` and of the start coordinates.\nazimuth_reference : {\"true\", \"magnetic\", \"grid\"}\n    Declared reference of ``azimuth_deg``. Recorded only; no correction applied (A-002).\nstart_east, start_north, start_tvd : float\n    Coordinates of the first station, in ``length_unit``.\n\nReturns\n-------\nCalculationRecord\n    Station arrays (length n): ``md_m``, ``north_m``, ``east_m``, ``tvd_m``,\n    ``horizontal_displacement_m``, ``closure_azimuth_deg``.\n    Interval arrays (length n\u22121, interval i is between stations i and i+1):\n    ``delta_north_m``, ``delta_east_m``, ``delta_tvd_m``, ``dogleg_deg``,\n    ``dls_deg_per_30m``, ``dls_deg_per_100ft``.\n\nRaises\n------\nInputValidationError\n    Non-finite values, mismatched lengths, n < 2, MD not strictly increasing,\n    inclination outside [0, 180], unsupported unit or reference.\nPhysicalConsistencyError\n    A course has a dogleg \u2265 \u03c0 \u2212 1e-6 rad (reversal: the arc is undefined).\n\nNotes\n-----\nMaturity: M3 \u2014 reproduces a published build example (Bourgoyne et al. 1991, as\ntabulated by Amorin & Broni-Bediako 2010) within its 0.01 ft rounding (VAL-WP-L01).\n\nAssumptions: A-001, A-002, A-003, A-004, A-005, A-008.\n\nThe method is exact for circular arcs between stations.\n\nReferences\n----------\nSawaryn & Thorogood (2005), SPE-84246-PA.",
+        "operationId": "calc_well_path_minimum_curvature_api_v1_projects__project_id__calc_well_path_minimum_curvature_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MinimumCurvatureReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Compute a wellbore trajectory with the Minimum Curvature method.",
+        "tags": [
+          "well path"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/data/las": {
+      "post": {
+        "operationId": "upload_las_api_v1_projects__project_id__data_las_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_las_api_v1_projects__project_id__data_las_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Read an uploaded LAS 1.2/2.0 file (provenance + validation report)",
+        "tags": [
+          "data"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/data/survey": {
+      "post": {
+        "operationId": "upload_survey_api_v1_projects__project_id__data_survey_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_survey_api_v1_projects__project_id__data_survey_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Read an uploaded directional survey and compute its trajectory",
+        "tags": [
+          "data"
+        ]
+      }
+    },
+    "/api/v1/projects/{project_id}/methods": {
+      "get": {
+        "description": "Available calculations with their maturity level and reference.",
+        "operationId": "methods_api_v1_projects__project_id__methods_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/MethodInfo"
+                  },
+                  "title": "Response Methods Api V1 Projects  Project Id  Methods Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Content Too Large"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Content"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "501": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Implemented"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "summary": "Methods",
+        "tags": [
+          "meta"
+        ]
+      }
+    }
+  }
+}

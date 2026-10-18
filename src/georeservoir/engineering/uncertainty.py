@@ -29,6 +29,7 @@ from georeservoir.common.exceptions import InputValidationError
 from georeservoir.common.record import CalculationRecord, CalcWarning, make_record
 from georeservoir.common.validation import (
     check_positive_scalar,
+    coerce_float_fields,
     require_bool,
     require_finite_scalar,
 )
@@ -69,6 +70,7 @@ class Fixed:
     value: float
 
     def __post_init__(self) -> None:
+        coerce_float_fields(self, "value")
         require_finite_scalar("value", self.value)
 
     def sample(self, rng: np.random.Generator, n: int) -> NDArray[np.float64]:
@@ -86,6 +88,7 @@ class Uniform:
     high: float
 
     def __post_init__(self) -> None:
+        coerce_float_fields(self, "low", "high")
         lo = require_finite_scalar("low", self.low)
         hi = require_finite_scalar("high", self.high)
         if hi <= lo:
@@ -110,6 +113,7 @@ class Triangular:
     high: float
 
     def __post_init__(self) -> None:
+        coerce_float_fields(self, "low", "mode", "high")
         lo = require_finite_scalar("low", self.low)
         mo = require_finite_scalar("mode", self.mode)
         hi = require_finite_scalar("high", self.high)
@@ -137,6 +141,7 @@ class Normal:
     high: float | None
 
     def __post_init__(self) -> None:
+        coerce_float_fields(self, "mean", "sd", "low", "high")
         require_finite_scalar("mean", self.mean)
         check_positive_scalar("sd", self.sd)
         lo = -np.inf if self.low is None else require_finite_scalar("low", self.low)
@@ -172,6 +177,7 @@ class LogNormal:
     sigma_ln: float
 
     def __post_init__(self) -> None:
+        coerce_float_fields(self, "median", "sigma_ln")
         check_positive_scalar("median", self.median)
         check_positive_scalar("sigma_ln", self.sigma_ln)
 

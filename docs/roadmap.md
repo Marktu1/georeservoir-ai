@@ -34,6 +34,17 @@ Estado por nível de maturidade (M0 = planeado, não implementado). Portões con
 
 **Portão da Fase 2 (ficheiros públicos de teste lidos sem perda de metadados):** cumprido para LAS 1.2/2.0 dentro do âmbito descrito em `docs/validation/io.md` (8 ficheiros públicos; cabeçalho campo a campo, ~O verbatim, ~C, dados e NULL contra uma referência independente). Não cobre LAS 3.0 (M0, declarado), comentários do cabeçalho nem o formato textual dos números em ~A. Revisão adversarial feita e corrigida. **Portão cumprido em 2026-10-18:** CI verde em Python 3.11 e 3.12 (run 39120903931, commit c164c8d).
 
+## Fase 3 — API v0.4.0
+
+| Item | Estado |
+|---|---|
+| FastAPI versionada `/api/v1`, 28 rotas de cálculo + 2 de dados + saúde + métodos | feito (ADR-0005) |
+| Autenticação por chaves (hash SHA-256), autorização por projeto e escopo | feito |
+| Limites (corpo, upload, arrays, amostras MC, concorrência), timeouts, rate limit | feito |
+| OpenAPI versionado (`docs/api/openapi-v1.json`), logs JSON sem dados sensíveis, cabeçalhos de segurança | feito |
+
+**Portão da Fase 3 (testes de contrato e de segurança básicos):** `tests/api/test_contract.py` (cada resposta igual à chamada direta do núcleo; snapshot OpenAPI) e `tests/api/test_security.py`. Limites conhecidos em ADR-0005 (threads não interrompidas, rate limit por processo, TLS no proxy).
+
 ## Planeado (M0 — não existe código)
 
 | Item | Prioridade |
@@ -46,4 +57,5 @@ Estado por nível de maturidade (M0 = planeado, não implementado). Portões con
 | Petrofísica: Simandoux, Indonesia, Dual-Water | P1 |
 | Correção de declinação/convergência; transformação geodésica | Fase 2+ |
 | LAS 3.0; DLIS; SEG-Y | Fase 2b |
-| API FastAPI, UI web, piloto, IA assistiva | Fases 3–6 |
+| UI web, piloto, IA assistiva | Fases 4–6 |
+| Persistência de registos/ficheiros, OIDC, rate limit partilhado, isolamento por processo | Fase 4+ |

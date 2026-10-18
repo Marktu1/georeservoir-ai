@@ -90,7 +90,7 @@ def bourdet_derivative(
     bad = np.flatnonzero(t <= 0.0)
     if bad.size:
         i = int(bad[0])
-        raise InputValidationError(f"dt[{i}]: received {t[i]!r}; expected dt > 0")
+        raise InputValidationError(f"dt[{i}]: received {float(t[i])!r}; expected dt > 0")
     check_strictly_increasing("dt", t)
     L = check_positive_scalar("window_ln", window_ln)
     sp = require_finite_scalar("sigma_p", sigma_p)

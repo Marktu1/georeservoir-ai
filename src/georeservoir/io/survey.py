@@ -210,14 +210,14 @@ def read_survey(
     if bad.size:
         i = int(bad[0]) + 1
         raise InputValidationError(
-            f"{p.name}: line {lines[i]}: MD {md[i]!r} after {md[i - 1]!r}; expected strictly "
-            "increasing MD (duplicate stations must be removed)"
+            f"{p.name}: line {lines[i]}: MD {float(md[i])!r} after {float(md[i - 1])!r}; "
+            "expected strictly increasing MD (duplicate stations must be removed)"
         )
     bad = np.flatnonzero((inc < 0.0) | (inc > 180.0))
     if bad.size:
         i = int(bad[0])
         raise InputValidationError(
-            f"{p.name}: line {lines[i]}: inclination {inc[i]!r} outside [0, 180]"
+            f"{p.name}: line {lines[i]}: inclination {float(inc[i])!r} outside [0, 180]"
         )
     checks: list[QualityCheck] = [
         QualityCheck(

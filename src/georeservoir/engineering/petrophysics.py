@@ -371,7 +371,7 @@ def _check_positive_array(name: str, arr: NDArray[np.float64]) -> None:
     if bad.size:
         i = int(bad[0])
         raise InputValidationError(
-            f"{name}[{i}]: received {arr[i]!r}; expected a value > 0 "
+            f"{name}[{i}]: received {float(arr[i])!r}; expected a value > 0 "
             f"({bad.size} non-positive element(s))"
         )
 
@@ -393,7 +393,7 @@ def _check_porosity(porosity: ArrayLike) -> NDArray[np.float64]:
     if bad.size:
         i = int(bad[0])
         raise InputValidationError(
-            f"porosity[{i}]: received {phi[i]!r}; expected a fraction in (0, 1]"
+            f"porosity[{i}]: received {float(phi[i])!r}; expected a fraction in (0, 1]"
         )
     return phi
 
@@ -511,7 +511,9 @@ def archie_true_resistivity(
     bad = np.flatnonzero((s <= 0.0) | (s > 1.0))
     if bad.size:
         i = int(bad[0])
-        raise InputValidationError(f"sw[{i}]: received {s[i]!r}; expected a fraction in (0, 1]")
+        raise InputValidationError(
+            f"sw[{i}]: received {float(s[i])!r}; expected a fraction in (0, 1]"
+        )
     phi, s = _broadcast_pair("porosity", phi, "sw", s)
     a_, m_, n_, rw = _archie_params(a, m, n, rw_ohm_m)
     rt = a_ * rw / (np.power(phi, m_) * np.power(s, n_))

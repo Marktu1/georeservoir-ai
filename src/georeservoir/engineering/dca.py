@@ -107,7 +107,7 @@ def _check_times(t: NDArray[np.float64]) -> None:
     bad = np.flatnonzero(t < 0.0)
     if bad.size:
         i = int(bad[0])
-        raise InputValidationError(f"t[{i}]: received {t[i]!r}; expected t >= 0")
+        raise InputValidationError(f"t[{i}]: received {float(t[i])!r}; expected t >= 0")
 
 
 def _rate(t: NDArray[np.float64], qi: float, di: float, b: float) -> NDArray[np.float64]:
@@ -453,7 +453,7 @@ def effective_to_nominal_decline(d_effective: ArrayLike, *, b: float) -> Calcula
     if bad.size:
         i = int(bad[0])
         raise InputValidationError(
-            f"d_effective[{i}]: received {de[i]!r}; expected a fraction in (0, 1)"
+            f"d_effective[{i}]: received {float(de[i])!r}; expected a fraction in (0, 1)"
         )
     b_ = _b(b)
     if b_ < B_EXP_THRESHOLD:
@@ -504,7 +504,9 @@ def _positive_array(name: str, arr: NDArray[np.float64]) -> None:
     bad = np.flatnonzero(arr <= 0.0)
     if bad.size:
         i = int(bad[0])
-        raise InputValidationError(f"{name}[{i}]: received {arr[i]!r}; expected a value > 0")
+        raise InputValidationError(
+            f"{name}[{i}]: received {float(arr[i])!r}; expected a value > 0"
+        )
 
 
 # --------------------------------------------------------------------------- fitting
@@ -574,7 +576,7 @@ def arps_fit(
     if bad.size:
         i = int(bad[0])
         raise InputValidationError(
-            f"q[{i}]: received {qq[i]!r} on an included point; expected q > 0 "
+            f"q[{i}]: received {float(qq[i])!r} on an included point; expected q > 0 "
             "(exclude shut-ins and zero rates with the include mask)"
         )
     n = int(mask.sum())
