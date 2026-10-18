@@ -10,7 +10,7 @@ Estado por nível de maturidade (M0 = planeado, não implementado). Portões con
 | Minimum Curvature | **M3** (caso Bourgoyne/Amorin); ISCWSA 3D pendente |
 | Petrofísica | Archie **M3** (caso KGS); IGR, Vsh ×4, φD, φS em M2 |
 
-**Portão da Fase 0:** cada módulo P0 tem agora pelo menos uma função central em M3 com caso publicado reproduzido; relatório gerado no repositório. Falta "CI verde": o workflow existe mas não foi executado remotamente (requer push para GitHub). Recomendado antes da Fase 1: casos publicados para Vsh e porosidades, e o caso ISCWSA 3D.
+**Portão da Fase 0: cumprido em 2026-10-18.** Cada módulo P0 tem uma função central em M3 com caso publicado reproduzido; relatório de validação gerado no repositório; CI verde em Python 3.11 e 3.12 (GitHub Actions, run 39086151294). Reforços recomendados na Fase 1: casos publicados para Vsh e porosidades, e o caso ISCWSA 3D.
 
 ## Planeado (M0 — não existe código)
 
