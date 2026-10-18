@@ -4,12 +4,13 @@ from __future__ import annotations
 
 from typing import Annotated, Any, Final, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt
+from pydantic import BaseModel, ConfigDict, Field, Strict, StrictBool, StrictInt
 
 #: Hard schema cap on array length; a stricter runtime limit comes from Settings.
 SCHEMA_MAX_ARRAY: Final[int] = 1_000_000
 
-Finite = Annotated[float, Field(allow_inf_nan=False)]
+#: JSON numbers only: ints accepted, booleans and numeric strings refused (A-027)
+Finite = Annotated[float, Strict(), Field(allow_inf_nan=False)]
 Arr = Annotated[list[Finite], Field(min_length=1, max_length=SCHEMA_MAX_ARRAY)]
 LengthUnit = Literal["m", "ft"]
 PressureUnit = Literal["Pa", "kPa", "MPa", "psi", "bar"]

@@ -21,7 +21,7 @@ def make_settings(**kw: Any) -> Settings:
         ApiKey(
             "analyst",
             hash_token(TOKEN),
-            frozenset({PROJECT, "isptec-demo"}),
+            frozenset({PROJECT, "isptec-demo", "data"}),
             frozenset({"calc", "upload"}),
         ),
         ApiKey(

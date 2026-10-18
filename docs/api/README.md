@@ -13,7 +13,7 @@ python -m georeservoir.api new-key marcos-laptop     # mostra o token UMA vez + 
 GEORESERVOIR_API_KEYS_FILE=keys.json python -m georeservoir.api serve   # 127.0.0.1:8000
 ```
 
-Variáveis opcionais: `GEORESERVOIR_HOST`, `_PORT`, `_MAX_BODY_BYTES`, `_MAX_UPLOAD_BYTES`, `_MAX_ARRAY_LEN`, `_CALC_TIMEOUT_S`, `_MAX_CONCURRENT_CALCS`, `_MC_MAX_SAMPLES`, `_RATE_LIMIT_PER_MINUTE`, `_ENABLE_DOCS` (0/1). Em produção: TLS num proxy reverso e `GEORESERVOIR_ENABLE_DOCS=0` se a documentação não deve ser pública.
+Variáveis opcionais: `GEORESERVOIR_HOST`, `_PORT`, `_MAX_BODY_BYTES`, `_MAX_UPLOAD_BYTES`, `_MAX_ARRAY_LEN`, `_CALC_TIMEOUT_S`, `_QUEUE_TIMEOUT_S`, `_MAX_CONCURRENT_CALCS`, `_MC_MAX_SAMPLES`, `_RATE_LIMIT_PER_MINUTE`, `_ENABLE_DOCS` (0/1; com 0, `/docs` e `/openapi.json` ficam desligados). Em produção: TLS num proxy reverso.
 
 ## Exemplo
 
@@ -54,14 +54,16 @@ Resposta (resumida):
 | Código | Quando |
 |---|---|
 | 200 | cálculo ou leitura feitos (avisos científicos vêm em `record.warnings` / `report`) |
-| 401 | sem token ou token inválido |
+| 401 | sem token ou token inválido (verificado antes de ler o corpo) |
 | 403 | projeto ou escopo não autorizados (mesma resposta para projetos inexistentes) |
 | 413 | corpo ou ficheiro acima do limite |
 | 422 | pedido inválido ou erro do núcleo (`InputValidationError`, `PhysicalConsistencyError`, `NumericalError`, `IdentifiabilityError`) |
 | 429 | rate limit (ver `Retry-After`) |
 | 501 | funcionalidade M0 (ex.: LAS 3.0) |
+| 503 | todos os lugares de cálculo ocupados durante `queue_timeout_s` (ver `Retry-After`) |
 | 504 | cálculo excedeu o timeout |
 
 ## Garantias verificadas por testes
 - `tests/api/test_contract.py`: os 31 casos cobrem as 28 rotas de cálculo; o `record` de cada resposta é **igual** ao `CalculationRecord` da chamada direta à biblioteca (incluindo `inputs_hash`); o OpenAPI coincide com o snapshot.
-- `tests/api/test_security.py`: autenticação, autorização por projeto e escopo, limites (cabeçalho e streaming), uploads, arrays, amostras MC, entradas malformadas (NaN, Infinity, campos extra, tipos errados), ausência de eco de entradas, nenhum campo de caminho/código, nome de ficheiro com `../` contido, rate limit, timeout, erros internos sem detalhes, logs sem segredos nem dados, cabeçalhos de segurança, configuração e CLI.
+- `tests/api/test_security.py`: autenticação (cabeçalhos malformados, duplicados, espaços), verificação **antes** do corpo, autorização por projeto e escopo, rate limit também para 401/403 e com memória limitada, limites de corpo por rota (cabeçalho e streaming), uploads (uma só parte, tamanho, nome com `../`, pasta temporária removida), arrays, amostras MC, números estritos (booleanos, strings, NaN, ±∞, 1e400), ausência de eco de entradas, nenhum campo de caminho/código, timeout sem acumulação de threads, fila que não conta como tempo de cálculo, erros 404/405/500 com envelope e cabeçalhos, logs sem segredos nem dados, docs e OpenAPI desligáveis, configuração e CLI.
+- `tests/api/test_data_endpoints.py`: upload de survey reproduz a trajetória publicada (Bourgoyne) pela API; NULL → `null` em JSON; LAS 3.0 → 501.

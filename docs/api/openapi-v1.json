@@ -2061,7 +2061,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -2071,7 +2071,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -2081,7 +2081,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -2091,7 +2091,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -2101,7 +2101,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -2111,7 +2111,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -2121,7 +2131,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Bourdet derivative d\u0394p/d(ln \u0394t) in flowing (drawdown) time.",
@@ -2174,7 +2184,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -2184,7 +2194,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -2194,7 +2204,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -2204,7 +2214,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -2214,7 +2224,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -2224,7 +2234,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -2234,7 +2254,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Arps cumulative production Np(t) in closed form (optionally modified hyperbolic).",
@@ -2287,7 +2307,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -2297,7 +2317,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -2307,7 +2327,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -2317,7 +2337,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -2327,7 +2347,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -2337,7 +2357,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -2347,7 +2377,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Inverse of :func:`nominal_to_effective_decline`.",
@@ -2400,7 +2430,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -2410,7 +2440,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -2420,7 +2450,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -2430,7 +2460,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -2440,7 +2470,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -2450,7 +2480,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -2460,7 +2500,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Estimated ultimate recovery to an economic rate limit and/or a time horizon.",
@@ -2513,7 +2553,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -2523,7 +2563,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -2533,7 +2573,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -2543,7 +2583,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -2553,7 +2593,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -2563,7 +2603,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -2573,7 +2623,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Fit qi, Di, b of a pure Arps hyperbola by bounded nonlinear least squares.",
@@ -2626,7 +2676,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -2636,7 +2686,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -2646,7 +2696,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -2656,7 +2706,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -2666,7 +2716,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -2676,7 +2726,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -2686,7 +2746,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Effective decline over one period from the nominal decline per that period.",
@@ -2739,7 +2799,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -2749,7 +2809,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -2759,7 +2819,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -2769,7 +2829,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -2779,7 +2839,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -2789,7 +2849,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -2799,7 +2869,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Arps production rate q(t), optionally modified hyperbolic.",
@@ -2852,7 +2922,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -2862,7 +2932,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -2872,7 +2942,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -2882,7 +2952,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -2892,7 +2962,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -2902,7 +2972,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -2912,7 +2992,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Expansion terms Eo, Eg (rb/STB) and Efw (rb/STB) of the Havlena\u2013Odeh equation.",
@@ -2965,7 +3045,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -2975,7 +3055,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -2985,7 +3065,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -2995,7 +3075,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -3005,7 +3085,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -3015,7 +3095,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -3025,7 +3115,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Case (c): (F \u2212 We)/Eo = N + N\u00b7m\u00b7(Eg/Eo); intercept \u2192 N, slope/intercept \u2192 m.",
@@ -3078,7 +3168,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -3088,7 +3178,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -3098,7 +3188,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -3108,7 +3198,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -3118,7 +3208,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -3128,7 +3218,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -3138,7 +3238,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Case (b): N from (F \u2212 We) = N\u00b7(Eo + m\u00b7Eg + Efw) with known gas-cap ratio m.",
@@ -3191,7 +3291,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -3201,7 +3301,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -3211,7 +3311,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -3221,7 +3321,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -3231,7 +3331,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -3241,7 +3341,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -3251,7 +3361,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Case (a): N from (F \u2212 We) = N\u00b7(Eo + Efw), least squares through the origin.",
@@ -3304,7 +3414,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -3314,7 +3424,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -3324,7 +3434,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -3334,7 +3444,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -3344,7 +3454,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -3354,7 +3464,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -3364,7 +3484,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Underground withdrawal F = Np\u00b7[Bo + (Rp \u2212 Rs)\u00b7Bg] + Wp\u00b7Bw, in rb.",
@@ -3417,7 +3537,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -3427,7 +3547,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -3437,7 +3557,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -3447,7 +3567,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -3457,7 +3577,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -3467,7 +3587,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -3477,7 +3607,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Productivity index J of the composite IPR from one stabilised test.",
@@ -3530,7 +3660,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -3540,7 +3670,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -3550,7 +3680,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -3560,7 +3690,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -3570,7 +3700,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -3580,7 +3710,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -3590,7 +3730,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Vogel IPR for a saturated reservoir (p\u0304r <= pb).",
@@ -3643,7 +3783,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -3653,7 +3793,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -3663,7 +3803,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -3673,7 +3813,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -3683,7 +3823,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -3693,7 +3833,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -3703,7 +3853,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Find **all** intersections of IPR and TPR on their common rate range.",
@@ -3756,7 +3906,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -3766,7 +3916,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -3776,7 +3926,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -3786,7 +3936,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -3796,7 +3946,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -3806,7 +3956,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -3816,7 +3976,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Vogel AOF from one stabilised test: q_max = q_test / (1 \u2212 0.2x \u2212 0.8x\u00b2), x = pwf/p\u0304r.",
@@ -3869,7 +4029,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -3879,7 +4039,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -3889,7 +4049,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -3899,7 +4059,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -3909,7 +4069,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -3919,7 +4079,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -3929,7 +4099,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Inverse Archie: Rt = a\u00b7Rw / (\u03c6^m \u00b7 Sw^n), in ohm\u00b7m.",
@@ -3982,7 +4152,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -3992,7 +4162,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -4002,7 +4172,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -4012,7 +4182,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -4022,7 +4192,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -4032,7 +4202,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -4042,7 +4222,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Archie water saturation Sw = (a\u00b7Rw / (\u03c6^m \u00b7 Rt))^(1/n).",
@@ -4095,7 +4275,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -4105,7 +4285,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -4115,7 +4295,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -4125,7 +4305,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -4135,7 +4315,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -4145,7 +4325,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -4155,7 +4345,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Density porosity \u03c6D = (\u03c1ma \u2212 \u03c1b) / (\u03c1ma \u2212 \u03c1fl).",
@@ -4208,7 +4398,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -4218,7 +4408,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -4228,7 +4418,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -4238,7 +4428,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -4248,7 +4438,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -4258,7 +4448,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -4268,7 +4468,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Linear gamma-ray index IGR = (GR \u2212 GRmin) / (GRmax \u2212 GRmin).",
@@ -4321,7 +4521,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -4331,7 +4531,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -4341,7 +4541,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -4351,7 +4551,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -4361,7 +4561,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -4371,7 +4571,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -4381,7 +4591,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Wyllie time-average sonic porosity \u03c6S = (\u0394t \u2212 \u0394tma) / (\u0394tfl \u2212 \u0394tma).",
@@ -4434,7 +4644,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -4444,7 +4654,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -4454,7 +4664,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -4464,7 +4674,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -4474,7 +4684,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -4484,7 +4694,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -4494,7 +4714,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Steiber: Vsh = IGR / (3 \u2212 2\u00b7IGR).",
@@ -4547,7 +4767,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -4557,7 +4777,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -4567,7 +4787,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -4577,7 +4797,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -4587,7 +4807,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -4597,7 +4817,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -4607,7 +4837,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Monte Carlo distribution of Archie Sw (P90/P50/P10, PRMS convention)",
@@ -4660,7 +4890,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -4670,7 +4900,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -4680,7 +4910,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -4690,7 +4920,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -4700,7 +4930,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -4710,7 +4940,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -4720,7 +4960,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Monte Carlo distribution of Arps EUR (P90/P50/P10, PRMS convention)",
@@ -4773,7 +5013,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -4783,7 +5023,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -4793,7 +5033,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -4803,7 +5043,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -4813,7 +5053,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -4823,7 +5063,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -4833,7 +5083,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Compute a wellbore trajectory with the Minimum Curvature method.",
@@ -4885,7 +5135,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -4895,7 +5145,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -4905,7 +5155,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -4915,7 +5165,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -4925,7 +5175,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -4935,7 +5185,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -4945,7 +5205,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Read an uploaded LAS 1.2/2.0 file (provenance + validation report)",
@@ -4997,7 +5257,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -5007,7 +5267,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -5017,7 +5277,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -5027,7 +5287,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -5037,7 +5297,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -5047,7 +5307,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -5057,7 +5327,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Read an uploaded directional survey and compute its trajectory",
@@ -5104,7 +5374,7 @@
                 }
               }
             },
-            "description": "Unauthorized"
+            "description": "Missing or invalid API key"
           },
           "403": {
             "content": {
@@ -5114,7 +5384,7 @@
                 }
               }
             },
-            "description": "Forbidden"
+            "description": "Project or scope not allowed for this key"
           },
           "413": {
             "content": {
@@ -5124,7 +5394,7 @@
                 }
               }
             },
-            "description": "Content Too Large"
+            "description": "Request body or uploaded file above the server limit"
           },
           "422": {
             "content": {
@@ -5134,7 +5404,7 @@
                 }
               }
             },
-            "description": "Unprocessable Content"
+            "description": "Invalid request or scientific input error (typed)"
           },
           "429": {
             "content": {
@@ -5144,7 +5414,7 @@
                 }
               }
             },
-            "description": "Too Many Requests"
+            "description": "Rate limit exceeded (see Retry-After)"
           },
           "501": {
             "content": {
@@ -5154,7 +5424,17 @@
                 }
               }
             },
-            "description": "Not Implemented"
+            "description": "Feature planned (maturity M0), not implemented"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "All calculation slots busy (see Retry-After)"
           },
           "504": {
             "content": {
@@ -5164,7 +5444,7 @@
                 }
               }
             },
-            "description": "Gateway Timeout"
+            "description": "Calculation exceeded the server timeout"
           }
         },
         "summary": "Methods",

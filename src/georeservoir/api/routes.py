@@ -5,22 +5,21 @@ No endpoint accepts a filesystem path or executable content; files arrive only a
 uploads, are written to a private temporary directory and deleted after parsing.
 """
 
-import math
+import inspect
 import re
 import shutil
 import tempfile
 from collections.abc import Callable
 from pathlib import Path
-from typing import Annotated, Any, Literal
+from typing import Annotated, Any, Literal, TypeVar
 
-import anyio
 from fastapi import Depends, FastAPI, File, Form, HTTPException, Request, UploadFile
 from pydantic import BaseModel
 
 from georeservoir import __version__
 from georeservoir.api import schemas as s
 from georeservoir.api.config import Scope, Settings
-from georeservoir.api.security import Principal, authenticate, authorize
+from georeservoir.api.security import CalcSlots, Principal
 from georeservoir.common.exceptions import InputValidationError
 from georeservoir.common.record import CalculationRecord
 from georeservoir.engineering import (
@@ -33,13 +32,26 @@ from georeservoir.engineering import (
     well_path,
 )
 
+T = TypeVar("T")
 PREFIX = "/api/v1/projects/{project_id}"
-ERRORS: dict[int | str, dict[str, Any]] = {
-    code: {"model": s.ErrorResponse} for code in (401, 403, 413, 422, 429, 501, 504)
+#: Explicit descriptions: the default HTTP reason phrases differ between Python versions
+#: (e.g. 413 "Request Entity Too Large" vs "Content Too Large"), which would make the
+#: committed OpenAPI contract depend on the interpreter.
+_ERROR_TEXT: dict[int, str] = {
+    401: "Missing or invalid API key",
+    403: "Project or scope not allowed for this key",
+    413: "Request body or uploaded file above the server limit",
+    422: "Invalid request or scientific input error (typed)",
+    429: "Rate limit exceeded (see Retry-After)",
+    501: "Feature planned (maturity M0), not implemented",
+    503: "All calculation slots busy (see Retry-After)",
+    504: "Calculation exceeded the server timeout",
 }
-_MATURITY = re.compile(r"Maturity:\s*(M[0-4])")
+ERRORS: dict[int | str, dict[str, Any]] = {
+    code: {"model": s.ErrorResponse, "description": text} for code, text in _ERROR_TEXT.items()
+}
+_MATURITY = re.compile(r"Maturity:\s*(M[0-3])")
 _SAFE_NAME = re.compile(r"[^A-Za-z0-9._-]")
-METHODS: list[s.MethodInfo] = []
 
 
 def _settings(request: Request) -> Settings:
@@ -48,20 +60,15 @@ def _settings(request: Request) -> Settings:
 
 
 def _principal(scope: Scope) -> Callable[..., Principal]:
+    """Authentication, rate limiting and authorisation happen in GuardMiddleware before
+    the body is read; this dependency re-checks that the request was authorised for this
+    project and scope (defence in depth) and exposes the principal to the handler."""
+
     def dep(request: Request, project_id: str) -> Principal:
-        st = _settings(request)
-        key = authenticate(request, st)
-        principal = authorize(key, project_id, scope)
-        ok, retry = request.app.state.rate_limiter.allow(key.key_id)
-        request.state.key_id = key.key_id
-        request.state.project_id = project_id
-        if not ok:
-            raise HTTPException(
-                status_code=429,
-                detail="rate limit exceeded",
-                headers={"Retry-After": str(math.ceil(retry))},
-            )
-        return principal
+        auth = getattr(request.state, "authorized", None)
+        if not auth or auth[1] != project_id or auth[2] != scope:
+            raise HTTPException(status_code=403, detail="not allowed for this project")
+        return Principal(auth[0], project_id)
 
     return dep
 
@@ -80,17 +87,21 @@ def _check_lengths(model: BaseModel, limit: int, prefix: str = "") -> None:
             _check_lengths(value, limit, f"{prefix}{name}.")
 
 
-async def _run(request: Request, fn: Callable[[], CalculationRecord]) -> CalculationRecord:
+async def _run(request: Request, fn: Callable[[], T]) -> T:
     st = _settings(request)
-    with anyio.fail_after(st.calc_timeout_s):
-        rec: CalculationRecord = await anyio.to_thread.run_sync(
-            fn, abandon_on_cancel=True, limiter=request.app.state.calc_limiter
-        )
-    return rec
+    slots: CalcSlots = request.app.state.calc_slots
+    return await slots.run(
+        fn, queue_timeout_s=st.queue_timeout_s, calc_timeout_s=st.calc_timeout_s
+    )
 
 
 def _envelope(principal: Principal, rec: CalculationRecord) -> dict[str, Any]:
     return {"api_version": "v1", "project_id": principal.project_id, "record": rec.to_dict()}
+
+
+def _doc(fn: Callable[..., Any]) -> str:
+    """Docstring normalised the same way on every Python version (3.13 dedents)."""
+    return inspect.cleandoc(fn.__doc__ or "")
 
 
 def _maturity(fn: Callable[..., Any]) -> str:
@@ -120,10 +131,10 @@ def _calc(
         response_model=s.CalcResponse,
         tags=[tag],
         responses=ERRORS,
-        summary=(core.__doc__ or "").strip().splitlines()[0],
-        description=(core.__doc__ or ""),
+        summary=_doc(core).splitlines()[0],
+        description=_doc(core),
     )(endpoint)
-    METHODS.append(
+    app.state.methods.append(
         s.MethodInfo(
             endpoint=f"POST {PREFIX}/calc/{path}",
             method=f"{core.__module__}.{core.__qualname__}",
@@ -183,7 +194,8 @@ VSH: dict[str, Callable[..., CalculationRecord]] = {
 
 
 def register(app: FastAPI) -> None:
-    METHODS.clear()
+    methods_list: list[s.MethodInfo] = []
+    app.state.methods = methods_list
 
     @app.get("/api/v1/health", response_model=s.HealthResponse, tags=["meta"])
     async def health() -> dict[str, str]:
@@ -193,9 +205,9 @@ def register(app: FastAPI) -> None:
     @app.get(
         f"{PREFIX}/methods", response_model=list[s.MethodInfo], tags=["meta"], responses=ERRORS
     )
-    async def methods(principal: CalcAuth) -> list[s.MethodInfo]:
+    async def methods(request: Request, principal: CalcAuth) -> list[s.MethodInfo]:
         """Available calculations with their maturity level and reference."""
-        return METHODS
+        return list(request.app.state.methods)
 
     # ---- well path
     _calc(
@@ -538,7 +550,7 @@ def register(app: FastAPI) -> None:
         tags=["uncertainty"],
         responses=ERRORS,
         summary="Monte Carlo distribution of Archie Sw (P90/P50/P10, PRMS convention)",
-        description=uncertainty.mc_archie_sw.__doc__ or "",
+        description=_doc(uncertainty.mc_archie_sw),
     )
     async def mc_archie(
         request: Request, principal: CalcAuth, body: s.McArchieReq
@@ -567,7 +579,7 @@ def register(app: FastAPI) -> None:
         tags=["uncertainty"],
         responses=ERRORS,
         summary="Monte Carlo distribution of Arps EUR (P90/P50/P10, PRMS convention)",
-        description=uncertainty.mc_arps_eur.__doc__ or "",
+        description=_doc(uncertainty.mc_arps_eur),
     )
     async def mc_eur(request: Request, principal: CalcAuth, body: s.McEurReq) -> dict[str, Any]:
         _mc_guard(_settings(request), body.n_samples)
@@ -592,7 +604,7 @@ def register(app: FastAPI) -> None:
         (uncertainty.mc_archie_sw, "uncertainty/mc-archie-sw"),
         (uncertainty.mc_arps_eur, "uncertainty/mc-arps-eur"),
     ):
-        METHODS.append(
+        app.state.methods.append(
             s.MethodInfo(
                 endpoint=f"POST {PREFIX}/calc/{path}",
                 method=f"{fn.__module__}.{fn.__qualname__}",
@@ -617,10 +629,11 @@ def register(app: FastAPI) -> None:
     ) -> dict[str, Any]:
         from georeservoir.io.las import read_las
 
-        data = await _read_upload(request, file)
+        await _single_file(request)
+        limit = _settings(request).max_upload_bytes
 
         def work() -> dict[str, Any]:
-            with _private_copy(data, file.filename, ".las") as path:
+            with _private_copy(file, limit, ".las") as path:
                 log = read_las(path, on_error="report")
             content: dict[str, Any] = {
                 "las_version": log.las_version,
@@ -662,7 +675,7 @@ def register(app: FastAPI) -> None:
                 "content": content,
             }
 
-        return await _run_any(request, work)
+        return await _run(request, work)
 
     @app.post(
         f"{PREFIX}/data/survey",
@@ -687,10 +700,11 @@ def register(app: FastAPI) -> None:
     ) -> dict[str, Any]:
         from georeservoir.io.survey import read_survey
 
-        data = await _read_upload(request, file)
+        await _single_file(request)
+        limit = _settings(request).max_upload_bytes
 
         def work() -> dict[str, Any]:
-            with _private_copy(data, file.filename, ".csv") as path:
+            with _private_copy(file, limit, ".csv") as path:
                 sv = read_survey(
                     path,
                     md_column=md_column,
@@ -711,7 +725,7 @@ def register(app: FastAPI) -> None:
                 "content": {"n_stations": int(sv.md.size), "trajectory": traj.to_dict()},
             }
 
-        return await _run_any(request, work)
+        return await _run(request, work)
 
 
 def _bool_array(values: list[bool]) -> Any:
@@ -724,46 +738,38 @@ def _json_floats(values: list[float]) -> list[float | None]:
     return [None if v != v else v for v in values]  # NaN → null
 
 
-async def _run_any(request: Request, fn: Callable[[], dict[str, Any]]) -> dict[str, Any]:
-    st = _settings(request)
-    with anyio.fail_after(st.calc_timeout_s):
-        out: dict[str, Any] = await anyio.to_thread.run_sync(
-            fn, abandon_on_cancel=True, limiter=request.app.state.calc_limiter
-        )
-    return out
-
-
-async def _read_upload(request: Request, file: UploadFile) -> bytes:
-    limit = _settings(request).max_upload_bytes
-    chunks: list[bytes] = []
-    size = 0
-    while True:
-        chunk = await file.read(1024 * 1024)
-        if not chunk:
-            break
-        size += len(chunk)
-        if size > limit:
-            raise HTTPException(status_code=413, detail=f"file exceeds {limit} bytes")
-        chunks.append(chunk)
-    if size == 0:
-        raise InputValidationError("file: the uploaded file is empty")
-    return b"".join(chunks)
+async def _single_file(request: Request) -> None:
+    form = await request.form()  # already parsed by FastAPI; cached
+    if len(form.getlist("file")) != 1:
+        raise InputValidationError("file: exactly one file part is required")
 
 
 class _private_copy:  # noqa: N801 - context manager used like a function
-    """Write upload bytes into a fresh private temp dir under a sanitised base name."""
+    """Stream the upload (already spooled by the server) into a fresh private temp dir
+    under a sanitised base name, enforcing the size limit; removed on exit."""
 
-    def __init__(self, data: bytes, filename: str | None, default_suffix: str) -> None:
-        base = Path(filename or "").name  # drop any client-supplied directories
+    def __init__(self, upload: UploadFile, limit: int, default_suffix: str) -> None:
+        base = Path((upload.filename or "").replace("\\", "/")).name  # drop directories
         base = _SAFE_NAME.sub("_", base)[:100].lstrip(".") or f"upload{default_suffix}"
-        self.data = data
+        self.upload = upload
+        self.limit = limit
         self.base = base
         self.dir: str | None = None
 
     def __enter__(self) -> Path:
         self.dir = tempfile.mkdtemp(prefix="georeservoir-upload-")
         path = Path(self.dir) / self.base
-        path.write_bytes(self.data)
+        size = 0
+        src = self.upload.file
+        src.seek(0)
+        with path.open("xb") as out:  # exclusive create in our own fresh directory
+            while chunk := src.read(1024 * 1024):
+                size += len(chunk)
+                if size > self.limit:
+                    raise HTTPException(status_code=413, detail=f"file exceeds {self.limit} bytes")
+                out.write(chunk)
+        if size == 0:
+            raise InputValidationError("file: the uploaded file is empty")
         return path
 
     def __exit__(self, *exc: object) -> None:

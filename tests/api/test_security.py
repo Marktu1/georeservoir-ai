@@ -297,8 +297,10 @@ def test_security_headers(client: TestClient) -> None:
     assert "access-control-allow-origin" not in h  # no CORS unless configured
 
 
-def test_docs_can_be_disabled(client_factory: Callable[..., TestClient]) -> None:
-    assert client_factory(enable_docs=False).get("/api/v1/docs").status_code == 404
+def test_docs_and_openapi_can_be_disabled(client_factory: Callable[..., TestClient]) -> None:
+    off = client_factory(enable_docs=False)
+    assert off.get("/api/v1/docs").status_code == 404
+    assert off.get("/api/v1/openapi.json").status_code == 404
     assert client_factory().get("/api/v1/docs").status_code == 200
 
 
@@ -316,6 +318,8 @@ def test_settings_validation(tmp_path: Path) -> None:
         Settings(keys=(k, k))
     with pytest.raises(ValueError, match="calc_timeout_s"):
         Settings(keys=(), calc_timeout_s=0)
+    with pytest.raises(ValueError, match="queue_timeout_s"):
+        Settings(keys=(), queue_timeout_s=-1)
     with pytest.raises(ValueError, match="KEYS_FILE"):
         load_settings({})
     f = tmp_path / "keys.json"
@@ -359,3 +363,185 @@ def test_cli(capsys: pytest.CaptureFixture[str]) -> None:
 def test_app_without_keys_rejects_everything() -> None:
     c = TestClient(create_app(Settings(keys=())))
     assert c.post(VSH, headers=AUTH, json=GOOD).status_code == 401
+
+
+# ---------------------------------------------------------------- review regressions
+def test_auth_is_checked_before_the_body_is_read(client: TestClient) -> None:
+    r = client.post(VSH, headers={"content-type": "application/json"}, content=b"{broken")
+    assert r.status_code == 401  # not 422: the body was never parsed
+    r = client.post(LAS_URL, files={"file": ("big.las", b"x" * 3_000_000)})
+    assert r.status_code == 401
+
+
+@pytest.mark.parametrize(
+    "value",
+    [
+        f"Bearer  {TOKEN}",
+        f"Bearer {TOKEN} ",
+        f" Bearer {TOKEN}",
+        f"Bearer {TOKEN} extra",
+        f"Bearer\t{TOKEN}",
+    ],
+)
+def test_malformed_authorization_values(client: TestClient, value: str) -> None:
+    assert client.post(VSH, headers={"Authorization": value}, json=GOOD).status_code == 401
+
+
+def test_scheme_is_case_insensitive_and_duplicate_header_refused(client: TestClient) -> None:
+    assert (
+        client.post(VSH, headers={"Authorization": f"bearer {TOKEN}"}, json=GOOD).status_code
+        == 200
+    )
+    r = client.post(
+        VSH,
+        headers=[("Authorization", f"Bearer {TOKEN}"), ("Authorization", f"Bearer {TOKEN}")],
+        json=GOOD,
+    )
+    assert r.status_code == 401
+
+
+def test_failed_auth_and_forbidden_requests_are_rate_limited(
+    client_factory: Callable[..., TestClient],
+) -> None:
+    c = client_factory(rate_limit_per_minute=3)
+    codes = [
+        c.post(VSH, headers={"Authorization": f"Bearer guess-{i}"}, json=GOOD).status_code
+        for i in range(5)
+    ]
+    assert codes[:3] == [401, 401, 401] and codes[3:] == [429, 429]
+    c = client_factory(rate_limit_per_minute=3)
+    other = "/api/v1/projects/other/calc/petrophysics/vsh"
+    codes = [c.post(other, headers=AUTH, json=GOOD).status_code for _ in range(5)]
+    assert codes[:3] == [403, 403, 403] and codes[3:] == [429, 429]
+
+
+def test_body_limit_is_chosen_by_route_not_substring(
+    client_factory: Callable[..., TestClient],
+) -> None:
+    c = client_factory(max_body_bytes=2048, max_upload_bytes=10_000_000)
+    r = c.post(
+        "/api/v1/projects/data/calc/petrophysics/vsh",
+        headers=AUTH,
+        json={"igr": [0.5] * 2000, "method": "steiber"},
+    )
+    assert r.status_code == 413
+
+
+def test_500_has_security_headers_and_request_id(
+    client: TestClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    def boom(*a: Any, **k: Any) -> Any:
+        raise RuntimeError("secret")
+
+    monkeypatch.setitem(
+        __import__("georeservoir.api.routes", fromlist=["VSH"]).VSH, "steiber", boom
+    )
+    r = client.post(VSH, headers=AUTH, json=GOOD)
+    assert r.status_code == 500
+    assert r.headers["x-content-type-options"] == "nosniff"
+    assert r.headers["x-request-id"] == r.json()["error"]["request_id"]
+
+
+def test_404_and_405_use_typed_envelope(client: TestClient) -> None:
+    r = client.get("/api/v1/nope")
+    assert r.status_code == 404 and r.json()["error"]["type"] == "HTTPError"
+    r = client.get(VSH, headers=AUTH)
+    assert r.status_code == 405 and "error" in r.json()
+
+
+@pytest.mark.parametrize("bad", [True, "20", [0.5], None])
+def test_numbers_are_strict(client: TestClient, bad: Any) -> None:
+    body = {
+        "porosity": [0.2],
+        "rt_ohm_m": [20],
+        "rw_ohm_m": bad,
+        "a": 1,
+        "m": 2,
+        "n": 2,
+        "clip": False,
+    }
+    r = client.post(
+        f"/api/v1/projects/{PROJECT}/calc/petrophysics/archie-sw", headers=AUTH, json=body
+    )
+    assert r.status_code == 422
+    r = client.post(VSH, headers=AUTH, json={"igr": [True], "method": "steiber"})
+    assert r.status_code == 422
+    r = client.post(
+        VSH,
+        headers={**AUTH, "content-type": "application/json"},
+        content=b'{"igr": [1e400], "method": "steiber"}',
+    )
+    assert r.status_code == 422
+
+
+def test_timed_out_calculations_cannot_accumulate(
+    client_factory: Callable[..., TestClient], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import threading
+    import time
+
+    running = {"now": 0, "max": 0}
+    lock = threading.Lock()
+
+    def slow(*a: Any, **k: Any) -> Any:
+        with lock:
+            running["now"] += 1
+            running["max"] = max(running["max"], running["now"])
+        time.sleep(0.4)
+        with lock:
+            running["now"] -= 1
+        return petrophysics.vsh_steiber([0.5])
+
+    monkeypatch.setitem(
+        __import__("georeservoir.api.routes", fromlist=["VSH"]).VSH, "steiber", slow
+    )
+    c = client_factory(max_concurrent_calcs=1, calc_timeout_s=0.05, queue_timeout_s=0.0)
+    codes = [c.post(VSH, headers=AUTH, json=GOOD).status_code for _ in range(5)]
+    assert codes[0] == 504 and set(codes[1:]) <= {503, 504}
+    assert 503 in codes  # the abandoned thread still holds the only slot
+    time.sleep(0.5)
+    assert running["max"] == 1
+
+
+def test_queue_wait_does_not_count_as_calculation_time(
+    client_factory: Callable[..., TestClient], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import threading
+    import time
+
+    def slow(*a: Any, **k: Any) -> Any:
+        time.sleep(0.3)
+        return petrophysics.vsh_steiber([0.5])
+
+    monkeypatch.setitem(
+        __import__("georeservoir.api.routes", fromlist=["VSH"]).VSH, "steiber", slow
+    )
+    c = client_factory(max_concurrent_calcs=1, calc_timeout_s=0.5, queue_timeout_s=5.0)
+    out: list[int] = []
+
+    def call() -> None:
+        out.append(c.post(VSH, headers=AUTH, json=GOOD).status_code)
+
+    threads = [threading.Thread(target=call) for _ in range(3)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    assert out == [200, 200, 200]  # third waited ~0.6 s in the queue, then ran 0.3 s
+
+
+def test_only_one_file_part_accepted(client: TestClient) -> None:
+    data = LAS.read_bytes()
+    r = client.post(
+        LAS_URL, headers=AUTH, files=[("file", ("a.las", data)), ("file", ("b.las", data))]
+    )
+    assert r.status_code == 422 and "exactly one" in r.json()["error"]["message"]
+
+
+def test_rate_limiter_memory_is_bounded() -> None:
+    from georeservoir.api.security import MAX_BUCKETS, RateLimiter
+
+    rl = RateLimiter(10)
+    for i in range(MAX_BUCKETS + 50):
+        rl.allow(f"addr:{i}")
+    assert len(rl._state) == MAX_BUCKETS

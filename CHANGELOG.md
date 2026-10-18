@@ -10,7 +10,15 @@ Formato: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versionamento
 - CLI `python -m georeservoir.api {serve,new-key,openapi}`; snapshot OpenAPI em `docs/api/openapi-v1.json`; ADR-0005; hipóteses A-025 a A-027; extra `[api]`.
 - Testes de contrato (31 casos, cada resposta igual à chamada direta) e de segurança.
 
-### Fixed
+### Fixed (revisão adversarial de segurança da Fase 3)
+- Autenticação, rate limit e autorização movidos para um middleware que corre **antes** de ler o corpo; 401/403 contam para o rate limit (por endereço / por chave); memória do limitador limitada.
+- Lugares de cálculo libertados só quando a thread termina (antes: libertados no timeout, permitindo acumular threads); espera na fila separada do timeout de cálculo (503 `ServerBusy`).
+- Limite de upload escolhido pela rota exata (antes: substring `/data/` — um projeto chamado `data` tinha o limite de upload em todas as rotas).
+- Respostas 500/404/405 com envelope tipado, cabeçalhos de segurança e `X-Request-ID`.
+- Números JSON estritos (sem `true` → 1,0 nem strings numéricas).
+- Uploads copiados por streaming para a pasta privada dentro do lugar de cálculo (antes: duas cópias em memória, fora do limite de concorrência); uma só parte `file` aceite.
+- `/openapi.json` desligado com `ENABLE_DOCS=0`; lista de métodos por aplicação (não global).
+- Contrato OpenAPI independente da versão do Python (descrições de erro explícitas e docstrings normalizadas) — o CI em Python 3.11 falhava por isso.
 - Núcleo: parâmetros numéricos das distribuições de Monte Carlo e dos modelos de IPR normalizados para float — `Fixed(1)` e `Fixed(1.0)` davam `inputs_hash` diferentes (encontrado pelos testes de contrato).
 - Mensagens de erro mostram números simples (`1.5`) em vez de `np.float64(1.5)`.
 

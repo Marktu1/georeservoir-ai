@@ -79,6 +79,7 @@ class Settings:
     max_upload_bytes: int = 20 * 1024 * 1024
     max_array_len: int = 200_000
     calc_timeout_s: float = 30.0
+    queue_timeout_s: float = 10.0
     max_concurrent_calcs: int = 4
     mc_max_samples: int = 200_000
     rate_limit_per_minute: int = 120
@@ -104,6 +105,8 @@ class Settings:
                 raise ValueError(f"{name} must be >= 1")
         if not self.calc_timeout_s > 0:
             raise ValueError("calc_timeout_s must be > 0")
+        if not self.queue_timeout_s >= 0:
+            raise ValueError("queue_timeout_s must be >= 0")
         object.__setattr__(self, "_by_hash", {k.sha256: k for k in self.keys})
 
     def key_for_hash(self, digest: str) -> ApiKey | None:
@@ -147,6 +150,7 @@ def load_settings(env: dict[str, str] | None = None) -> Settings:
         ("max_upload_bytes", int),
         ("max_array_len", int),
         ("calc_timeout_s", float),
+        ("queue_timeout_s", float),
         ("max_concurrent_calcs", int),
         ("mc_max_samples", int),
         ("rate_limit_per_minute", int),
