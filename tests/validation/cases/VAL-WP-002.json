@@ -1,0 +1,63 @@
+{
+  "id": "VAL-WP-002",
+  "module": "well_path",
+  "function": "well_path.minimum_curvature",
+  "kind": "analytical",
+  "description": "Straight inclined tangent (I=30\u00b0, A=60\u00b0): N = MD\u00b7sinI\u00b7cosA, E = MD\u00b7sinI\u00b7sinA, TVD = MD\u00b7cosI.",
+  "source": "Exact trigonometry of a straight line.",
+  "source_status": "confirmed",
+  "kwargs": {
+    "length_unit": "m",
+    "azimuth_reference": "true",
+    "start_east": 0.0,
+    "start_north": 0.0,
+    "start_tvd": 0.0,
+    "md": [
+      0.0,
+      250.0,
+      500.0,
+      750.0,
+      1000.0
+    ],
+    "inclination_deg": [
+      30.0,
+      30.0,
+      30.0,
+      30.0,
+      30.0
+    ],
+    "azimuth_deg": [
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0
+    ]
+  },
+  "expected": {
+    "north_m": [
+      0.0,
+      62.50000000000001,
+      125.00000000000001,
+      187.5,
+      250.00000000000003
+    ],
+    "east_m": [
+      0.0,
+      108.25317547305481,
+      216.50635094610962,
+      324.75952641916444,
+      433.01270189221924
+    ],
+    "tvd_m": [
+      0.0,
+      216.50635094610968,
+      433.01270189221935,
+      649.519052838329,
+      866.0254037844387
+    ]
+  },
+  "tol_abs": 1e-11,
+  "tol_rel": 1e-13,
+  "tolerance_justification": "Closed-form oracle. Positions are O(1e3) m, so one float64 ulp is ~1e-13 m; cumulative sums over \u226410 courses accumulate \u2264~1e-12 m. 1e-11 m absolute (+1e-13 relative) is ~10x that bound. For DLS (deg/30m, O(1)) the same numbers are ~1e-14 deg/30m, far inside the tolerance."
+}

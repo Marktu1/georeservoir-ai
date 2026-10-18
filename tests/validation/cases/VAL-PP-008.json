@@ -1,0 +1,30 @@
+{
+  "id": "VAL-PP-008",
+  "module": "petrophysics",
+  "function": "petrophysics.archie_water_saturation",
+  "kind": "spec_conformance",
+  "description": "\u03c6 = 0.20, Rt = 20, Rw = 0.05 ohm\u00b7m, a = 1, m = n = 2 \u2192 Sw = \u221a(0.05/(0.04\u00b720)) = 0.25.",
+  "source": "Hand-checkable evaluation of the published equation (verifies transcription).",
+  "source_status": "confirmed",
+  "kwargs": {
+    "porosity": [
+      0.2
+    ],
+    "rt_ohm_m": [
+      20.0
+    ],
+    "rw_ohm_m": 0.05,
+    "a": 1.0,
+    "m": 2.0,
+    "n": 2.0,
+    "clip": false
+  },
+  "expected": {
+    "sw": [
+      0.25
+    ]
+  },
+  "tol_abs": 1e-14,
+  "tol_rel": 1e-14,
+  "tolerance_justification": "Arithmetic on O(1) fractions; float64 rounding ~1e-16, a few operations -> \u2264~1e-15. 1e-14 is ~10x that bound."
+}

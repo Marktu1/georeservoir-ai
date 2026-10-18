@@ -1,0 +1,22 @@
+{
+  "id": "VAL-PP-004",
+  "module": "petrophysics",
+  "function": "petrophysics.vsh_larionov_tertiary",
+  "kind": "spec_conformance",
+  "description": "Larionov Tertiary at IGR = 0.5 \u2192 0.083\u00b7(2^1.85 \u2212 1).",
+  "source": "Hand-checkable evaluation of the published equation (verifies transcription).",
+  "source_status": "confirmed",
+  "kwargs": {
+    "igr": [
+      0.5
+    ]
+  },
+  "expected": {
+    "vsh": [
+      0.21621515358679566
+    ]
+  },
+  "tol_abs": 1e-14,
+  "tol_rel": 1e-14,
+  "tolerance_justification": "Arithmetic on O(1) fractions; float64 rounding ~1e-16, a few operations -> \u2264~1e-15. 1e-14 is ~10x that bound."
+}

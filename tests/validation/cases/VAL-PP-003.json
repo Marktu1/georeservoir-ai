@@ -1,0 +1,26 @@
+{
+  "id": "VAL-PP-003",
+  "module": "petrophysics",
+  "function": "petrophysics.vsh_larionov_older",
+  "kind": "spec_conformance",
+  "description": "Larionov older at IGR = 0, 0.5, 1 \u2192 0, 0.33, 0.99.",
+  "source": "Hand-checkable evaluation of the published equation (verifies transcription).",
+  "source_status": "confirmed",
+  "kwargs": {
+    "igr": [
+      0.0,
+      0.5,
+      1.0
+    ]
+  },
+  "expected": {
+    "vsh": [
+      0.0,
+      0.33,
+      0.99
+    ]
+  },
+  "tol_abs": 1e-14,
+  "tol_rel": 1e-14,
+  "tolerance_justification": "Arithmetic on O(1) fractions; float64 rounding ~1e-16, a few operations -> \u2264~1e-15. 1e-14 is ~10x that bound."
+}

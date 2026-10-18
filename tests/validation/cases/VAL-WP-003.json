@@ -1,0 +1,48 @@
+{
+  "id": "VAL-WP-003",
+  "module": "well_path",
+  "function": "well_path.minimum_curvature",
+  "kind": "analytical",
+  "description": "Circular build arc in a vertical plane, R = 500 m, I 0\u00b0\u219290\u00b0 at azimuth 0\u00b0, 2 stations. N = R(1\u2212cos\u03b8), TVD = R\u00b7sin\u03b8, \u03b8 = MD/R; DLS = 90\u00b0/L\u00b730 m.",
+  "source": "Exact circle geometry.",
+  "source_status": "confirmed",
+  "kwargs": {
+    "length_unit": "m",
+    "azimuth_reference": "true",
+    "start_east": 0.0,
+    "start_north": 0.0,
+    "start_tvd": 0.0,
+    "md": [
+      0.0,
+      785.3981633974482
+    ],
+    "inclination_deg": [
+      0.0,
+      90.0
+    ],
+    "azimuth_deg": [
+      0.0,
+      0.0
+    ]
+  },
+  "expected": {
+    "north_m": [
+      0.0,
+      499.99999999999994
+    ],
+    "tvd_m": [
+      0.0,
+      500.0
+    ],
+    "east_m": [
+      0.0,
+      0.0
+    ],
+    "dls_deg_per_30m": [
+      3.4377467707849396
+    ]
+  },
+  "tol_abs": 1e-11,
+  "tol_rel": 1e-13,
+  "tolerance_justification": "Closed-form oracle. Positions are O(1e3) m, so one float64 ulp is ~1e-13 m; cumulative sums over \u226410 courses accumulate \u2264~1e-12 m. 1e-11 m absolute (+1e-13 relative) is ~10x that bound. For DLS (deg/30m, O(1)) the same numbers are ~1e-14 deg/30m, far inside the tolerance."
+}

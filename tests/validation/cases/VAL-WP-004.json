@@ -1,0 +1,104 @@
+{
+  "id": "VAL-WP-004",
+  "module": "well_path",
+  "function": "well_path.minimum_curvature",
+  "kind": "analytical",
+  "description": "Circular build arc in a vertical plane, R = 500 m, I 0\u00b0\u219290\u00b0 at azimuth 0\u00b0, 10 stations. N = R(1\u2212cos\u03b8), TVD = R\u00b7sin\u03b8, \u03b8 = MD/R; DLS = 90\u00b0/L\u00b730 m. Subdivision: exactness for arcs means intermediate stations lie on the arc.",
+  "source": "Exact circle geometry.",
+  "source_status": "confirmed",
+  "kwargs": {
+    "length_unit": "m",
+    "azimuth_reference": "true",
+    "start_east": 0.0,
+    "start_north": 0.0,
+    "start_tvd": 0.0,
+    "md": [
+      0.0,
+      87.26646259971648,
+      174.53292519943295,
+      261.79938779914943,
+      349.0658503988659,
+      436.3323129985823,
+      523.5987755982989,
+      610.8652381980153,
+      698.1317007977318,
+      785.3981633974482
+    ],
+    "inclination_deg": [
+      0.0,
+      10.0,
+      20.0,
+      29.999999999999996,
+      40.0,
+      49.99999999999999,
+      59.99999999999999,
+      70.0,
+      80.0,
+      90.0
+    ],
+    "azimuth_deg": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "expected": {
+    "north_m": [
+      0.0,
+      7.596123493895989,
+      30.153689607045784,
+      66.98729810778065,
+      116.97777844051099,
+      178.60619515673025,
+      249.99999999999994,
+      328.98992833716557,
+      413.1759111665348,
+      499.99999999999994
+    ],
+    "tvd_m": [
+      0.0,
+      86.82408883346517,
+      171.01007166283435,
+      249.99999999999997,
+      321.3938048432696,
+      383.02222155948897,
+      433.0127018922193,
+      469.84631039295414,
+      492.403876506104,
+      500.0
+    ],
+    "east_m": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dls_deg_per_30m": [
+      3.4377467707849396,
+      3.4377467707849396,
+      3.4377467707849396,
+      3.4377467707849396,
+      3.4377467707849396,
+      3.4377467707849396,
+      3.4377467707849396,
+      3.4377467707849396,
+      3.4377467707849396
+    ]
+  },
+  "tol_abs": 1e-11,
+  "tol_rel": 1e-13,
+  "tolerance_justification": "Closed-form oracle. Positions are O(1e3) m, so one float64 ulp is ~1e-13 m; cumulative sums over \u226410 courses accumulate \u2264~1e-12 m. 1e-11 m absolute (+1e-13 relative) is ~10x that bound. For DLS (deg/30m, O(1)) the same numbers are ~1e-14 deg/30m, far inside the tolerance."
+}

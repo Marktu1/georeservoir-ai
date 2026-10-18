@@ -1,0 +1,14 @@
+{
+  "id": "VAL-WP-L01",
+  "module": "well_path",
+  "function": "well_path.minimum_curvature",
+  "kind": "literature",
+  "description": "ISCWSA test well #1 (published survey listing).",
+  "source": "ISCWSA (Industry Steering Committee on Wellbore Survey Accuracy) published test wells (listing not obtained in this execution).",
+  "source_status": "fonte por verificar",
+  "kwargs": null,
+  "expected": null,
+  "tol_abs": null,
+  "tol_rel": null,
+  "tolerance_justification": "To be set from the precision of the published listing."
+}

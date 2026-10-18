@@ -1,0 +1,14 @@
+{
+  "id": "VAL-PP-L01",
+  "module": "petrophysics",
+  "function": "petrophysics.archie_water_saturation",
+  "kind": "literature",
+  "description": "Published worked example of an Archie Sw computation.",
+  "source": "Candidate: Asquith & Krygowski (2004), Basic Well Log Analysis, AAPG \u2014 exercise values not verified in this execution.",
+  "source_status": "fonte por verificar",
+  "kwargs": null,
+  "expected": null,
+  "tol_abs": null,
+  "tol_rel": null,
+  "tolerance_justification": "To be set from the rounding of the published example."
+}

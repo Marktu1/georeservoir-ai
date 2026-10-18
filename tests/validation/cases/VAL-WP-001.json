@@ -1,0 +1,76 @@
+{
+  "id": "VAL-WP-001",
+  "module": "well_path",
+  "function": "well_path.minimum_curvature",
+  "kind": "analytical",
+  "description": "Vertical well: TVD = MD, zero horizontal displacement, zero dogleg.",
+  "source": "Exact geometry (straight vertical line).",
+  "source_status": "confirmed",
+  "kwargs": {
+    "length_unit": "m",
+    "azimuth_reference": "true",
+    "start_east": 0.0,
+    "start_north": 0.0,
+    "start_tvd": 0.0,
+    "md": [
+      0.0,
+      250.0,
+      500.0,
+      750.0,
+      1000.0
+    ],
+    "inclination_deg": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "azimuth_deg": [
+      0.0,
+      37.0,
+      123.0,
+      250.0,
+      359.0
+    ]
+  },
+  "expected": {
+    "tvd_m": [
+      0.0,
+      250.0,
+      500.0,
+      750.0,
+      1000.0
+    ],
+    "north_m": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "east_m": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "horizontal_displacement_m": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dogleg_deg": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "tol_abs": 1e-11,
+  "tol_rel": 1e-13,
+  "tolerance_justification": "Closed-form oracle. Positions are O(1e3) m, so one float64 ulp is ~1e-13 m; cumulative sums over \u226410 courses accumulate \u2264~1e-12 m. 1e-11 m absolute (+1e-13 relative) is ~10x that bound. For DLS (deg/30m, O(1)) the same numbers are ~1e-14 deg/30m, far inside the tolerance."
+}
