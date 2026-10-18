@@ -23,13 +23,13 @@ __all__ = [
 #: canonical name → (description, aliases). Matching is case-insensitive and exact.
 CANONICAL_CURVES: Final[dict[str, tuple[str, tuple[str, ...]]]] = {
     "DEPT": ("measured depth index", ("DEPT", "DEPTH", "MD")),
-    "GR": ("total gamma ray", ("GR", "GAMMA", "SGR")),
+    "GR": ("total gamma ray", ("GR", "GAMMA")),
     "RHOB": ("bulk density", ("RHOB", "RHOZ", "DEN", "ZDEN")),
     "NPHI": ("neutron porosity", ("NPHI", "TNPH", "NPOR")),
     "DT": ("compressional slowness", ("DT", "DTC", "DTCO", "AC")),
     "RDEEP": (
         "deep resistivity (a reading, not true formation resistivity Rt)",
-        ("ILD", "LLD", "RD", "RDEP", "AT90", "RT"),
+        ("ILD", "LLD", "RD", "RDEP", "AT90"),
     ),
     "SP": ("spontaneous potential", ("SP",)),
     "CALI": ("caliper", ("CALI", "CAL", "HCAL")),

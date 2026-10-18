@@ -93,3 +93,22 @@ def test_bad_number_and_inclination(tmp_path: Path) -> None:
         read_survey(f, **CSV)
     f.write_text("MD_FT,INC_DEG,AZI_DEG\n0,0,0\n10,1,0\n20,2,0\n30,3,0\n1000,4,0\n")
     assert "LARGE_STATION_GAP" in read_survey(f, **CSV).report.codes()
+
+
+def test_sentinels_extra_fields_quotes_and_lines(tmp_path: Path) -> None:
+    f = tmp_path / "s.csv"
+    f.write_text("MD_FT,INC_DEG,AZI_DEG\n0,0,0\n100,3,-999.0\n")
+    with pytest.raises(InputValidationError, match=r"line 3.*sentinel"):
+        read_survey(f, **CSV)
+    f.write_text(
+        'MD_FT,INC_DEG,AZI_DEG,NOTE\n0,0,0,"multi\nline"\n100,3,10,ok,extra\n200,6,abc,x\n'
+    )
+    # quoted field spans physical lines 2-3, so 'abc' is on physical line 5
+    with pytest.raises(InputValidationError, match=r"line 5.*not a number"):
+        read_survey(f, **CSV)
+    f.write_text("MD_FT,INC_DEG,AZI_DEG\n-10,0,0\n100,3,10,extra\n")
+    codes = read_survey(f, **CSV).report.codes()
+    assert {"NEGATIVE_MD", "EXTRA_FIELDS"} <= codes
+    # en dash U+2013 is byte 0x96 in cp1252, invalid as UTF-8
+    f.write_bytes("MD_FT,INC_DEG,AZI_DEG\n0,0,0\n100,3,10\n# \u2013 nota\n".encode("cp1252"))
+    assert "ENCODING" in read_survey(f, **CSV).report.codes()

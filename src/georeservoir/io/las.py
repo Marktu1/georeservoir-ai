@@ -57,9 +57,8 @@ SUSPECT_SENTINELS: Final[tuple[float, ...]] = (
     -99999.0,
 )
 #: Relative tolerance for comparing sample spacing with the header STEP (A-022).
-STEP_RTOL: Final[float] = 1e-3
+STEP_RTOL: Final[float] = 1e-2
 OnError = Literal["raise", "report"]
-_DECIMAL_COMMA = re.compile(r"(?<![\w.,])-?\d+,\d+(?![\w.,])")
 
 
 @dataclass(frozen=True, slots=True)
@@ -125,12 +124,15 @@ class WellLog:
         return self._order
 
     def curve(self, name: str) -> LasCurve:
-        """Curve by original mnemonic (as parsed, upper-case) or by canonical name."""
-        key = name.upper()
-        if key in self.curves:
-            return self.curves[key]
-        if key in self.canonical_map:
-            return self.curves[self.canonical_map[key]]
+        """Curve by original mnemonic (exact, then case-insensitive if unique) or by
+        canonical name."""
+        if name in self.curves:
+            return self.curves[name]
+        matches = [n for n in self._order if n.upper() == name.upper()]
+        if len(matches) == 1:
+            return self.curves[matches[0]]
+        if name.upper() in self.canonical_map:
+            return self.curves[self.canonical_map[name.upper()]]
         raise InputValidationError(
             f"curve: received {name!r}; available: {list(self._order)} "
             f"(canonical: {sorted(self.canonical_map)})"
@@ -229,6 +231,20 @@ def _capture_lasio() -> Iterator[_Collector]:
         logger.propagate = old_propagate
 
 
+def _raw_other(text: str) -> str | None:
+    """Verbatim ~O section body (all lines, indentation kept), or None if absent."""
+    lines = text.splitlines()
+    for k, line in enumerate(lines):
+        if line.lstrip().upper().startswith("~O"):
+            body: list[str] = []
+            for nxt in lines[k + 1 :]:
+                if nxt.lstrip().startswith("~"):
+                    break
+                body.append(nxt)
+            return "\n".join(body)
+    return None
+
+
 def _raw_sections(text: str) -> dict[str, list[str]]:
     """Header lines per section letter (V, W, C, P), comments and blanks removed."""
     out: dict[str, list[str]] = {}
@@ -245,16 +261,21 @@ def _raw_sections(text: str) -> dict[str, list[str]]:
     return out
 
 
-def _raw_value(line: str) -> str:
-    """Text between the unit field and the last colon of a LAS header line, stripped."""
+def _raw_fields(line: str) -> tuple[str, str]:
+    """(value, description) text of a LAS header line ``MNEM.UNIT  DATA : DESCRIPTION``.
+
+    Value = text between the unit field and the last colon; description = text after it.
+    """
     if "." not in line:
-        return ""
+        return "", ""
     after = line.split(".", 1)[1]
-    body = after.rsplit(":", 1)[0] if ":" in after else after
+    body, desc = after.rsplit(":", 1) if ":" in after else (after, "")
     if body[:1].isspace() or body == "":
-        return body.strip()
-    parts = body.split(None, 1)
-    return parts[1].strip() if len(parts) > 1 else ""
+        value = body.strip()
+    else:
+        parts = body.split(None, 1)
+        value = parts[1].strip() if len(parts) > 1 else ""
+    return value, desc.strip()
 
 
 def _items(
@@ -277,8 +298,8 @@ def _items(
         )
     out = []
     for k, i in enumerate(parsed):
-        value_raw = _raw_value(raw[k]) if use_raw else str(i.value)
-        out.append(HeaderItem(str(i.mnemonic), str(i.unit), value_raw, str(i.descr), str(i.value)))
+        value_raw, desc_raw = _raw_fields(raw[k]) if use_raw else (str(i.value), str(i.descr))
+        out.append(HeaderItem(str(i.mnemonic), str(i.unit), value_raw, desc_raw, str(i.value)))
     return tuple(out)
 
 
@@ -290,16 +311,27 @@ def _float_or_none(v: Any) -> float | None:
     return f if np.isfinite(f) else None
 
 
-def _decode(data: bytes) -> tuple[str, str]:
-    for enc in ("utf-8-sig", "utf-16"):
-        try:
-            text = data.decode(enc)
-        except UnicodeDecodeError:
-            continue
-        if enc == "utf-16" and "~" not in text:
-            continue
-        return text, enc
-    return data.decode("latin-1"), "latin-1"
+def _decode(data: bytes) -> tuple[str, str, CheckStatus]:
+    """Decode with an explicit, reported order: BOM-marked UTF-16, UTF-8, cp1252, latin-1.
+
+    UTF-16 is only used with a BOM or when every other byte is NUL (A-024).
+    Returns (text, encoding, status): ``warn`` when the encoding had to be assumed.
+    """
+    if data[:2] in (b"\xff\xfe", b"\xfe\xff"):
+        return data.decode("utf-16"), "utf-16 (BOM)", "info"
+    head = data[:4000]
+    if len(head) >= 4 and head[1::2].count(0) > 0.9 * len(head[1::2]):
+        return data.decode("utf-16-le"), "utf-16-le (no BOM, inferred from NUL bytes)", "warn"
+    if len(head) >= 4 and head[0::2].count(0) > 0.9 * len(head[0::2]):
+        return data.decode("utf-16-be"), "utf-16-be (no BOM, inferred from NUL bytes)", "warn"
+    try:
+        return data.decode("utf-8-sig"), "utf-8", "info"
+    except UnicodeDecodeError:
+        pass
+    try:
+        return data.decode("cp1252"), "cp1252 (assumed: not valid UTF-8)", "warn"
+    except UnicodeDecodeError:
+        return data.decode("latin-1"), "latin-1 (assumed: not valid UTF-8 or cp1252)", "warn"
 
 
 def _index_checks(
@@ -334,7 +366,9 @@ def _index_checks(
     else:
         direction = "mixed"
         dup = np.flatnonzero(d == 0)
-        rev = np.flatnonzero(np.sign(d) != np.sign(np.median(d)))
+        nz = d[d != 0]
+        main_sign = np.sign(np.median(nz)) if nz.size else 0.0
+        rev = np.flatnonzero((d != 0) & (np.sign(d) != main_sign))
         if dup.size:
             checks.append(
                 QualityCheck(
@@ -344,7 +378,7 @@ def _index_checks(
                     indices=tuple(int(i) + 1 for i in dup),
                 )
             )
-        if rev.size and not dup.size:
+        if rev.size:
             checks.append(
                 QualityCheck(
                     "INDEX_NOT_MONOTONIC",
@@ -395,6 +429,43 @@ def _index_checks(
             )
 
 
+_DECIMAL_COMMA = re.compile(r"^-?\d{1,3}(,\d{3})+$|^-?\d+,\d+$")
+
+
+def _to_float(
+    raw: np.ndarray[Any, Any], names: list[str], text: str, fname: str
+) -> NDArray[np.float64]:
+    """Convert parsed ~A cells to float64, refusing any non-numeric token (A-022)."""
+    if raw.dtype.kind in "fiu":
+        return np.asarray(raw, dtype=np.float64)
+    flat = raw.reshape(-1) if raw.ndim else raw.reshape(1)
+    out = np.empty(flat.size, dtype=np.float64)
+    bad: list[tuple[int, str]] = []
+    for k, tok in enumerate(flat.tolist()):
+        try:
+            out[k] = float(tok)
+        except (TypeError, ValueError):
+            bad.append((k, str(tok)))
+    if bad:
+        ncol = max(len(names), 1)
+        k, tok = bad[0]
+        row, col = divmod(k, ncol)
+        why = ""
+        if _DECIMAL_COMMA.match(tok):
+            why = (
+                " (a comma inside a number is ambiguous: decimal mark or thousands "
+                "separator — fix the file)"
+            )
+        elif tok.count(".") > 1 or "-" in tok[1:]:
+            why = " (looks like two run-on values without a separator — fix the file)"
+        raise InputValidationError(
+            f"{fname}: ~A row {row + 1}, curve {names[col]!r}: token {tok!r} is not a "
+            f"number{why}; {len(bad)} non-numeric token(s) in total. Values are never "
+            "altered automatically"
+        )
+    return out.reshape(raw.shape)
+
+
 # --------------------------------------------------------------------------- reader
 def read_las(path: str | Path, *, on_error: OnError) -> WellLog:
     """Read a LAS 1.2 or 2.0 file with provenance and a validation report.
@@ -443,19 +514,29 @@ def read_las(path: str | Path, *, on_error: OnError) -> WellLog:
             "read_las needs the optional dependency lasio: pip install 'georeservoir[io]'"
         ) from exc
 
-    text, encoding = _decode(data)
+    text, encoding, enc_status = _decode(data)
     checks: list[QualityCheck] = []
     with _capture_lasio() as cap:
         try:
+            # No token substitutions (run-on splitting, comma decimals) and no NULL
+            # replacement by the parser: both are done or refused here, explicitly (A-022).
             las = lasio.read(
                 io.StringIO(text),
-                null_policy="strict",
+                read_policy=(),
+                engine="normal",
+                null_policy="none",
                 ignore_header_errors=False,
-                mnemonic_case="upper",
+                mnemonic_case="preserve",
             )
         except Exception as exc:  # lasio raises many exception types
+            hint = ""
+            if "reshape" in str(exc).lower():
+                hint = (
+                    " — the number of ~A tokens does not match the number of curves; "
+                    "run-on values such as '123.45-999.25' are not split automatically"
+                )
             raise InputValidationError(
-                f"{p.name}: LAS parsing failed ({type(exc).__name__}: {exc})"
+                f"{p.name}: LAS parsing failed ({type(exc).__name__}: {exc}){hint}"
             ) from exc
 
     vers_items = {i.mnemonic: i for i in las.version}
@@ -477,13 +558,23 @@ def read_las(path: str | Path, *, on_error: OnError) -> WellLog:
     )
     if wrapped:
         checks.append(QualityCheck("WRAPPED", "info", "wrapped file (WRAP = YES) unwrapped"))
-    checks.append(QualityCheck("ENCODING", "info", f"decoded as {encoding}"))
+    checks.append(QualityCheck("ENCODING", enc_status, f"decoded as {encoding}"))
 
     raw_sec = _raw_sections(text)
     well = _items(las.well, raw_sec.get("W"), "W", checks)
     well_map = {h.mnemonic: h for h in well}
-    null_value = _float_or_none(well_map["NULL"].value_parsed) if "NULL" in well_map else None
-    if null_value is None:
+    upper_well = {k.upper(): v for k, v in well_map.items()}
+    null_value = _float_or_none(upper_well["NULL"].value_parsed) if "NULL" in upper_well else None
+    if "NULL" in upper_well and null_value is None:
+        checks.append(
+            QualityCheck(
+                "NULL_NOT_NUMERIC",
+                "warn",
+                f"NULL is declared as {upper_well['NULL'].value!r}, not a number: no samples "
+                "were treated as missing",
+            )
+        )
+    elif null_value is None:
         checks.append(
             QualityCheck(
                 "NULL_MISSING",
@@ -495,7 +586,7 @@ def read_las(path: str | Path, *, on_error: OnError) -> WellLog:
     raw_curves = list(las.curves)
     if not raw_curves:
         raise InputValidationError(f"{p.name}: no curves defined in ~C")
-    data_arr = np.asarray(las.data, dtype=np.float64)
+    data_arr = _to_float(np.asarray(las.data), [str(c.mnemonic) for c in raw_curves], text, p.name)
     if data_arr.ndim != 2:
         data_arr = (
             data_arr.reshape(-1, len(raw_curves))
@@ -518,7 +609,18 @@ def read_las(path: str | Path, *, on_error: OnError) -> WellLog:
             )
         )
         index_unit = None if index_unit in (None, "") else index_unit
-    _index_checks(index, well_map, checks)
+    _index_checks(index, upper_well, checks)
+    idx_canon = canonical_mnemonic(str(idx_curve.mnemonic))
+    if idx_canon != "DEPT":
+        checks.append(
+            QualityCheck(
+                "INDEX_NOT_DEPTH",
+                "info",
+                f"index curve {idx_curve.mnemonic!r} is not a recognised depth mnemonic; no "
+                "depth alias assigned",
+                curve=str(idx_curve.mnemonic),
+            )
+        )
     if null_value is not None and index.size:
         hits = np.flatnonzero(index == null_value)
         if hits.size:
@@ -532,32 +634,49 @@ def read_las(path: str | Path, *, on_error: OnError) -> WellLog:
                     indices=tuple(int(i) for i in hits),
                 )
             )
-    a_pos = text.upper().find("\n~A")
-    if a_pos >= 0:
-        commas = _DECIMAL_COMMA.findall(text[a_pos:])
-        if commas:
-            checks.append(
-                QualityCheck(
-                    "DECIMAL_COMMA",
-                    "warn",
-                    f"{len(commas)} token(s) like {commas[0]!r} in ~A: the parser reads the comma "
-                    "as a decimal mark; if it is a thousands separator the values are wrong",
-                )
-            )
-
     curves: dict[str, LasCurve] = {}
     order: list[str] = []
     canon_hits: dict[str, list[str]] = {}
     for j, c in enumerate(raw_curves):
         name = str(c.mnemonic)
         vals = np.array(data_arr[:, j], dtype=np.float64) if data_arr.size else np.empty(0)
-        n_null = int(np.count_nonzero(~np.isfinite(vals)))
-        if j > 0 and n_null:
-            checks.append(
-                QualityCheck(
-                    "NULL_SAMPLES", "info", f"{n_null} sample(s) equal to NULL → NaN", curve=name
+        pre_nan = np.flatnonzero(np.isnan(vals))
+        if j > 0 and pre_nan.size:
+            if pre_nan.size == vals.size and any(
+                f"'{name}'" in m and "no data" in m for m in cap.messages
+            ):
+                checks.append(
+                    QualityCheck(
+                        "CURVE_WITHOUT_DATA",
+                        "warn",
+                        "curve defined in ~C but absent from ~A (all values NaN)",
+                        curve=name,
+                    )
                 )
-            )
+            else:
+                checks.append(
+                    QualityCheck(
+                        "NAN_IN_DATA",
+                        "warn",
+                        f"{pre_nan.size} sample(s) written as NaN in ~A (not the declared NULL)",
+                        curve=name,
+                        indices=tuple(int(i) for i in pre_nan),
+                    )
+                )
+        n_null = 0
+        if j > 0 and null_value is not None and vals.size:
+            hit = vals == null_value
+            n_null = int(np.count_nonzero(hit))
+            vals[hit] = np.nan
+            if n_null:
+                checks.append(
+                    QualityCheck(
+                        "NULL_SAMPLES",
+                        "info",
+                        f"{n_null} sample(s) equal to the declared NULL {null_value} → NaN",
+                        curve=name,
+                    )
+                )
         if null_value is not None and vals.size:
             for s in SUSPECT_SENTINELS:
                 if s == null_value:
@@ -584,7 +703,7 @@ def read_las(path: str | Path, *, on_error: OnError) -> WellLog:
                     curve=name,
                 )
             )
-        canon = canonical_mnemonic(name) if j > 0 else "DEPT"
+        canon = canonical_mnemonic(name)
         if canon is not None:
             canon_hits.setdefault(canon, []).append(name)
         vals.setflags(write=False)
@@ -637,6 +756,7 @@ def read_las(path: str | Path, *, on_error: OnError) -> WellLog:
         parser="lasio",
         parser_version=str(lasio.__version__),
     )
+    other_raw = _raw_other(text)
     version_section = _items(las.version, raw_sec.get("V"), "V", checks)
     parameter_section = _items(las.params, raw_sec.get("P"), "P", checks)
     report = ValidationReport(tuple(checks))
@@ -657,7 +777,7 @@ def read_las(path: str | Path, *, on_error: OnError) -> WellLog:
         version_section=version_section,
         well_section=well,
         parameter_section=parameter_section,
-        other_section=str(las.other),
+        other_section=other_raw if other_raw is not None else str(las.other),
         canonical_map=MappingProxyType(canonical_map),
         report=report,
         _order=tuple(order),

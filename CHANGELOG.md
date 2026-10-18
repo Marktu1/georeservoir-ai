@@ -10,6 +10,16 @@ Formato: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versionamento
 - Extra opcional `[io]` (`lasio`, MIT) — ADR-0004; hipóteses A-021 a A-023; 16 ficheiros LAS públicos de teste; exemplo `las_to_porosity.py`.
 - Teste do portão: 8 ficheiros públicos comparados com um parser independente.
 
+### Fixed (revisão adversarial da Fase 2)
+- Alterações silenciosas de valores: as substituições por omissão do `lasio` (divisão de valores colados, vírgula decimal) estão desligadas; tokens ambíguos fazem o ficheiro ser recusado com linha e curva.
+- NULL substituído pela própria biblioteca, só nas curvas; NaN escritos no ficheiro e curvas sem dados reportados à parte.
+- Sem perda de metadados: caixa das mnemónicas, texto da descrição (LAS 1.2) e ~O verbatim preservados.
+- Codificação: cp1252 antes de latin-1; UTF-16 só com BOM ou padrão de NUL; codificações assumidas geram aviso.
+- Índice que não é profundidade não recebe alias `DEPT`; `RT` e `SGR` deixam de ser mapeados.
+- NULL não numérico reportado como tal; duplicados e inversões do índice reportados em conjunto; limiar de amostragem irregular 1 %.
+- Surveys: sentinelas recusadas, linhas físicas corretas após campos com aspas, avisos para MD negativo, campos a mais e codificação assumida.
+- Teste do portão reescrito com referência realmente independente e alargado a unidades, descrições, códigos API e ~O exato; `lasio` limitado a `<0.33`.
+
 ## [0.2.1] — 2026-10-18
 
 ### Added

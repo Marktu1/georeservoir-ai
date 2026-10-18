@@ -33,7 +33,11 @@ from georeservoir.io.provenance import (
 __all__ = ["Survey", "read_survey"]
 
 Delimiter = Literal[",", ";", "\t", "whitespace"]
-_MISSING: Final[frozenset[str]] = frozenset({"", "NA", "NAN", "NULL", "-999.25", "-999"})
+_MISSING: Final[frozenset[str]] = frozenset({"", "NA", "NAN", "NULL", "N/A"})
+#: Numeric values treated as null sentinels and refused (never used as data).
+_SENTINELS: Final[frozenset[float]] = frozenset(
+    {-999.0, -999.25, -9999.0, -9999.25, 999.25, 9999.0, -99999.0}
+)
 
 
 @dataclass(frozen=True)
@@ -66,18 +70,21 @@ class Survey:
 
 
 def _rows(text: str, delimiter: Delimiter) -> list[tuple[int, list[str]]]:
+    """(physical line number, fields) for every non-blank, non-comment record."""
     out: list[tuple[int, list[str]]] = []
-    lines = text.splitlines()
     if delimiter == "whitespace":
-        for n, line in enumerate(lines, start=1):
+        for n, line in enumerate(text.splitlines(), start=1):
             s = line.strip()
             if s and not s.startswith("#"):
                 out.append((n, s.split()))
         return out
-    reader = csv.reader(io.StringIO("\n".join(lines)), delimiter=delimiter)
-    for n, row in enumerate(reader, start=1):
+    reader = csv.reader(io.StringIO(text, newline=""), delimiter=delimiter)
+    start = 1
+    for row in reader:
+        # reader.line_num is the physical line where this record ended
         if row and any(c.strip() for c in row) and not row[0].strip().startswith("#"):
-            out.append((n, [c.strip() for c in row]))
+            out.append((start, [c.strip() for c in row]))
+        start = reader.line_num + 1
     return out
 
 
@@ -135,10 +142,14 @@ def read_survey(
         data = p.read_bytes()
     except OSError as exc:
         raise InputValidationError(f"path: cannot read {str(p)!r}: {exc}") from exc
+    enc_note = ""
     try:
         text = data.decode("utf-8-sig")
     except UnicodeDecodeError:
-        text = data.decode("latin-1")
+        try:
+            text, enc_note = data.decode("cp1252"), "cp1252"
+        except UnicodeDecodeError:
+            text, enc_note = data.decode("latin-1"), "latin-1"
     rows = _rows(text, delimiter)
     if not rows:
         raise InputValidationError(f"{p.name}: no header row found")
@@ -159,7 +170,10 @@ def read_survey(
         cols.append(names.index(key))
     values: list[list[float]] = [[], [], []]
     lines: list[int] = []
+    extra_rows: list[int] = []
     for line_no, row in rows[1:]:
+        if len(row) > len(header):
+            extra_rows.append(line_no)
         if len(row) <= max(cols):
             raise InputValidationError(
                 f"{p.name}: line {line_no} has {len(row)} field(s); expected at least "
@@ -181,6 +195,11 @@ def read_survey(
             if not np.isfinite(v):
                 raise InputValidationError(
                     f"{p.name}: line {line_no}, column {header[c]!r}: non-finite {tok!r}"
+                )
+            if v in _SENTINELS:
+                raise InputValidationError(
+                    f"{p.name}: line {line_no}, column {header[c]!r}: {tok!r} is a common "
+                    "null sentinel, not a survey value; remove or fix the station"
                 )
             values[k].append(v)
         lines.append(line_no)
@@ -217,6 +236,29 @@ def read_survey(
                 f"{out_rng.size} azimuth(s) outside [0, 360) will be "
                 "normalised by the trajectory calculation",
                 indices=tuple(int(i) for i in out_rng),
+            )
+        )
+    if enc_note:
+        checks.append(
+            QualityCheck("ENCODING", "warn", f"decoded as {enc_note} (assumed: not valid UTF-8)")
+        )
+    if extra_rows:
+        checks.append(
+            QualityCheck(
+                "EXTRA_FIELDS",
+                "warn",
+                f"{len(extra_rows)} row(s) have more fields than the header "
+                f"(first at line {extra_rows[0]}); extra fields ignored",
+            )
+        )
+    neg = np.flatnonzero(md < 0.0)
+    if neg.size:
+        checks.append(
+            QualityCheck(
+                "NEGATIVE_MD",
+                "warn",
+                f"{neg.size} station(s) with MD < 0 (above the depth datum?)",
+                indices=tuple(int(i) for i in neg),
             )
         )
     if md[0] != 0.0:
