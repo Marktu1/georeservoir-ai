@@ -768,6 +768,66 @@ def nodal_cases() -> None:
     )
 
 
+def bourdet_cases() -> None:
+    common = {
+        "module": "bourdet",
+        "function": "bourdet.bourdet_derivative",
+        "kind": "analytical",
+        "source_status": "confirmed",
+    }
+    t = [0.01, 0.013, 0.02, 0.031, 0.05, 0.09, 0.2, 0.35, 0.7, 1.5, 3.0, 7.0, 15.0]
+    m, c0 = 37.5, 120.0
+    write(
+        {
+            "id": "VAL-BD-001",
+            **common,
+            "description": "Infinite-acting radial flow shape Δp = m·ln t + c (m = 37.5 psi) on "
+            "irregular times, L = 0.2: the derivative equals m at every point, central and "
+            "one-sided.",
+            "source": "Exact: every weighted difference of a linear function of X = ln t is its "
+            "slope.",
+            "kwargs": {
+                "dt": t,
+                "dp": [m * math.log(x) + c0 for x in t],
+                "window_ln": 0.2,
+                "sigma_p": 0.0,
+                "pressure_unit": "psi",
+            },
+            "expected": {"derivative": [m] * len(t)},
+            "tol_abs": 1e-12,
+            "tol_rel": 0.0,
+            "tolerance_justification": "Differences of O(1e2) psi over ΔX ≥ 0.2 divided by "
+            "O(0.1–1): rounding ~1e-13 psi. 1e-12 is ~10x that bound.",
+        }
+    )
+    h = 0.3
+    xs = [math.log(0.01) + h * k for k in range(25)]
+    ts = [math.exp(x) for x in xs]
+    exp_d = (
+        [ts[0] * (math.exp(h) - 1) / h]
+        + [x * math.sinh(h) / h for x in ts[1:-1]]
+        + [ts[-1] * (1 - math.exp(-h)) / h]
+    )
+    write(
+        {
+            "id": "VAL-BD-002",
+            **common,
+            "description": "Wellbore-storage shape Δp = t with uniform log spacing h = L = 0.3: "
+            "interior derivative = Δp·sinh(L)/L (the exact discrete Bourdet result, smoothing "
+            "bias ≈ L²/6), first point forward Δp(e^L − 1)/L, last point backward "
+            "Δp(1 − e^(−L))/L.",
+            "source": "Exact discrete algebra of the Bourdet formula on exponential data.",
+            "kwargs": {"dt": ts, "dp": ts, "window_ln": h, "sigma_p": 0.0, "pressure_unit": "psi"},
+            "expected": {"derivative": exp_d},
+            "tol_abs": 0.0,
+            "tol_rel": 1e-12,
+            "tolerance_justification": "Values span 1e-2 to ~1e1; float64 evaluation of "
+            "exp/sinh and three-point sums gives ≤~1e-13 relative after the 1/L division. "
+            "1e-12 relative is ~10x that bound.",
+        }
+    )
+
+
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     well_path_cases()
@@ -776,4 +836,5 @@ if __name__ == "__main__":
     petrophysics_literature()
     dca_cases()
     nodal_cases()
+    bourdet_cases()
     print(f"wrote {len(list(OUT.glob('*.json')))} cases to {OUT}")
