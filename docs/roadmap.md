@@ -22,7 +22,7 @@ Estado por nível de maturidade (M0 = planeado, não implementado). Portões con
 | Balanço material | M2 |
 | Monte Carlo P10/P50/P90 | M2 (Archie Sw e Arps EUR) |
 
-**Portão da Fase 1 (todos os módulos ≥ M2, metade ≥ M3):** 8 módulos (common, well_path, petrophysics, dca, nodal, bourdet, material_balance, uncertainty), todos ≥ M2; 4 com pelo menos uma função em M3 (well_path, petrophysics, dca, nodal). A evidência M3 do nodal é a mais fraca (notas de aula). Revisão adversarial independente feita e corrigida (ver CHANGELOG 0.2.0).
+**Portão da Fase 1 (todos os módulos ≥ M2, metade ≥ M3):** 8 módulos (common, well_path, petrophysics, dca, nodal, bourdet, material_balance, uncertainty), todos ≥ M2; 4 com pelo menos uma função em M3 (well_path, petrophysics, dca, nodal). A evidência M3 do nodal é a mais fraca (notas de aula). Revisão adversarial independente feita e corrigida (ver CHANGELOG 0.2.0). **Portão cumprido em 2026-10-18:** CI verde em Python 3.11 e 3.12 (GitHub Actions, run 39088260743, commit a612560).
 
 ## Planeado (M0 — não existe código)
 
