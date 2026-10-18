@@ -32,7 +32,7 @@ Estado por nível de maturidade (M0 = planeado, não implementado). Portões con
 | Surveys em texto delimitado (`io.survey`) | M2 |
 | LAS 3.0, DLIS, SEG-Y | M0 |
 
-**Portão da Fase 2 (ficheiros públicos de teste lidos sem perda de metadados):** cumprido para LAS 1.2/2.0 dentro do âmbito descrito em `docs/validation/io.md` (8 ficheiros públicos; cabeçalho campo a campo, ~O verbatim, ~C, dados e NULL contra uma referência independente). Não cobre LAS 3.0 (M0, declarado), comentários do cabeçalho nem o formato textual dos números em ~A. Revisão adversarial feita e corrigida.
+**Portão da Fase 2 (ficheiros públicos de teste lidos sem perda de metadados):** cumprido para LAS 1.2/2.0 dentro do âmbito descrito em `docs/validation/io.md` (8 ficheiros públicos; cabeçalho campo a campo, ~O verbatim, ~C, dados e NULL contra uma referência independente). Não cobre LAS 3.0 (M0, declarado), comentários do cabeçalho nem o formato textual dos números em ~A. Revisão adversarial feita e corrigida. **Portão cumprido em 2026-10-18:** CI verde em Python 3.11 e 3.12 (run 39120903931, commit c164c8d).
 
 ## Planeado (M0 — não existe código)
 
