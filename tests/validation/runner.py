@@ -42,6 +42,7 @@ FUNCTIONS: dict[str, Callable[..., Any]] = {
     "material_balance.fit_known_m": material_balance.fit_known_m,
     "material_balance.fit_gas_cap_unknown_m": material_balance.fit_gas_cap_unknown_m,
     "material_balance.fit_no_cap_no_aquifer": material_balance.fit_no_cap_no_aquifer,
+    "nodal.ipr_linear": nodal.ipr_linear,
     "nodal.ipr_vogel": nodal.ipr_vogel,
     "nodal.vogel_qmax_from_test": nodal.vogel_qmax_from_test,
     "nodal.ipr_composite": nodal.ipr_composite,

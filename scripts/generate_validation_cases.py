@@ -938,6 +938,74 @@ def material_balance_cases() -> None:
     )
 
 
+VOGEL_SRC = (
+    "Vogel, J.V. (1968), Inflow Performance Relationships for Solution-Gas Drive Wells, "
+    "Journal of Petroleum Technology 20(1), SPE-1476 — worked example 'Use of Reference "
+    "Curve' (copy hosted in the Texas A&M PETE 613 course archive)"
+)
+
+
+def vogel_original_cases() -> None:
+    common = {
+        "module": "nodal",
+        "kind": "literature",
+        "source": VOGEL_SRC,
+        "source_status": "confirmed",
+        "source_check": "Values read from the OCR text of the paper on 2026-10-18; the "
+        "OCR prints '65 130PD' (= 65 BOPD) and '1,530/2,000' (= 1,500/2,000).",
+    }
+    write(
+        {
+            "id": "VAL-ND-L04",
+            **common,
+            "function": "nodal.vogel_qmax_from_test",
+            "description": "Vogel's example: 65 BOPD at pwf = 1,500 psi, p̄r = 2,000 psi → "
+            "(qo)max = 162 BOPD (the paper reads qo/qmax = 0.40 from its Fig. 5).",
+            "kwargs": {
+                "p_res": 2000.0,
+                "q_test": 65.0,
+                "pwf_test": 1500.0,
+                "pressure_unit": "psi",
+            },
+            "expected": {"q_max": [162.0]},
+            "tol_abs": 2.1,
+            "tol_rel": 0.0,
+            "tolerance_justification": "The paper reads qo/qmax = 0.40 from a chart to two "
+            "decimals (±0.005), so 65/0.40 is only known to 65/0.405…65/0.395 = 160.5…164.6, "
+            "and the result is printed as an integer: ±2.1 BOPD.",
+        }
+    )
+    write(
+        {
+            "id": "VAL-ND-L05",
+            **common,
+            "function": "nodal.ipr_vogel",
+            "description": "Vogel's example: with (qo)max = 162 BOPD and p̄r = 2,000 psi, the rate "
+            "at pwf = 500 psi is 146 BOPD (printed '146'; the text also says '145').",
+            "kwargs": {"pwf": [500.0], "p_res": 2000.0, "q_max": 162.0, "pressure_unit": "psi"},
+            "expected": {"q": [146.0]},
+            "tol_abs": 0.5,
+            "tol_rel": 0.0,
+            "tolerance_justification": "Ratio 0.90 is exact for pwf/p̄r = 0.25 (1 − 0.05 − 0.05); "
+            "the result is printed as an integer: ±0.5 BOPD.",
+        }
+    )
+    write(
+        {
+            "id": "VAL-ND-L06",
+            **common,
+            "function": "nodal.ipr_linear",
+            "description": "Vogel's comparison: a straight-line PI from the same test "
+            "(J = 65/(2,000 − 1,500) = 0.13 BOPD/psi) predicts 195 BOPD at pwf = 500 psi.",
+            "kwargs": {"pwf": [500.0], "p_res": 2000.0, "j": 0.13, "pressure_unit": "psi"},
+            "expected": {"q": [195.0]},
+            "tol_abs": 0.5,
+            "tol_rel": 0.0,
+            "tolerance_justification": "Printed as an integer: ±0.5 BOPD.",
+        }
+    )
+
+
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     well_path_cases()
@@ -946,6 +1014,7 @@ if __name__ == "__main__":
     petrophysics_literature()
     dca_cases()
     nodal_cases()
+    vogel_original_cases()
     bourdet_cases()
     material_balance_cases()
     print(f"wrote {len(list(OUT.glob('*.json')))} cases to {OUT}")

@@ -11,9 +11,9 @@ Conventions
 * TPR: only a user-supplied table, interpolated with a monotone piecewise-cubic Hermite
   interpolant (PCHIP). Multiphase correlations are M0 (planned) and raise errors.
 
-Maturity: ``ipr_vogel`` and ``ipr_composite`` M3 — they reproduce published worked IPR
-tables from university lecture notes (a weaker source than a textbook or paper; see
-docs/validation/nodal.md); other functions M2; multiphase correlations M0.
+Maturity: ``ipr_linear``, ``ipr_vogel`` and ``vogel_qmax_from_test`` M3 (Vogel 1968
+worked example); ``ipr_composite`` M3 from university lecture notes only (weaker source,
+see docs/validation/nodal.md); other functions M2; multiphase correlations M0.
 """
 
 from __future__ import annotations
@@ -65,7 +65,10 @@ REF_COMPOSITE: Final[str] = (
     "Composite (generalized Vogel) IPR: linear above pb, Vogel below; e.g. Beggs, H.D. "
     "(1991), Production Optimization Using Nodal Analysis, OGCI"
 )
-REF_LINEAR: Final[str] = "Single-phase productivity index, q = J (p̄r − pwf)"
+REF_LINEAR: Final[str] = (
+    "Single-phase productivity index, q = J (p̄r − pwf); compared with Vogel's IPR in "
+    "Vogel (1968), SPE-1476"
+)
 REF_NODAL: Final[str] = (
     "Nodal (systems) analysis: intersection of inflow and outflow curves; e.g. Beggs (1991), "
     "Production Optimization Using Nodal Analysis, OGCI"
@@ -270,14 +273,15 @@ def ipr_linear(
 
     Notes
     -----
-    Maturity: M2. Assumptions: A-008, A-014.
+    Maturity: M3 — reproduces the straight-line PI comparison in Vogel (1968)
+    (VAL-ND-L06). Single-phase only. Assumptions: A-008, A-014.
     """
     u = _unit(pressure_unit)
     model = LinearIPR(p_res, j)
     p = as_1d_array("pwf", pwf)
     _check_pwf(p, model.p_res)
     return _ipr_record(
-        "nodal.ipr_linear", REF_LINEAR, "M2", model, p, u, {"p_res": float(p_res), "j": float(j)}
+        "nodal.ipr_linear", REF_LINEAR, "M3", model, p, u, {"p_res": float(p_res), "j": float(j)}
     )
 
 
@@ -298,9 +302,9 @@ def ipr_vogel(
 
     Notes
     -----
-    Maturity: M3 — reproduces a published worked Vogel IPR table from lecture notes
-    (VAL-ND-L01; weaker source, see docs/validation/nodal.md). Empirical correlation for
-    solution-gas drive; accuracy degrades late in depletion. Assumptions: A-008, A-014.
+    Maturity: M3 — reproduces the worked example of Vogel (1968) (VAL-ND-L05) and a
+    published lecture-note IPR table (VAL-ND-L01). Empirical: Vogel expects maximum errors
+    of ~20 % (typically ~10 %) for solution-gas drive. Assumptions: A-008, A-014.
     """
     u = _unit(pressure_unit)
     model = VogelIPR(p_res, q_max)
@@ -329,7 +333,8 @@ def vogel_qmax_from_test(
 
     Notes
     -----
-    Maturity: M2. Assumptions: A-014.
+    Maturity: M3 — reproduces (qo)max of the worked example in Vogel (1968)
+    (VAL-ND-L04). Assumptions: A-014.
     """
     u = _unit(pressure_unit)
     pr = check_positive_scalar("p_res", p_res)
@@ -344,7 +349,7 @@ def vogel_qmax_from_test(
     return make_record(
         method="nodal.vogel_qmax_from_test",
         method_reference=REF_VOGEL,
-        maturity="M2",
+        maturity="M3",
         values={"q_max": qmax},
         units={"q_max": "rate unit"},
         scalar_inputs={"p_res": pr, "q_test": qt, "pwf_test": pt, "pressure_unit": u},

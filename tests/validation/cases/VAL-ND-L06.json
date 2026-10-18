@@ -1,0 +1,26 @@
+{
+  "id": "VAL-ND-L06",
+  "module": "nodal",
+  "kind": "literature",
+  "source": "Vogel, J.V. (1968), Inflow Performance Relationships for Solution-Gas Drive Wells, Journal of Petroleum Technology 20(1), SPE-1476 \u2014 worked example 'Use of Reference Curve' (copy hosted in the Texas A&M PETE 613 course archive)",
+  "source_status": "confirmed",
+  "source_check": "Values read from the OCR text of the paper on 2026-10-18; the OCR prints '65 130PD' (= 65 BOPD) and '1,530/2,000' (= 1,500/2,000).",
+  "function": "nodal.ipr_linear",
+  "description": "Vogel's comparison: a straight-line PI from the same test (J = 65/(2,000 \u2212 1,500) = 0.13 BOPD/psi) predicts 195 BOPD at pwf = 500 psi.",
+  "kwargs": {
+    "pwf": [
+      500.0
+    ],
+    "p_res": 2000.0,
+    "j": 0.13,
+    "pressure_unit": "psi"
+  },
+  "expected": {
+    "q": [
+      195.0
+    ]
+  },
+  "tol_abs": 0.5,
+  "tol_rel": 0.0,
+  "tolerance_justification": "Printed as an integer: \u00b10.5 BOPD."
+}

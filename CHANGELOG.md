@@ -2,6 +2,15 @@
 
 Formato: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versionamento: SemVer.
 
+## [0.2.1] — 2026-10-18
+
+### Added
+- Casos VAL-ND-L04 a L06 a partir do exemplo resolvido do artigo original de Vogel (1968), SPE-1476.
+
+### Changed
+- `ipr_linear` e `vogel_qmax_from_test` passam a M3; `ipr_vogel` passa a assentar no artigo original (além das notas de aula).
+- Procura de exemplos publicados para Vsh, porosidade de densidade e sónica e Bourdet: nenhum com entradas e resultados numéricos verificáveis encontrado; estas funções mantêm M2 (registado no README).
+
 ## [0.2.0] — 2026-10-18 — Fase 1 (núcleo completo)
 
 ### Added

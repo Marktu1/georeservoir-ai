@@ -1,0 +1,26 @@
+{
+  "id": "VAL-ND-L05",
+  "module": "nodal",
+  "kind": "literature",
+  "source": "Vogel, J.V. (1968), Inflow Performance Relationships for Solution-Gas Drive Wells, Journal of Petroleum Technology 20(1), SPE-1476 \u2014 worked example 'Use of Reference Curve' (copy hosted in the Texas A&M PETE 613 course archive)",
+  "source_status": "confirmed",
+  "source_check": "Values read from the OCR text of the paper on 2026-10-18; the OCR prints '65 130PD' (= 65 BOPD) and '1,530/2,000' (= 1,500/2,000).",
+  "function": "nodal.ipr_vogel",
+  "description": "Vogel's example: with (qo)max = 162 BOPD and p\u0304r = 2,000 psi, the rate at pwf = 500 psi is 146 BOPD (printed '146'; the text also says '145').",
+  "kwargs": {
+    "pwf": [
+      500.0
+    ],
+    "p_res": 2000.0,
+    "q_max": 162.0,
+    "pressure_unit": "psi"
+  },
+  "expected": {
+    "q": [
+      146.0
+    ]
+  },
+  "tol_abs": 0.5,
+  "tol_rel": 0.0,
+  "tolerance_justification": "Ratio 0.90 is exact for pwf/p\u0304r = 0.25 (1 \u2212 0.05 \u2212 0.05); the result is printed as an integer: \u00b10.5 BOPD."
+}
