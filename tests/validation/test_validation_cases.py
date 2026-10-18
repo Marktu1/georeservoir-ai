@@ -46,4 +46,4 @@ def test_m3_claims_are_backed_by_literature() -> None:
         maturity = evaluate(c)["maturity"]
         if maturity == "M3":
             assert c["function"] in backed, f"{c['function']} claims M3 without literature"
-    assert backed == {"well_path.minimum_curvature", "petrophysics.archie_water_saturation"}
+    assert {"well_path.minimum_curvature", "petrophysics.archie_water_saturation"} <= backed

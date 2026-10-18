@@ -1,0 +1,35 @@
+{
+  "id": "VAL-DCA-001",
+  "module": "dca",
+  "function": "dca.arps_cumulative",
+  "kind": "analytical",
+  "description": "Arps cumulative (qi = 1000, Di = 0.1/month, b = 0.0) against adaptive numerical quadrature of the textbook rate form q = qi(1+bDit)^(-1/b).",
+  "source": "Independent numerical integration (scipy.integrate.quad).",
+  "source_status": "confirmed",
+  "kwargs": {
+    "t": [
+      0.0,
+      6.0,
+      12.0,
+      24.0,
+      60.0
+    ],
+    "qi": 1000.0,
+    "di": 0.1,
+    "b": 0.0,
+    "time_unit": "month",
+    "d_terminal": null
+  },
+  "expected": {
+    "np": [
+      0.0,
+      4511.883639059735,
+      6988.057880877979,
+      9092.820467105874,
+      9975.212478233336
+    ]
+  },
+  "tol_abs": 1e-07,
+  "tol_rel": 1e-11,
+  "tolerance_justification": "quad requested to 1e-12 abs / 1e-13 rel; cumulatives are O(1e4), so float64 evaluation error is ~1e-12 relative. 1e-11 rel is ~10x."
+}

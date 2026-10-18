@@ -354,10 +354,299 @@ def petrophysics_literature() -> None:
     )
 
 
+# SPEE REP #6 Table 1 (values typed from the source; percent, 6 decimals, per year)
+SPEE_NOMINAL_PCT = [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    20,
+    30,
+    40,
+    50,
+    60,
+    70,
+    80,
+    90,
+    100,
+    200,
+    300,
+    400,
+    500,
+    600,
+    700,
+    800,
+    900,
+    1000,
+]
+SPEE_SECANT_PCT = {
+    0.0: [
+        0.995017,
+        1.980133,
+        2.955447,
+        3.921056,
+        4.877058,
+        5.823547,
+        6.760618,
+        7.688365,
+        8.606881,
+        9.516258,
+        18.126925,
+        25.918178,
+        32.967995,
+        39.346934,
+        45.118836,
+        50.341470,
+        55.067104,
+        59.343034,
+        63.212056,
+        86.466472,
+        95.021293,
+        98.168436,
+        99.326205,
+        99.752125,
+        99.908812,
+        99.966454,
+        99.987659,
+        99.995460,
+    ],
+    0.5: [
+        0.992550,
+        1.970395,
+        2.933825,
+        3.883122,
+        4.818560,
+        5.740409,
+        6.648930,
+        7.544379,
+        8.427005,
+        9.297052,
+        17.355372,
+        24.385633,
+        30.555556,
+        36.000000,
+        40.828402,
+        45.130316,
+        48.979592,
+        52.437574,
+        55.555556,
+        75.000000,
+        84.000000,
+        88.888889,
+        91.836735,
+        93.750000,
+        95.061728,
+        96.000000,
+        96.694215,
+        97.222222,
+    ],
+    1.0: [
+        0.990099,
+        1.960784,
+        2.912621,
+        3.846154,
+        4.761905,
+        5.660377,
+        6.542056,
+        7.407407,
+        8.256881,
+        9.090909,
+        16.666667,
+        23.076923,
+        28.571429,
+        33.333333,
+        37.500000,
+        41.176471,
+        44.444444,
+        47.368421,
+        50.000000,
+        66.666667,
+        75.000000,
+        80.000000,
+        83.333333,
+        85.714286,
+        87.500000,
+        88.888889,
+        90.000000,
+        90.909091,
+    ],
+    1.5: [
+        0.987664,
+        1.951298,
+        2.891822,
+        3.810111,
+        4.706995,
+        5.583260,
+        6.439655,
+        7.276891,
+        8.095645,
+        8.896561,
+        16.046701,
+        21.941297,
+        26.899557,
+        31.138792,
+        34.812509,
+        38.032483,
+        40.882207,
+        43.425409,
+        45.711648,
+        60.314974,
+        67.905924,
+        72.672412,
+        75.990264,
+        78.455653,
+        80.372359,
+        81.912810,
+        83.182762,
+        84.250987,
+    ],
+    2.0: [
+        0.985246,
+        1.941932,
+        2.871414,
+        3.774955,
+        4.653741,
+        5.508882,
+        6.341419,
+        7.152331,
+        7.942538,
+        8.712907,
+        15.484575,
+        20.943058,
+        25.464401,
+        29.289322,
+        32.580014,
+        35.450278,
+        37.982633,
+        40.238570,
+        42.264973,
+        55.278640,
+        62.203553,
+        66.666667,
+        69.848866,
+        72.264990,
+        74.180111,
+        75.746437,
+        77.058427,
+        78.178211,
+    ],
+}
+SPEE_SRC = (
+    "SPEE Recommended Evaluation Practice #6, Definition of Decline Curve Parameters, "
+    "Society of Petroleum Evaluation Engineers (copyright 2000, v1.0 adopted 2002), Table 1"
+)
+SPEE_TOL = {
+    "tol_abs": 5e-9,
+    "tol_rel": 0.0,
+    "tolerance_justification": (
+        "Table 1 prints percentages to 6 decimals, i.e. fractions known to ±5e-9."
+    ),
+}
+
+
+def dca_cases() -> None:
+    from scipy.integrate import quad
+
+    def rate(t: float, qi: float, di: float, b: float) -> float:
+        # independent oracle: textbook forms, not the library's log1p formulation
+        return qi * math.exp(-di * t) if b == 0 else qi * (1 + b * di * t) ** (-1 / b)
+
+    ts = [0.0, 6.0, 12.0, 24.0, 60.0]
+    for cid, b in (
+        ("VAL-DCA-001", 0.0),
+        ("VAL-DCA-002", 0.5),
+        ("VAL-DCA-003", 1.0),
+        ("VAL-DCA-004", 1.6),
+    ):
+        cum = [quad(rate, 0, t, args=(1000.0, 0.1, b), epsabs=1e-12, epsrel=1e-13)[0] for t in ts]
+        write(
+            {
+                "id": cid,
+                "module": "dca",
+                "function": "dca.arps_cumulative",
+                "kind": "analytical",
+                "description": f"Arps cumulative (qi = 1000, Di = 0.1/month, b = {b}) against "
+                "adaptive numerical quadrature of the textbook rate form q = qi(1+bDit)^(-1/b).",
+                "source": "Independent numerical integration (scipy.integrate.quad).",
+                "source_status": "confirmed",
+                "kwargs": {
+                    "t": ts,
+                    "qi": 1000.0,
+                    "di": 0.1,
+                    "b": b,
+                    "time_unit": "month",
+                    "d_terminal": None,
+                },
+                "expected": {"np": cum},
+                "tol_abs": 1e-7,
+                "tol_rel": 1e-11,
+                "tolerance_justification": "quad requested to 1e-12 abs / 1e-13 rel; cumulatives "
+                "are O(1e4), so float64 evaluation error is ~1e-12 relative. 1e-11 rel is ~10x.",
+            }
+        )
+    d = [v / 100 for v in SPEE_NOMINAL_PCT]
+    for b, eff in SPEE_SECANT_PCT.items():
+        tag = str(b).replace(".", "")
+        write(
+            {
+                "id": f"VAL-DCA-L01-b{tag}",
+                "module": "dca",
+                "function": "dca.nominal_to_effective_decline",
+                "kind": "literature",
+                "description": f"Nominal → effective decline, b = {b} "
+                f"({'tangent = exponential' if b == 0 else 'secant'}), nominal 1 %–1000 %/yr.",
+                "source": SPEE_SRC,
+                "source_status": "confirmed",
+                "source_check": "Table read from the SPEE REP #6 PDF on 2026-10-18.",
+                "kwargs": {"d_nominal": d, "b": b},
+                "expected": {"d_effective": [v / 100 for v in eff]},
+                **SPEE_TOL,
+            }
+        )
+        write(
+            {
+                "id": f"VAL-DCA-L02-b{tag}",
+                "module": "dca",
+                "function": "dca.arps_rate",
+                "kind": "literature",
+                "description": f"Arps rate after one year, b = {b}: per SPEE REP #6 "
+                "the secant effective decline is 1 − q(1 yr)/qi, so q(1 yr) with qi = 1 "
+                "must equal 1 − De(Table 1).",
+                "source": SPEE_SRC,
+                "source_status": "confirmed",
+                "source_check": "Table read from the SPEE REP #6 PDF on 2026-10-18.",
+                "kwargs": None,
+                "expected": None,
+                "per_row": [
+                    {
+                        "kwargs": {
+                            "t": [1.0],
+                            "qi": 1.0,
+                            "di": dn,
+                            "b": b,
+                            "time_unit": "year",
+                            "d_terminal": None,
+                        },
+                        "expected": {"q": [1 - v / 100]},
+                    }
+                    for dn, v in zip(d, eff, strict=False)
+                ],
+                **SPEE_TOL,
+            }
+        )
+
+
 if __name__ == "__main__":
     OUT.mkdir(parents=True, exist_ok=True)
     well_path_cases()
     well_path_literature()
     petrophysics_cases()
     petrophysics_literature()
+    dca_cases()
     print(f"wrote {len(list(OUT.glob('*.json')))} cases to {OUT}")

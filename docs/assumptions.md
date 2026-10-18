@@ -13,6 +13,10 @@ Cada hipótese é referenciada nas docstrings e no campo `assumptions` do `Calcu
 | A-007 | Vsh pode diferir dos valores exatos nos extremos por arredondamento float64 (Clavier: f(1) = 0,9999999999999998). Não é aplicado clipping. | Evitar clipping silencioso; o desvio (~1e-16) está abaixo de qualquer significado físico. | Desprezável. | — |
 | A-008 | Escalares são promovidos a arrays 1-D de tamanho 1; todas as saídas são arrays 1-D. NaN e ±inf são recusados em todas as entradas. | Contrato uniforme e política "nunca NaN em silêncio". | Curvas com valores em falta têm de ser filtradas pelo utilizador antes do cálculo. | Política de máscara explícita na Fase 2 (dados). |
 | A-009 | Razões adimensionais (IGR, φ, Sw) calculadas diretamente nas unidades declaradas (API, g/cm³, µs/ft, ohm·m), sem conversão para SI. | O resultado é invariante à unidade comum do numerador e denominador. | Nenhum. | — |
+| A-010 | DCA: um ano = 365,25 dias; um mês = 1/12 ano. Declínios nominais escalam linearmente com a unidade de tempo; os efetivos não. | Convenção comum; necessária para converter entre unidades. | Diferenças < 0,1 % face a convenções de 365 dias. | Alterar `DAYS_PER` em `dca.py`. |
+| A-011 | DCA: para b < 1e-10 usa-se o limite exponencial (b = 0); a taxa usa `exp(−log1p(b·Di·t)/b)` e os cumulativos `expm1`/`log1p`. | Spec §5.3; evita cancelamento e garante continuidade em b → 0 e b → 1 (testada). | Desprezável. | Alterar `B_EXP_THRESHOLD`. |
+| A-012 | EUR com b ≥ 1 exige declínio terminal (hiperbólico modificado), mesmo havendo taxa-limite. | Spec §5.3. Matematicamente o EUR até uma taxa-limite é finito, mas extrapolar b ≥ 1 (regime transiente) sem declínio terminal sobrestima reservas. | Conservador. | Remover a verificação em `arps_eur`. |
+| A-013 | O ajuste de Arps minimiza resíduos em ln(q) (relativos), não em q. | Taxas variam por ordens de grandeza; resíduos absolutos dariam peso excessivo aos primeiros meses. RMSE e R² são reportados em espaço de taxa. | Parâmetros diferem ligeiramente de um ajuste em q linear com dados ruidosos. | Mudar a função de resíduos em `arps_fit`. |
 
 ## Discrepâncias com a especificação
 

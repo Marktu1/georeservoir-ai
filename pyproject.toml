@@ -50,10 +50,14 @@ src = ["src", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP", "N", "SIM", "NPY", "RUF"]
-ignore = ["N803", "N806", "RUF001", "RUF002", "RUF003"]
+ignore = ["N803", "N806", "RUF001", "RUF002", "RUF003", "SIM108"]
 
 [tool.mypy]
 python_version = "3.11"
 strict = true
 mypy_path = "src"
 packages = ["georeservoir"]
+
+[[tool.mypy.overrides]]
+module = ["scipy", "scipy.*"]
+ignore_missing_imports = true
